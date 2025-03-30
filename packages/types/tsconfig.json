@@ -1,0 +1,13 @@
+{
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "module": "NodeNext",
+    "target": "ES2024",
+    "moduleResolution": "nodenext",
+    "outDir": "./dist",
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}

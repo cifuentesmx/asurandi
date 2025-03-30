@@ -1,0 +1,24 @@
+{
+  "name": "@asurandi/root",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "update": "pnpm -r update -i -L",
+    "dev": "pnpm -r --parallel run dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.7.0",
+  "dependencies": {
+    "@hono/zod-openapi": "^0.19.2",
+    "amqplib": "^0.10.7",
+    "drizzle-orm": "^0.41.0",
+    "hono-pino": "^0.7.2",
+    "mysql2": "^3.14.0",
+    "node-cron": "^3.0.3",
+    "postgres": "^3.4.5"
+  }
+}
