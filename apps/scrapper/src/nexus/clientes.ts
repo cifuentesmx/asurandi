@@ -1,0 +1,47 @@
+import {
+  unique,
+  mysqlTable,
+  serial,
+  text,
+  varchar,
+  int,
+  datetime,
+  date,
+} from "drizzle-orm/mysql-core";
+
+export const nxClientes = mysqlTable(
+  "clientes",
+  {
+    idCliente: serial("idCliente").primaryKey(),
+    idGrupo: int("idGrupo"),
+    tipoPersona: int("tipoPersona").notNull(),
+    cliente: varchar("cliente", { length: 60 }),
+    giroEmpresa: varchar("giroEmpresa", { length: 60 }),
+    contacto: varchar("contacto", { length: 100 }),
+    RFC: varchar("RFC", { length: 15 }),
+    fechanac: date("fechanac"),
+    sexo: varchar("sexo", { length: 15 }),
+    email: varchar("email", { length: 100 }),
+    ocupacion: text("ocupacion"),
+    puestoContacto: varchar("puestoContacto", { length: 60 }),
+    telefono: varchar("telefono", { length: 50 }),
+    telefono2: varchar("telefono2", { length: 50 }),
+    telefono3: varchar("telefono3", { length: 50 }),
+    celular: varchar("celular", { length: 20 }),
+    direccion: varchar("direccion", { length: 100 }),
+    idEstado: int("idEstado"),
+    idMunicipio: int("idMunicipio"),
+    seleccion: int("seleccion"),
+    comentario: text("comentario"),
+    idSucursal: int("idSucursal", { unsigned: true }).default(1),
+    contacto2: varchar("contacto2", { length: 100 }),
+    emailContacto2: varchar("emailContacto2", { length: 100 }),
+    fechar: datetime("fechar"),
+    idUsuario: int("idUsuario", { unsigned: true }),
+    idSegmento: int("idSegmento"),
+    procedencia: varchar("procedencia", { length: 50 }),
+  },
+  (t) => ({
+    unq: unique("idclien").on(t.idCliente),
+  })
+);

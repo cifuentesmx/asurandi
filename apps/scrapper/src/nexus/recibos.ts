@@ -1,0 +1,31 @@
+import {
+  date,
+  double,
+  float,
+  int,
+  mysqlTable,
+  serial,
+  text,
+  varchar,
+} from "drizzle-orm/mysql-core";
+
+export const nxRecibos = mysqlTable("recibos", {
+  idRecibo: serial("idRecibo").primaryKey(),
+  idMovimiento: int("idMovimiento"),
+  numeroRecibo: varchar("numeroRecibo", { length: 7 }),
+  fechaRecepcion: date("fechaRecepcion"),
+  fechaInicio: date("fechaInicio"),
+  fechaFin: date("fechaFin"),
+  primaNeta: double("primaNeta", { precision: 19, scale: 4 }),
+  primaTotal: double("primaTotal", { precision: 19, scale: 4 }),
+  comision: double("comision", { precision: 19, scale: 4 }),
+  fechaPago: date("fechaPago"),
+  comprobante: varchar("comprobante", { length: 20 }),
+  fechaCancelacion: date("fechaCancelacion"),
+  derechoPoliza: float("derechoPoliza"),
+  iva: float("iva"),
+  comisionProducto: float("comisionProducto"),
+  gastoFinanciamiento: float("gastoFinanciamiento"),
+  comentarios: text("comentarios"),
+  tipoCambio: int("tipoCambio").notNull(),
+});

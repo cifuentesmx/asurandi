@@ -1,11 +1,11 @@
-export type QualitasScrappedPoliza = {
-    resumen?: QualitasScrappedPolizaResumen
-    estatus?: QualitasScrappedPolizaEstatus
-    recibos?: QualitasScrappedPolizaRecibos
-    siniestros?: QualitasScrappedPolizaSiniestro[]
+export type ScrappedPoliza = {
+    resumen?: ScrappedPolizaResumen
+    estatus?: ScrappedPolizaEstatus
+    recibos?: ScrappedPolizaRecibos
+    siniestros?: ScrappedPolizaSiniestro[]
 }
 
-export type QualitasScrappedPolizaSiniestro = {
+export type ScrappedPolizaSiniestro = {
     numero_reporte: string
     fecha_reporte: string
     hora: string
@@ -25,21 +25,21 @@ export type QualitasScrappedPolizaSiniestro = {
         key: string;
         value: string;
     }[]
-    involucrados: QualitasScrappedPolizaSiniestroInvolucrado[]
+    involucrados: ScrappedPolizaSiniestroInvolucrado[]
 }
 
-export type QualitasScrappedPolizaSiniestroInvolucrado = {
+export type ScrappedPolizaSiniestroInvolucrado = {
     conductor?: string
     tipo_involucrado?: string
     folio_asignacion?: string
     proveedor?: string
 }
 
-export type QualitasScrappedPolizaEstatus = {
-    endosos: QualitasScrappedPolizaEstatusEndoso[]
+export type ScrappedPolizaEstatus = {
+    endosos: ScrappedPolizaEstatusEndoso[]
 }
 
-export type QualitasScrappedPolizaEstatusEndoso =
+export type ScrappedPolizaEstatusEndoso =
     {
         endoso: string
         fecha_vencimiento: string
@@ -51,7 +51,7 @@ export type QualitasScrappedPolizaEstatusEndoso =
         tipo_movimiento: string
     }
 
-export type QualitasScrappedPolizaRecibos =
+export type ScrappedPolizaRecibos =
     {
         numero_recibo: string
         serie: string
@@ -62,7 +62,7 @@ export type QualitasScrappedPolizaRecibos =
         estado: string
     }[]
 
-export type QualitasScrappedPolizaResumen = {
+export type ScrappedPolizaResumen = {
     numero_poliza: string;
     title: string;
     isExpanded: boolean;

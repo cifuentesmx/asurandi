@@ -1,16 +1,16 @@
-import type { QualitasScrappedPolizaEstatusEndoso, QualitasScrappedPolizaRecibos, QualitasScrappedPolizaSiniestro } from './scrape-poliza.js';
+import type { ScrappedPolizaEstatusEndoso, ScrappedPolizaRecibos, ScrappedPolizaSiniestro } from './scrape-poliza.js';
 
-export type QualitasScrappedFlota = {
-    resumen: QualitasScrappedFlotaResumen[]
-    incisos: QualitasScrappedFlotaInciso[]
+export type ScrappedFlota = {
+    resumen: ScrappedFlotaResumen[]
+    incisos: ScrappedFlotaInciso[]
 }
 
-export type QualitasScrappedFlotaResumen = {
+export type ScrappedFlotaResumen = {
     key: string
     value: string
 }
 
-export type QualitasScrappedFlotaInciso = {
+export type ScrappedFlotaInciso = {
     inciso: string
     numero_economico: string
     vigencia: string
@@ -21,10 +21,10 @@ export type QualitasScrappedFlotaInciso = {
     placas: string
     estatus: string
     prima_neta: string
-    polizaInciso: QualitasScrappedFlotaPolizaInciso
+    polizaInciso: ScrappedFlotaPolizaInciso
 }
 
-export type QualitasScrappedFlotaPolizaInciso = {
+export type ScrappedFlotaPolizaInciso = {
     serialData: { key: string, value: string }[]
     coberturas: {
         cobertura: string;
@@ -32,9 +32,9 @@ export type QualitasScrappedFlotaPolizaInciso = {
         deducible: string;
         prima: string;
     }[];
-    statusPoliza: QualitasScrappedPolizaEstatusEndoso[]
+    statusPoliza: ScrappedPolizaEstatusEndoso[]
 
-    recibos: QualitasScrappedPolizaRecibos
-    siniestros: QualitasScrappedPolizaSiniestro[]
+    recibos: ScrappedPolizaRecibos
+    siniestros: ScrappedPolizaSiniestro[]
 }
 

@@ -6,12 +6,13 @@
   "main": "index.js",
   "scripts": {
     "update": "pnpm -r update -i -L",
-    "dev": "pnpm -r --parallel run dev"
+    "dev": "pnpm -r --parallel run dev",
+    "build": "pnpm -r run build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "packageManager": "pnpm@10.7.0",
+  "packageManager": "pnpm@10.7.1",
   "dependencies": {
     "@hono/zod-openapi": "^0.19.2",
     "amqplib": "^0.10.7",
@@ -20,5 +21,9 @@
     "mysql2": "^3.14.0",
     "node-cron": "^3.0.3",
     "postgres": "^3.4.5"
+  },
+  "devDependencies": {
+    "eslint": "^9.23.0",
+    "eslint-plugin-format": "^1.0.1"
   }
 }

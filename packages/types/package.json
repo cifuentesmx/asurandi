@@ -7,7 +7,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsc",
+    "dev": "tsc --watch",
     "build": "tsc",
     "prepublishOnly": "pnpm build"
   },

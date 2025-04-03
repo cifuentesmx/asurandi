@@ -1,0 +1,89 @@
+services:
+    mysql:
+        platform: linux/x86_64
+        image: mysql:5.6
+        ports:
+            - "3306:3306"
+        volumes:
+            - ./.docker/mysql/data:/var/lib/mysql
+            # - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+            - MYSQL_ROOT_PASSWORD=M!-BzmxE3yREz4CeRcdkjhsdf82_865343_12387dsbxXcF&kjdf_
+            - MYSQL_DATABASE=portalne_dbnexus
+            - MYSQL_USER=bull
+            - MYSQL_PASSWORD=M!-BzmxE3yREz4CeRcdkjhsdf82_865343_12387dsbxXcF&kjdf_
+
+    # scrapper:
+    #     image: bull-scrapper
+    #     # env_file: ./scrapper.production.env
+    #     environment:
+    #         - RABBIT_CONECCTION_STRING=amqp://192.168.1.253
+    #         - MAX_INTENTS=3
+    #         - FIREBASE_PROJECT_ID=webot-crm
+    #         - FIREBASE_ADMIN_CLIENT_EMAIL=firebase-adminsdk-8ahw6@webot-crm.iam.gserviceaccount.com
+    #         - FIREBASE_ADMIN_PRIVATE_KEY=-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCgs/b65vnWMDBW\nU8Bki5dCjWTag9NvfLSZh4J8QzzOb9u4cdOs64lnltKjTXW8DXF5ZrqGXFUYSws0\neYK77u8t0qDV2rtGCkuw0vMy60Uus9je0OcwkpM7fNO4Ls0YlLBI1k20Dy1a1djy\nZlwxsK0j8t8reuyGgAgvfD0plU+8nakQ53EzgkElgzr6JS5frjE4zhaNa8oGlYa6\nl7d3L8igaumGO6bE1Fnj+5qQYnQi+f9hZCVjLsh8VLCmTdxqcJCGi6k8Ophy2JiR\nRB+m/42pMcqWf9+EqN8Vwox74Lc9+4V7Z1T/H7OHHfgNbrSxcwiryCa9RJkqBzSB\nxyHnNs3zAgMBAAECggEAD8LGsMHRc+/C9dx97H6CRb0vTH0MUg1Vew8+vWgswQRY\ndMT5ISbykW3J18lDiD97RxBLr9zDXcASZ8GZEEx1ObXEH2U1478jwEJYJsDLRrLN\nzMCJRArEFNv/ubshU01V4rbd5RBt/tAlWFSwqxDsUi/CMnX6V5Cb/Og+6WKi8NkP\nvPpaoxwezvn6nRM+GdvuFiC1gnea9k10S2ErR0Cryc/c6QfiHoyt3TMAHvEOqVY7\n8b6Ado0yOzl7yB0ObbW0468KUhxg/wW9uhnR4DVlKeh0vtRbHQSD+R70ULuFrP9c\n2xEl5gPyKDSx2tD4X6weXBoe7Jb54tKJJGkjUqD46QKBgQDXrD1Zi4dfOiKSgtht\nhDqjfX7NEgmlJGDgPFB6aAm7NCF1csQ2NaAkVKvPmx27Q3cxLqNTNBpUVWK+c0Qm\nCj1swBWXMCo2f2SefhP/zoO//OF5xvJnnKpHB1kZOH5XNydPp+jQ2w4dTWnnllQT\n+tuBWtbvLxRa4nrIr55AjgclywKBgQC+wHJEhlqslbG545SOyc5TZmcZZsmK6K5i\nJ1A7yatRc4y3LAd+pD3Z6x9jU2B/qcQdFIZ2p7H8SlMRinLmFIUBB2esFEfcJl1i\nSyAxm7GoOM4mGlPHT2KVrlj7ygMl4DGD5L1tX0fOk8MoM+txZBEa2njaaEFj/EuF\nfiZDHhuzeQKBgQCh6qu8eGZPdePSvu0he25So7r41pvrIZ6hemapH0Z/Byo/dMQe\nNrBd1juPB1OQ7ZukjvELXEiQG/KgLQVy0ak/5g3PjdeDRq0R2HHHURHUp1PYCyad\n5x5naPrZVnJzo/KdeN/vPSYhlab2uQOyZFk7iilnNJ9BhFrOJBrZOEfhdQKBgDm3\nlVuyo4EREmPCvtKtsWZ+17dR6K3FVe6RIq/Uh6fvpKZQBjyFicmEYUz2j35Raeu6\nqC0C9NH300a9c6K2lsAG85GX2V59pUf2n1kjWRAjkAzrbmoiVRwhUv9s0qMFQTY9\nYivT5rBU+XoSq6z1sE9Fx8eeQBr23gsYbo9kbtFRAoGAebnFIRVfHyKATvujFZQ5\nOTL4wPQoLKipnfw2nLX24wAbFIG/MFn6qf3kJ/2T30lEjZPL2zDliML4q1cS9sw2\n2wYnxm8VKJowgrKLvPcDS5CBIAevRNXlUqHmO2vFKlqfSlPnoNp3I2MT7sQSv2Fc\nrc3zMh9ULajwzfzkiXIlJo4=\n-----END PRIVATE KEY-----\n
+    #         - NODE_ENV=dev
+    #         - FIREBASE_CONNECT_EMULATORS=false
+    #         - SELENIUM_HOST=192.168.1.253
+    #         - SELENUM_PORT=4444
+    #         - SELENIUM_PATH=/
+    #         - NEXUS_PASSWORD=M!-BzmxE3yREz4CeRcdkjhsdf82_865343_12387dsbxXcF&kjdf_
+    #         - DB_URL=postgres://root:root@192.168.1.253:5432/bullcloud
+    #         - DAILY_STATS_CRONTAB_STRING=32 */2 * * *
+    #         - TZ=America/Mexico_City
+    # app:
+    #     image: bull-app
+    #     ports:
+    #         - 3000:8080
+    #     environment:
+    #         - DB_URL=postgres://root:root@192.168.1.253:5432/bullcloud
+    #         - SECRET_RABBIT_CONECCTION_STRING=amqp://192.168.1.253
+    #         - ORIGIN=http://localhost:3000
+    postgres:
+        image: postgres:17
+        platform: linux/x86_64
+        ports:
+            - "5432:5432"
+        volumes:
+            - ./.docker/pgdata:/var/lib/postgresql/data
+            # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+        environment:
+            - POSTGRES_PASSWORD=dev
+            - POSTGRES_USER=asurandi
+            - POSTGRES_DB=postgres
+
+    chrome:
+        image: selenium/standalone-chrome
+        platform: linux/x86_64
+        hostname: chrome
+        ports:
+            - "7900:7900"
+            - "4444:4444"
+        privileged: true
+        shm_size: 2g
+        environment:
+            - VNC_NO_PASSWORD=1
+            - SE_NODE_MAX_SESSIONS=2
+        volumes:
+            - ./scrapper/storage/downloads:/tmp/downloads
+    rabbit:
+        image: rabbitmq:4.0.2-management
+        platform: linux/x86_64
+        container_name: dev_rabbit
+        restart: unless-stopped
+        tty: true
+        stdin_open: true
+        volumes:
+            - ./.docker/rabbit.plugins:/etc/rabbitmq/enabled_plugins:ro
+            # More plugins on:
+            # https://www.rabbitmq.com/plugins.html
+            # https://www.rabbitmq.com/community-plugins.html
+        ports:
+            # HTTP DASHBOARD FOR MANAGEMENT
+            - "15672:15672"
+            # AMQP PROTOCOL
+            - "5672:5672"
+            # MQTT PROTOCOL
+            #- "1883:1883"
+            # MQTT OVER WEBSOCKETS
+            #- "15675:15675"

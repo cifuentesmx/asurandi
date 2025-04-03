@@ -1,4 +1,4 @@
-import type { PublicFileUrl } from "../files.js"
+import type { PublicFileUrl } from "../saas/files.js"
 
 export type GetOnePolizaResponse = Partial<{
     poliza: GetOnePoliza

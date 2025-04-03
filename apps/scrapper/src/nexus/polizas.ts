@@ -1,0 +1,61 @@
+import {
+  date,
+  mysqlTable,
+  serial,
+  text,
+  varchar,
+  int,
+  double,
+  unique,
+} from "drizzle-orm/mysql-core";
+
+export const nxPolizas = mysqlTable(
+  "polizas",
+  {
+    idMovimiento: serial("idMovimiento").primaryKey(),
+    fechaCaptura: date("fechaCaptura"),
+    poliza: varchar("poliza", { length: 15 }),
+    endoso: varchar("endoso", { length: 15 }),
+    idRamo: int("idRamo"),
+    idSubramo: int("idSubramo"),
+    fechaInicio: date("fechaInicio"),
+    fechaFin: date("fechaFin"),
+    idFormaPago: int("idFormaPago"),
+    idConductoPago: int("idConductoPago"),
+    numeroSerie: varchar("numeroSerie", { length: 30 }),
+    idCliente: int("idCliente"),
+    idAgente: int("idAgente"), // 'idAgente de la tabla Agente'
+    idConducto: int("idConducto"), // 'idConducto de la tabla de conducto' ,
+    idAseguradora: int("idAseguradora"),
+    notas: text("notas"),
+    cancelacion: int("cancelacion"), // '0 y 1 0 es cancelado' ,
+    renovacion: varchar("renovacion", { length: 20 }),
+    polizaAnterior: varchar("polizaAnterior", { length: 20 }),
+    totalPrimaNeta: double("totalPrimaNeta"),
+    totalPrimaTotal: double("totalPrimaTotal"),
+    idSucursal: int("idSucursal"),
+    fechaCancelacion: date("fechaCancelacion"),
+    fechaCancelacionr: date("fechaCancelacionr"), //  'fecha registro de cancelacion' ,
+    reciboFiscal: int("reciboFiscal"), // .default(0),
+    numTarjetaCredito: varchar("numTarjetaCredito", { length: 45 }),
+    numTarjetaDebito: varchar("numTarjetaDebito", { length: 45 }),
+    banco: varchar("banco", { length: 45 }),
+    codigo_seguridad: text("codigo_seguridad"),
+    vencimientoTarjeta: text("vencimientoTarjeta"),
+    nombre_tarjetahabiente: text("nombre_tarjetahabiente"),
+    operador_tarjeta: text("operador_tarjeta"),
+    bancoEmisor: text("bancoEmisor"),
+    tipoCambio: varchar("tipoCambio", { length: 45 }).notNull(),
+    interno: text("interno").notNull(),
+    idUsuario: int("idUsuario"),
+    isMaestra: int('isMaestra').default(0),
+  },
+  (t) => ({
+    unq: unique("polizasendoso").on(t.poliza, t.endoso),
+  })
+);
+export const nxDatosExtra = mysqlTable('datosExtraPoliza', {
+  idDatos: serial('idDatos').primaryKey(),
+  idPoliza: int('idPoliza').references(() => nxPolizas.idMovimiento),
+  origen: varchar('origen', { length: 50 }),
+})
