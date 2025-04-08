@@ -1,8 +1,8 @@
 import { SaasAccount } from '@asurandi/types';
 import { admFirestoreService } from "../firebase/admFirestoreService.js"
-import { PolizaSiniestroUpdateRequestRange } from '@asurandi/types';
+import { UpdateRequestPolizasInRange } from '@asurandi/types';
 import { MessageBusMessage } from '@asurandi/types';
-import { sendToMessageBus } from '../rabbit/sendMessage.js';
+import { sendToMessageBus } from '../sendMessage.js';
 
 const DAY_IN_MS = 1000 * 60 * 60 * 24
 
@@ -40,13 +40,14 @@ export const checkLastDailyScrap = async () => {
             const end = new Date(initial.getTime() + interval * DAY_IN_MS + 1).toISOString().substring(0, 10)
             const start = new Date(initial.getTime() - 4 * DAY_IN_MS).toISOString().substring(0, 10)
 
-            const updateRequest: PolizaSiniestroUpdateRequestRange = {
+            const updateRequest: UpdateRequestPolizasInRange = {
                 intents: 0,
                 start,
                 end,
                 saasId: account.id,
+                company: 'qualitas'
             }
-            const msg: MessageBusMessage<PolizaSiniestroUpdateRequestRange> = {
+            const msg: MessageBusMessage<UpdateRequestPolizasInRange> = {
                 exchange: 'ex.scrapper',
                 intents: 0,
                 maxIntents: 5,

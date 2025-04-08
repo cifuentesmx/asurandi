@@ -19,7 +19,7 @@ export const tblSiniestros = pgTable('siniestros', {
     aseguradoId: bigint('asegurado_id', { mode: 'number' }).references(() => tblAsegurados.id),
     vehiculoId: bigint('vehiculo_id', { mode: 'number' }).references(() => tblVehiculos.id),
     causaId: integer('causa_id').references(() => tblSiniestroCausas.id),
-    companyId: varchar('company_id', { enum: ['qualitas'] }).references(() => tblCompanias.id),
+    companyId: varchar('company_id').references(() => tblCompanias.id),
     polizaPrimaneta: numeric('poliza_primaneta', { scale: 2, precision: 12 }).default('0'),
     numeroSiniestro: varchar('numero_siniestro', { length: 20 }).unique(),
     montoEstimado: numeric('monto_estimado', { scale: 2, precision: 12 }),

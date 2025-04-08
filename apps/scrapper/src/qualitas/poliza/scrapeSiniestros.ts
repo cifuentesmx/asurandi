@@ -1,20 +1,22 @@
-import { QualitasScrappedPolizaSiniestro, QualitasScrappedPolizaSiniestroInvolucrado } from "@asurandi/types"
+import { ScrappedPolizaSiniestro, ScrappedPolizaSiniestroInvolucrado } from "@asurandi/types"
 
-export async function scrapeSiniestros(element: WebdriverIO.Element, browser: WebdriverIO.Browser): Promise<QualitasScrappedPolizaSiniestro[]> {
+export async function scrapeSiniestros(element: WebdriverIO.Element,
+    browser: WebdriverIO.Browser)
+    : Promise<ScrappedPolizaSiniestro[]> {
     const parent = element.parentElement()
     await element.waitUntil(async () => {
         return await element.isDisplayed()
     })
     await element.waitForClickable()
     await element.click()
-    const reportes: QualitasScrappedPolizaSiniestro[] = []
+    const reportes: ScrappedPolizaSiniestro[] = []
     const table = parent.$('table')
     const body = table.$('tbody')
     const rows = await body.$$('tr').getElements()
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
 
-        const involucrados: QualitasScrappedPolizaSiniestroInvolucrado[] = []
+        const involucrados: ScrappedPolizaSiniestroInvolucrado[] = []
         const detalle: {
             key: string;
             value: string;

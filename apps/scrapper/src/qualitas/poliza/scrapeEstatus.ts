@@ -1,13 +1,13 @@
-import { QualitasScrappedPolizaEstatusEndoso, QualitasScrappedPolizaEstatus } from "@asurandi/types"
+import { ScrappedPolizaEstatusEndoso, ScrappedPolizaEstatus } from "@asurandi/types"
 
-export async function scrapeEstatus(element: WebdriverIO.Element): Promise<QualitasScrappedPolizaEstatus> {
+export async function scrapeEstatus(element: WebdriverIO.Element): Promise<ScrappedPolizaEstatus> {
     const parent = element.parentElement()
     await element.waitUntil(async () => {
         return await element.isDisplayed()
     })
     await element.waitForClickable()
     await element.click()
-    const endosos: QualitasScrappedPolizaEstatusEndoso[] = []
+    const endosos: ScrappedPolizaEstatusEndoso[] = []
     const table = parent.$('p=Endoso').parentElement().parentElement().parentElement().parentElement()
     const body = table.$('tbody')
     await body.$$('tr').forEach(async row => {

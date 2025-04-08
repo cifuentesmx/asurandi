@@ -1,7 +1,7 @@
-import { PolizasRenovadas } from "@asurandi/types"
+import { PolizaRenovada } from "@asurandi/types"
 
 export async function getQualitasPolizasRenovadas(start: string, end: string, browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasRenovadas> {
+    : Promise<PolizaRenovada[]> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-renovadas`)
     await browser.$('#date1').waitForClickable()
     await browser.$('#date2').waitForClickable()
@@ -29,7 +29,7 @@ export async function getQualitasPolizasRenovadas(start: string, end: string, br
     })
 
 
-    const polizas: PolizasRenovadas = []
+    const polizas: PolizaRenovada[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#renovacionesTable_paginate > ul')
@@ -54,6 +54,7 @@ export async function getQualitasPolizasRenovadas(start: string, end: string, br
                     polizaRenovada,
                 ] = await row.$$('td').getElements()
                 polizas.push({
+                    company: 'qualitas',
                     polizaAnterior: await polizaAnterior.getText(),
                     fechaVencimiento: await fechaVencimiento.getText(),
                     datos: await datos.getText(),

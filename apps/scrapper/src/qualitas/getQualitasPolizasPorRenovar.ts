@@ -1,7 +1,7 @@
-import { PolizasPorRenovar } from "@asurandi/types";
+import { PolizaPorRenovar } from "@asurandi/types";
 
 export async function getQualitasPolizasPorRenovar(browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasPorRenovar> {
+    : Promise<PolizaPorRenovar[]> {
     const today = new Date();
     const futureDate = new Date(today);
     futureDate.setDate(today.getDate() + 38);
@@ -13,7 +13,6 @@ export async function getQualitasPolizasPorRenovar(browser: WebdriverIO.Browser,
         return `${day}-${month}-${year}`;
     };
 
-    ;
 
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-por-renovar`)
     await browser.$('#date1').waitForClickable()
@@ -42,7 +41,7 @@ export async function getQualitasPolizasPorRenovar(browser: WebdriverIO.Browser,
     }, { timeout: 240000 })
 
 
-    const polizas: PolizasPorRenovar = []
+    const polizas: PolizaPorRenovar[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#renovacionesTable_paginate > ul')
@@ -73,19 +72,19 @@ export async function getQualitasPolizasPorRenovar(browser: WebdriverIO.Browser,
                     causaNoRenovacion,
                 ] = await row.$$('td').getElements()
                 polizas.push({
-                    checked: await checked.getText(),
-                    poliza: await poliza.getText(),
-                    fechaVencimiento: await fechaVencimiento.getText(),
-                    automovil: await automovil.getText(),
-                    asegurado: await asegurado.getText(),
-                    planPago: await planPago.getText(),
-                    descuentoCartera: await descuentoCartera.getText(),
-                    descuentoBuenaConducta: await descuentoBuenaConducta.getText(),
-                    primaTotalActualAnterior: await primaTotalActualAnterior.getText(),
-                    estatus: await estatus.getText(),
-                    editar: await editar.getText(),
-                    causaNoRenovacion: await causaNoRenovacion.getText(),
-
+                    company: 'qualitas',
+                    checked: (await checked.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    poliza: (await poliza.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    fechaVencimiento: (await fechaVencimiento.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    automovil: (await automovil.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    asegurado: (await asegurado.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    planPago: (await planPago.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    descuentoCartera: (await descuentoCartera.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    descuentoBuenaConducta: (await descuentoBuenaConducta.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    primaTotalActualAnterior: (await primaTotalActualAnterior.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    estatus: (await estatus.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    editar: (await editar.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                    causaNoRenovacion: (await causaNoRenovacion.getText())?.replace('\n', ' ')?.trim() ?? undefined,
                 })
             })
 

@@ -1,5 +1,5 @@
 import { and, eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
-import { QualitasScrappedPolizaSiniestro } from "@asurandi/types";
+import { ScrappedPolizaSiniestro } from "@asurandi/types";
 import { tblSiniestros, tblPolizas } from "@asurandi/database";
 import { pgDb } from "../db.js";
 import { getCausaId } from "./getCausaId.js";
@@ -7,8 +7,10 @@ import { getText } from "./getText.js";
 import { getFechaRecibos } from "./getFechaEmision.js";
 
 export const processQualitasScrappedSiniestros = async (poliza: InferSelectModel<typeof tblPolizas>,
-    siniestros: QualitasScrappedPolizaSiniestro[]): Promise<void> => {
+    siniestros: ScrappedPolizaSiniestro[]): Promise<void> => {
     const vehiculoId = poliza.vehiculoId
+
+
 
     siniestros.forEach(async siniestro => {
         if (!siniestro.numero_reporte) return
@@ -20,7 +22,10 @@ export const processQualitasScrappedSiniestros = async (poliza: InferSelectModel
             )
         )
 
-        if (!vehiculoId) throw new Error("No se encuentra el identificador del vehículo");
+        if (!vehiculoId) {
+            console.log(poliza)
+            throw new Error("No se encuentra el identificador del vehículo");
+        }
 
         const usSiniestro: InferInsertModel<typeof tblSiniestros> = {
             vehiculoId,

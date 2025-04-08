@@ -1,7 +1,7 @@
-import { PolizasCanceladas } from "@asurandi/types"
+import type { PolizaCancelada } from "@asurandi/types"
 
 export async function getQualitasPolizasCanceladas(start: string, end: string, browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasCanceladas> {
+    : Promise<PolizaCancelada[]> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-canceladas`)
     await browser.$('#fecha1').waitForClickable()
     await browser.$('#fecha2').waitForClickable()
@@ -29,7 +29,7 @@ export async function getQualitasPolizasCanceladas(start: string, end: string, b
     })
 
 
-    const polizas: PolizasCanceladas = []
+    const polizas: PolizaCancelada[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#tablePolizaCancelada_paginate > ul')
@@ -54,12 +54,13 @@ export async function getQualitasPolizasCanceladas(start: string, end: string, b
                     primaRecibo,
                 ] = await row.$$('td').getElements()
                 polizas.push({
-                    poliza: await poliza.getText(),
-                    ramo: await ramo.getText(),
-                    endoso: await endoso.getText(),
-                    fechaCancelacion: await fechaCancelacion.getText(),
-                    causa: await causa.getText(),
-                    primaRecibo: await primaRecibo.getText(),
+                    company: 'qualitas',
+                    poliza: (await poliza.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    ramo: (await ramo.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    endoso: (await endoso.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    fechaCancelacion: (await fechaCancelacion.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    causa: (await causa.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    primaRecibo: (await primaRecibo.getText())?.replace('\n', '')?.trim() ?? undefined,
 
                 })
             })

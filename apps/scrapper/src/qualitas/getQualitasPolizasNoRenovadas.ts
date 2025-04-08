@@ -1,7 +1,7 @@
-import { PolizasNoRenovadas } from "@asurandi/types"
+import { PolizaNoRenovada } from "@asurandi/types"
 
 export async function getQualitasPolizasNoRenovadas(start: string, end: string, browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasNoRenovadas> {
+    : Promise<PolizaNoRenovada[]> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-no-renovadas`)
     await browser.$('#date1').waitForClickable()
     await browser.$('#date2').waitForClickable()
@@ -29,7 +29,7 @@ export async function getQualitasPolizasNoRenovadas(start: string, end: string, 
     })
 
 
-    const polizas: PolizasNoRenovadas = []
+    const polizas: PolizaNoRenovada[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#renovacionesTable_paginate > ul')
@@ -54,12 +54,13 @@ export async function getQualitasPolizasNoRenovadas(start: string, end: string, 
                     causaNoRenovación,
                 ] = await row.$$('td').getElements()
                 polizas.push({
-                    poliza: await poliza.getText(),
-                    primaTotal: await primaTotal.getText(),
-                    asegurado: await asegurado.getText(),
-                    numeroSerie: await numeroSerie.getText(),
-                    fechaVencimiento: await fechaVencimiento.getText(),
-                    causaNoRenovación: await causaNoRenovación.getText(),
+                    company: 'qualitas',
+                    poliza: (await poliza.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    primaTotal: (await primaTotal.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    asegurado: (await asegurado.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    numeroSerie: (await numeroSerie.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    fechaVencimiento: (await fechaVencimiento.getText())?.replace('\n', '')?.trim() ?? undefined,
+                    causaNoRenovación: (await causaNoRenovación.getText())?.replace('\n', '')?.trim() ?? undefined,
                 })
             })
 

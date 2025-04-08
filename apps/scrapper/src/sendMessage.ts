@@ -8,15 +8,21 @@ export async function sendToMessageBus(message: MessageBusMessage<unknown>): Pro
     try {
 
         if (!connection) connection = await amqp.connect(RABBIT_CONECCTION_STRING)
-        if (!channel) channel = await connection.createChannel()
+        if (!channel) {
+            channel = await connection.createChannel()
+        }
+
+
         // Publish the message
-        channel.publish(message.exchange, message.routingKey, Buffer.from(JSON.stringify(message)), {
+        channel.publish(
+            message.exchange,
+            message.routingKey,
+            Buffer.from(JSON.stringify(message)), {
             expiration: message.ttl,
         });
 
     } catch (error) {
         console.error(`${new Date()} - Error enviando mensaje a RabbitMQ:`);
         console.error(error)
-        throw error;
     }
 }

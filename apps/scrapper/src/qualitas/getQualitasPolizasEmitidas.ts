@@ -1,15 +1,6 @@
-type PolizasEmitidas = Set<{
-    poliza: string
-    ramo: string
-    endoso: string
-    fechaEmision: string
-    inicioVigencia: string
-    moneda: string
-    primaRecibo: string
-    tipoMovimiento: string
-}>
+import type { PolizaEmitida } from "@asurandi/types"
 export async function getQualitasPolizasEmitidas(start: string, end: string, browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasEmitidas> {
+    : Promise<PolizaEmitida[]> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-emitidas`)
     await browser.$('#fecha1').waitForClickable()
     await browser.$('#fecha2').waitForClickable()
@@ -37,7 +28,7 @@ export async function getQualitasPolizasEmitidas(start: string, end: string, bro
     })
 
 
-    const polizas: PolizasEmitidas = new Set()
+    const polizas: PolizaEmitida[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#tablePolizaEmitida_paginate > ul')
@@ -62,7 +53,8 @@ export async function getQualitasPolizasEmitidas(start: string, end: string, bro
                     primaRecibo,
                     tipoMovimiento,
                 ] = await row.$$('td').getElements()
-                polizas.add({
+                polizas.push({
+                    company: 'qualitas',
                     poliza: await poliza.getText(),
                     ramo: await ramo.getText(),
                     endoso: await endoso.getText(),

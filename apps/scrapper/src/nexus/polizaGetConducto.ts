@@ -1,9 +1,9 @@
-import { nxPolizas } from "./polizas";
-import { NexusConnector } from "./connection";
+import { nxPolizas } from "./polizas.js";
+import { NexusConnector } from "./connection.js";
 import { eq } from "drizzle-orm";
-import { nxConductos } from "./conductos";
-import { nxUsuarios } from "./usuarios";
-import { nxEmpleados } from "./empleados";
+import { nxConductos } from "./conductos.js";
+import { nxUsuarios } from "./usuarios.js";
+import { nxEmpleados } from "./empleados.js";
 
 export const nexusGetConducto = async (numeroPoliza: string) => {
     const nexusConnection: NexusConnector = new NexusConnector()

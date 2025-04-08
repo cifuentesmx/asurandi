@@ -1,4 +1,4 @@
-import type { AppOpenAPI } from '@/types/api/types.js'
+import type { AppOpenAPI } from '@asurandi/types'
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-expect-error
 import packageJSON from '../../package.json'

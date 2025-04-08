@@ -1,7 +1,7 @@
 import { and, eq } from "drizzle-orm"
-import { NexusConnector } from "./connection"
-import { nxPolizas } from "./polizas"
-import { nxRecibos } from "./recibos"
+import { NexusConnector } from "./connection.js"
+import { nxPolizas } from "./polizas.js"
+import { nxRecibos } from "./recibos.js"
 
 export const nexusGetComision = async (numeroPoliza: string): Promise<string | null> => {
     const nexusConnection: NexusConnector = new NexusConnector()

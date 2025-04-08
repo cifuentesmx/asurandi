@@ -1,0 +1,73 @@
+<script lang="ts">
+	const cambios = [
+		{
+			version: '0.6',
+			fecha: 'Abril 2025',
+			cambios: [
+				[
+					'fix',
+					'Se corrigió el error en la sincronización de pólizas de flotilla cuando la póliza no está vigente o no existe.'
+				],
+				['add', 'Se implementó el registro de errores en la sincronización de pólizas.'],
+				['add', 'Se agrega la funcionalidad del origen de las pólizas.'],
+				[
+					'upgrade',
+					'Se implementó la sincronización de pólizas en paralelo, mejorando la velocidad de sincronización.'
+				],
+				['add', 'Se implementa el este control de cambios en la aplicación.']
+			]
+		},
+		{
+			version: '0.5',
+			fecha: 'Marzo 2025',
+			cambios: [
+				['add', 'Separación de siniestros en seguimiento y consultas globales.'],
+				[
+					'fix',
+					'Corrección de límite en la subida de archivos para el control de siniestros a 10MB por el total de archivos.'
+				],
+				['fix', 'Corrección de errores en filtrado de pólizas en emisiones y siniestros.'],
+				['add', 'Se implementaron los módulos de renovaciones y cobranza.'],
+				['fix', 'Reescritura del módulo de comisiones de agentes.']
+			]
+		},
+		{
+			version: '0.3',
+			fecha: 'Enero 2025',
+			cambios: [
+				['add', 'Integración con portal de Qualitas.'],
+				['fix', 'Corrección de errores en la sincronización.'],
+				['fix', 'Corrección de errores en filtrado de pólizas.'],
+				['add', 'Lanzamiento inicial de la aplicación 🚀.']
+			]
+		}
+	] as const;
+</script>
+
+<div class="mx-auto max-w-4xl p-6">
+	<h2 class="mb-6 text-2xl font-bold">Control de Cambios</h2>
+
+	{#each cambios as release}
+		<div class="my-6">
+			<div class="rounded-lg">
+				<h3 class="mb-4 text-lg font-semibold">Versión {release.version} - {release.fecha}</h3>
+				<div class="text-muted-foreground layout my-2">
+					{#each release.cambios as cambio}
+						<div class="w-90 bg-muted place-self-end rounded p-1 text-xs font-bold">
+							{cambio[0]}
+						</div>
+						<div class="flex items-center">{cambio[1]}</div>
+					{/each}
+				</div>
+			</div>
+		</div>
+	{/each}
+</div>
+
+<style>
+	.layout {
+		display: grid;
+		grid-template-columns: 50px 1fr;
+		gap: 0.4rem;
+	}
+</style>

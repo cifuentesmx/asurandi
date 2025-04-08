@@ -1,7 +1,7 @@
-import { PolizasPagadas } from "@asurandi/types"
+import { PolizaPagada } from "@asurandi/types"
 
 export async function getQualitasPolizasPagadas(start: string, end: string, browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasPagadas> {
+    : Promise<PolizaPagada[]> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-pagadas`)
     await browser.$('#fecha1').waitForClickable()
     await browser.$('#fecha2').waitForClickable()
@@ -29,7 +29,7 @@ export async function getQualitasPolizasPagadas(start: string, end: string, brow
     })
 
 
-    const polizas: PolizasPagadas = []
+    const polizas: PolizaPagada[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#tablePolizasPagadas_paginate > ul')
@@ -58,15 +58,16 @@ export async function getQualitasPolizasPagadas(start: string, end: string, brow
 
                 ] = await row.$$('td').getElements()
                 polizas.push({
-                    poliza: await poliza.getText(),
-                    ramo: await ramo.getText(),
-                    endoso: await endoso.getText(),
-                    recibo: await recibo.getText(),
-                    serie: await serie.getText(),
-                    fechaPago: await fechaPago.getText(),
-                    asegurado: await asegurado.getText(),
-                    moneda: await moneda.getText(),
-                    primaRecibo: await primaRecibo.getText(),
+                    company: 'qualitas',
+                    poliza: (await poliza.getText()).replace('\n', '')?.trim() ?? '',
+                    ramo: (await ramo.getText()).replace('\n', '')?.trim() ?? '',
+                    endoso: (await endoso.getText()).replace('\n', '')?.trim() ?? '',
+                    recibo: (await recibo.getText()).replace('\n', '')?.trim() ?? '',
+                    serie: (await serie.getText()).replace('\n', '')?.trim() ?? '',
+                    fechaPago: (await fechaPago.getText()).replace('\n', '')?.trim() ?? '',
+                    asegurado: (await asegurado.getText()).replace('\n', '')?.trim() ?? '',
+                    moneda: (await moneda.getText()).replace('\n', '')?.trim() ?? '',
+                    primaRecibo: (await primaRecibo.getText()).replace('\n', '')?.trim() ?? '',
 
                 })
             })

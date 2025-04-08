@@ -27,12 +27,11 @@ export async function startConsumer(): Promise<void> {
 
         console.info(`${new Date()} - Rabbit MQ server is ready`);
 
-        channel.prefetch(1);
+        channel.prefetch(2);
         // Consume messages for service
         channel.consume('q.scrapper', async (msg) => {
             try {
                 if (msg) {
-                    console.info(`Se ha recibido una solicitud: ${msg.fields.routingKey}:${msg.fields.deliveryTag}`)
 
                     const str = msg?.content?.toString()
                     const theMessage: MessageBusMessage<UpdateRequestPoliza | UpdateRequestPolizasInRange> =
@@ -42,18 +41,20 @@ export async function startConsumer(): Promise<void> {
 
                         // Process message
                         if (theMessage.payload.saasId && theMessage.routingKey.startsWith('poliza')) {
-                            const message = theMessage as MessageBusMessage<UpdateRequestPoliza>
+                            await updatePoliza(theMessage as MessageBusMessage<UpdateRequestPoliza>)
                             channel.ack(msg);
-                            await updatePoliza(message)
+                            return
 
                         }
                         if (theMessage.payload.saasId && theMessage.routingKey.startsWith('daily')) {
-                            channel.ack(msg);
                             await dailyScrapper(theMessage as MessageBusMessage<UpdateRequestPolizasInRange>)
+                            channel.ack(msg);
+                            return
                         }
-                        // Acknowledge the message as unprocessed
-                        channel.nack(msg, false, false);
-                        return
+
+
+                        // Mesaje no identificado
+                        throw new Error('No se identifico el tipo de mensaje y no se pudo procesar.')
 
                     } catch (error) {
                         channel.nack(msg, false, false);
@@ -62,7 +63,7 @@ export async function startConsumer(): Promise<void> {
                     }
                 }
             } catch (error) {
-                console.error(`${new Date()} - El mensaje ha fallado de forma inesperada. ¿Está enviado por una de nuestras apps?`);
+                console.error(`${new Date()} El mensaje ha fallado de forma inesperada. ¿Está enviado por una de nuestras apps?`);
                 console.error(error)
             }
         })

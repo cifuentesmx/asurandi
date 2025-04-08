@@ -1,5 +1,5 @@
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import type { AppRouteHandler } from "@/types/api/types.js"
+import type { AppRouteHandler } from "@asurandi/types"
 import type { AgentsGet } from "./agent.routes.js"
 import { AppError } from "@/lib/AppError.js";
 import { getAgentData } from './getAgentData.js';

@@ -1,8 +1,8 @@
 import { getNumberString } from "../database/qualitas/getNumber.js";
-import { PolizasPorCobrar } from "@asurandi/types";
+import { PolizaPorCobrar } from "@asurandi/types";
 
 export async function getQualitasPolizasPorCobrar(browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasPorCobrar> {
+    : Promise<PolizaPorCobrar[]> {
 
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-por-cobrar`)
 
@@ -14,7 +14,7 @@ export async function getQualitasPolizasPorCobrar(browser: WebdriverIO.Browser, 
     }, { timeout: 240000 })
 
 
-    const polizas: PolizasPorCobrar = []
+    const polizas: PolizaPorCobrar[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#tableCobranza_paginate > ul')
@@ -46,6 +46,7 @@ export async function getQualitasPolizasPorCobrar(browser: WebdriverIO.Browser, 
 
                 ] = await row.$$('td').getElements()
                 polizas.push({
+                    company: 'qualitas',
                     poliza: await poliza.getText(),
                     ramo: await ramo.getText(),
                     endoso: await endoso.getText(),

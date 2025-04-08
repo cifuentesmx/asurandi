@@ -1,6 +1,6 @@
-import { QualitasScrappedPolizaResumen } from "@asurandi/types"
+import { ScrappedPolizaResumen } from "@asurandi/types"
 
-export async function scrapeResumen(numero_poliza: string, element: WebdriverIO.Element): Promise<QualitasScrappedPolizaResumen> {
+export async function scrapeResumen(numero_poliza: string, element: WebdriverIO.Element): Promise<ScrappedPolizaResumen> {
     const title = await element.getText()
     const parent = element.parentElement()
 

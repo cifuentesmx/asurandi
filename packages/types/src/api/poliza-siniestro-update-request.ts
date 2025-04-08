@@ -1,4 +1,5 @@
 import { Aseguradoras } from "../company/index.js"
+import { PolizasToScrapeFromDaily } from "../qualitas/daily-scrapped.js"
 
 export type UpdateRequestPolizasInRange = {
     saasId: string
@@ -15,5 +16,6 @@ export type UpdateRequestPoliza = {
     intents: number
     agent: string
     cuenta: string
+    dataFromDailyScrapper?: PolizasToScrapeFromDaily
 }
 

@@ -23,7 +23,7 @@ export const tblPolizas = pgTable('polizas', {
     esMaestra: boolean('es_maestra').default(true),
     ramoId: integer('ramo_id').references(() => tblRamos.id),
     subRamoId: integer('subramo_id').references(() => tblSubRamos.id),
-    companyId: varchar('company_id', { enum: ['qualitas'] }).references(() => tblCompanias.id),
+    companyId: varchar('company_id').references(() => tblCompanias.id),
     agenteId: integer('agente_id').references(() => tblAgentes.id),
     conductoId: integer('conducto_id').references(() => tblConductos.id),
     vehiculoId: bigint('vehiculo_id', { mode: 'number' }).references(() => tblVehiculos.id),

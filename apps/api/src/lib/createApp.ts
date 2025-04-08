@@ -1,4 +1,4 @@
-import type { AppBindings, AppOpenAPI } from '@/types/api/types.js'
+import type { AppBindings, AppOpenAPI } from '@asurandi/types'
 import { logger } from '@/middlewares/pinoLogger.js'
 import { OpenAPIHono } from '@hono/zod-openapi'
 import { notFound, onError, serveEmojiFavicon } from 'stoker/middlewares'

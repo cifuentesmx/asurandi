@@ -1,7 +1,7 @@
-import { PolizasSiniestradas } from "@asurandi/types"
+import { PolizaSiniestrada } from "@asurandi/types"
 
 export async function getQualitasPolizasSiniestradas(start: string, end: string, browser: WebdriverIO.Browser, saasId: string)
-    : Promise<PolizasSiniestradas> {
+    : Promise<PolizaSiniestrada[]> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/polizas-siniestradas`)
     await browser.$('#fecha1').waitForClickable()
     await browser.$('#fecha2').waitForClickable()
@@ -29,7 +29,7 @@ export async function getQualitasPolizasSiniestradas(start: string, end: string,
     })
 
 
-    const polizas: PolizasSiniestradas = []
+    const polizas: PolizaSiniestrada[] = []
     if (none > 0) return polizas
 
     const ul = browser.$('#tableSiniestros_paginate > ul')
@@ -54,6 +54,7 @@ export async function getQualitasPolizasSiniestradas(start: string, end: string,
                     fecha,
                 ] = await row.$$('td').getElements()
                 polizas.push({
+                    company: 'qualitas',
                     poliza: await poliza.getText(),
                     numSiniestro: await numSiniestro.getText(),
                     ejercicio: await ejercicio.getText(),

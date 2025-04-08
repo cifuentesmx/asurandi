@@ -14,10 +14,7 @@ export const actions = {
         if (!await hasRole('admin', locals)) throw redirect(302, '/app')
 
         try {
-            console.time('terminado: ')
             await testWhatsappUseCase()
-            console.timeEnd('terminado: ')
-
             return {
                 success: true
             };

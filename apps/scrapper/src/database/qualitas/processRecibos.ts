@@ -1,12 +1,12 @@
 import { and, eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { tblCobros, tblPolizas, tblRecibos } from "@asurandi/database";
-import { QualitasScrappedPolizaRecibos } from "@asurandi/types";
+import { ScrappedPolizaRecibos } from "@asurandi/types";
 import { pgDb } from "../db.js";
 import { getNumberString } from "./getNumber.js";
 import { getVigenciaRecibo } from "./getVigenciaRecibos.js";
 import { getReciboEstado } from "./getReciboEstado.js";
 
-export const processQualitasScrappedRecibos = async (poliza: InferSelectModel<typeof tblPolizas>, recibos: QualitasScrappedPolizaRecibos): Promise<void> => {
+export const processQualitasScrappedRecibos = async (poliza: InferSelectModel<typeof tblPolizas>, recibos: ScrappedPolizaRecibos): Promise<void> => {
     recibos.forEach(async recibo => {
         if (recibo.numero_recibo === '__ERROR__' ||
             recibo.estado === '__ERROR__' ||

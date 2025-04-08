@@ -15,7 +15,7 @@ export const tblPolizaMovimientos = pgTable('poliza_movimientos', {
     conductoId: integer('conducto_id').references(() => tblConductos.id),
     aseguradoId: bigint('asegurado_id', { mode: 'number' }).references(() => tblAsegurados.id),
     vehiculoId: bigint('vehiculo_id', { mode: 'number' }).references(() => tblVehiculos.id),
-    companyId: varchar('company_id', { enum: ['qualitas'] }).references(() => tblCompanias.id),
+    companyId: varchar('company_id').references(() => tblCompanias.id),
     tipoMovimiento: varchar('tipo_movimiento', { enum: ['CANCELADA', 'EMITIDA', 'NO RENOVADA', 'PAGADA', 'RENOVACION PRÓXIMA', 'RENOVADA', 'CAMBIO', 'REGISTRO'] }),
     motivo: varchar('motivo'),
     fechaMovimiento: date('fecha_movimiento'),

@@ -3,9 +3,9 @@
 	import Autoplay from 'embla-carousel-autoplay';
 	import * as Dialog from '$lib/components/ui/dialog/index.js';
 	import { _upsert } from '$lib/helpers/_upsert';
-	import type { PublicFileUrl } from '$types/files';
 	import * as Carousel from '$lib/components/ui/carousel/index.js';
 	import { Download } from 'lucide-svelte';
+	import type { PublicFileUrl } from '@asurandi/types';
 	let {
 		open = $bindable(false),
 		files = $bindable([]),

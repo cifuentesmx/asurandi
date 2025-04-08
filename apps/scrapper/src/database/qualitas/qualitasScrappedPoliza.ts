@@ -1,5 +1,5 @@
 import { and, eq, InferInsertModel, InferSelectModel, sql } from "drizzle-orm";
-import { ScrappedPolizaEvent } from "@asurandi/types"
+import { PolizasToScrapeFromDaily, ScrappedPoliza, ScrappedPolizaEvent } from "@asurandi/types"
 import { pgDb } from "../db.js"
 import { tblAgentes, tblConductos, tblPolizaMovimientos, tblPolizas, } from "@asurandi/database"
 import { getAgente } from "./getAgente.js"
@@ -21,13 +21,20 @@ import { getPrimaNetaComision } from "./getPrimaNetaComision.js"
 import { processQualitasScrappedRecibos } from "./processRecibos.js"
 import { processQualitasScrappedSiniestros } from "./processSiniestros.js"
 import { processQualitasScrappedEndosos } from "./processEndosos.js"
-import { QualitasScrappedPoliza } from "@asurandi/types"
 import { getOrigenId } from "./getOrigenId.js"
 import { getAllCuentas } from "./getAllCuentas.js"
+import { processCancelada } from "../processCancelada.js"
+import { processNoRenovada } from "../processNoRenovada.js";
+import { processPagada } from '../processPagada.js';
+import { processPorCobrar } from "../processPorCobrar.js";
+import { processPorRenovar } from "../processPorRenovar.js";
+import { processRenovada } from "../processRenovada.js";
+import { processPorVencer } from "../processPorVencer.js";
 
-export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, claveAgente: string): Promise<void> {
+
+export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, claveAgente: string, dataFromDailyScrapper: PolizasToScrapeFromDaily | undefined): Promise<void> {
     const saasId = scrapped.saasId
-    const poliza = scrapped.payload as QualitasScrappedPoliza
+    const poliza = scrapped.payload as ScrappedPoliza
     const cuentas = await getAllCuentas(saasId)
 
     if (!saasId) throw new Error("No se ha encontrado la cuenta SAASID para la poliza recibida.");
@@ -49,6 +56,20 @@ export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, clav
         )
     )
 
+    const [existingInciso] = await pgDb.select().from(tblPolizas).where(
+        and(
+            eq(tblPolizas.saasId, saasId),
+            eq(tblPolizas.numeroPoliza, numeroPoliza),
+            eq(tblPolizas.inciso, inciso)
+        )
+    )
+
+    if (!existingPoliza && existingInciso) {
+        throw new Error(`Inconsistencia encontrada para la poliza ${numeroPoliza} ${inciso}.
+            No existe una poliza maestra pero se encontró un inciso con el mismo
+            número de póliza y el mismo número de inciso.
+            ¿Es una poliza de flotillas que ya no está vigente?`)
+    }
 
     const agente: InferSelectModel<typeof tblAgentes> = existingPoliza && existingPoliza.agenteId
         ? (await pgDb.select().from(tblAgentes).where(eq(tblAgentes.id, existingPoliza.agenteId)).limit(1))[0]
@@ -145,6 +166,13 @@ export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, clav
     if (poliza.siniestros) await processQualitasScrappedSiniestros(existingPoliza, poliza.siniestros)
 
 
+    if (dataFromDailyScrapper?.canceladas) await processCancelada(dataFromDailyScrapper.canceladas)
+    if (dataFromDailyScrapper?.noRenovadas) await processNoRenovada(dataFromDailyScrapper.noRenovadas)
+    if (dataFromDailyScrapper?.pagadas) await processPagada(dataFromDailyScrapper.pagadas)
+    if (dataFromDailyScrapper?.porCobrar) await processPorCobrar(dataFromDailyScrapper.porCobrar, saasId)
+    if (dataFromDailyScrapper?.porRenovar) await processPorRenovar(dataFromDailyScrapper.porRenovar, saasId)
+    if (dataFromDailyScrapper?.renovadas) await processRenovada(dataFromDailyScrapper.renovadas)
+    if (dataFromDailyScrapper?.porVencer) await processPorVencer(dataFromDailyScrapper.porVencer)
+
     return
 }
-

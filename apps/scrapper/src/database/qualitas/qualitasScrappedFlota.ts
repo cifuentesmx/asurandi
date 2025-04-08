@@ -1,3 +1,10 @@
+import { processCancelada } from './../processCancelada.js';
+import { processNoRenovada } from './../processNoRenovada.js';
+import { processPagada } from './../processPagada.js';
+import { processPorCobrar } from './../processPorCobrar.js';
+import { processPorRenovar } from './../processPorRenovar.js';
+import { processRenovada } from './../processRenovada.js';
+import { processPorVencer } from './../processPorVencer.js';
 import { and, eq, InferInsertModel, InferSelectModel, isNull, sql } from "drizzle-orm";
 import { getAgente } from "./getAgente.js";
 import { getConducto } from "./getConducto.js";
@@ -14,14 +21,14 @@ import { getPeriodoGracia } from "./getPeriodoGracia.js";
 import { getPrimaNetaComision } from "./getPrimaNetaComision.js";
 import { qualitasScrappedInciso } from "./qualitasScrappedInciso.js";
 import { pgDb } from "../db.js";
-import { QualitasScrappedFlota, ScrappedPolizaEvent } from "@asurandi/types";
+import { PolizasToScrapeFromDaily, ScrappedFlota, ScrappedPolizaEvent } from "@asurandi/types";
 import { getOrigenId } from "./getOrigenId.js";
 import { getAllCuentas } from "./getAllCuentas.js";
 import { tblPolizas, tblAgentes, tblConductos, tblPolizaMovimientos } from "@asurandi/database"
 
-export async function qualitasScrappedFlota(scrapped: ScrappedPolizaEvent, claveAgente: string): Promise<void> {
+export async function qualitasScrappedFlota(scrapped: ScrappedPolizaEvent, claveAgente: string, dataFromDailyScrapper: PolizasToScrapeFromDaily | undefined): Promise<void> {
     const saasId = scrapped.saasId
-    const poliza = scrapped.payload as QualitasScrappedFlota
+    const poliza = scrapped.payload as ScrappedFlota
 
     const cuentas = await getAllCuentas(saasId)
 
@@ -41,6 +48,18 @@ export async function qualitasScrappedFlota(scrapped: ScrappedPolizaEvent, clave
             eq(tblPolizas.esMaestra, true),
         )
     )
+    const [existingInciso] = await pgDb.select().from(tblPolizas).where(
+        and(
+            eq(tblPolizas.saasId, saasId),
+            eq(tblPolizas.numeroPoliza, numeroPoliza)
+        )
+    )
+
+    if (!existingPoliza && existingInciso) {
+        throw new Error(`Inconsistencia encontrada para la poliza de flotilla ${numeroPoliza}.
+            No existe una poliza maestra pero se encontró al menos un inciso con el mismo número de póliza.
+            ¿Es una poliza de flotillas que ya no está vigente?`)
+    }
 
     const agente = (existingPoliza && existingPoliza.agenteId
         ? (await pgDb.select().from(tblAgentes).where(eq(tblAgentes.id, existingPoliza.agenteId)).limit(1))[0]
@@ -127,6 +146,16 @@ export async function qualitasScrappedFlota(scrapped: ScrappedPolizaEvent, clave
     poliza.incisos.forEach(async inciso => {
         await qualitasScrappedInciso(existingPoliza, inciso)
     });
+
+    if (dataFromDailyScrapper?.canceladas) await processCancelada(dataFromDailyScrapper.canceladas)
+    if (dataFromDailyScrapper?.noRenovadas) await processNoRenovada(dataFromDailyScrapper.noRenovadas)
+    if (dataFromDailyScrapper?.pagadas) await processPagada(dataFromDailyScrapper.pagadas)
+    if (dataFromDailyScrapper?.porCobrar) await processPorCobrar(dataFromDailyScrapper.porCobrar, saasId)
+    if (dataFromDailyScrapper?.porRenovar) await processPorRenovar(dataFromDailyScrapper.porRenovar, saasId)
+    if (dataFromDailyScrapper?.renovadas) await processRenovada(dataFromDailyScrapper.renovadas)
+    if (dataFromDailyScrapper?.porVencer) await processPorVencer(dataFromDailyScrapper.porVencer)
+
+
     return
 }
 

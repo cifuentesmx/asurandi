@@ -4,8 +4,8 @@ import { QualitasPortalSession } from "../qualitas/QualitasPortalSession.js";
 import { MessageBusMessage, QualitasAccountCredential, UpdateRequestPolizasInRange, SaasAccount } from "@asurandi/types";
 
 export async function dailyScrapperQualitas(request: MessageBusMessage<UpdateRequestPolizasInRange>) {
+    const saasId = request.payload.saasId
     try {
-        const saasId = request.payload.saasId
         const qAccounts = await admFirestoreService.getCollection(`/accounts/${saasId}/secrets/qualitas/agents`) as PartialWithFieldValue<QualitasAccountCredential>[]
         console.time(`Daily scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
         for (let i = 0; i < qAccounts.length; i++) {
@@ -27,12 +27,8 @@ export async function dailyScrapperQualitas(request: MessageBusMessage<UpdateReq
                         request.payload.end
                     )
                 } catch (error) {
-                    if (error instanceof Error) {
-                        console.error(`${new Date()} - ${error.message}`, error)
-                    }
-                    else {
-                        console.error(error)
-                    }
+                    console.error(error)
+                    throw error
                 }
                 finally {
                     await portalSession.close()
@@ -45,14 +41,12 @@ export async function dailyScrapperQualitas(request: MessageBusMessage<UpdateReq
         const updateAccount: PartialWithFieldValue<SaasAccount> = {
             lastQualitasDaily: request.payload.end,
         }
-
         await admFirestoreService.setDocument(`/accounts/${saasId}`, updateAccount)
-
-        console.timeEnd(`Daily scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
-
     } catch (error) {
         console.error(error)
         throw error
+    } finally {
+        console.timeEnd(`Daily scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
     }
 
 }

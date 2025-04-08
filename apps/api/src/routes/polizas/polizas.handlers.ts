@@ -1,5 +1,5 @@
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import type { AppRouteHandler } from "@/types/api/types.js"
+import type { AppRouteHandler } from "@asurandi/types"
 import type { GetPoliza, SearchPoliza } from "./polizas.routes.js"
 import { AppError } from "@/lib/AppError.js";
 import { findPolizas } from './findPolizas.js';

@@ -1,6 +1,6 @@
 import { and, eq, InferInsertModel, InferSelectModel, sql } from "drizzle-orm"
 import { tblPolizaMovimientos, tblPolizas } from "@asurandi/database"
-import { QualitasScrappedFlotaInciso } from "@asurandi/types"
+import { ScrappedFlotaInciso } from "@asurandi/types"
 import { pgDb } from "../db.js"
 import { getVehiculo } from "./getVehiculo.js"
 import { getUso } from "./getUso.js"
@@ -16,14 +16,15 @@ import { processQualitasScrappedRecibos } from "./processRecibos.js"
 import { processQualitasScrappedEndosos } from "./processEndosos.js"
 import { processQualitasScrappedSiniestros } from "./processSiniestros.js"
 
-export const qualitasScrappedInciso = async (poliza: InferSelectModel<typeof tblPolizas>, inciso: QualitasScrappedFlotaInciso): Promise<void> => {
+export const qualitasScrappedInciso = async (poliza: InferSelectModel<typeof tblPolizas>,
+    inciso: ScrappedFlotaInciso): Promise<void> => {
     if (!poliza.id) throw new Error("No se ha encontrado la poliza maestra para procesar el inciso");
     const serialData = inciso.polizaInciso.serialData
 
     if (!poliza.numeroPoliza) throw new Error("No se encontró el número de póliza en los datos extraidos.");
     if (!poliza.saasId) throw new Error("No se encontró el SAASID en los datos extraidos.");
 
-    let [existingPoliza] = await pgDb.select().from(tblPolizas).where(
+    let [existingInciso] = await pgDb.select().from(tblPolizas).where(
         and(
             eq(tblPolizas.saasId, poliza.saasId),
             eq(tblPolizas.numeroPoliza, poliza.numeroPoliza),
@@ -31,7 +32,7 @@ export const qualitasScrappedInciso = async (poliza: InferSelectModel<typeof tbl
             eq(tblPolizas.esMaestra, false),
         )
     )
-    const vehiculo = await getVehiculo(serialData, poliza.saasId, existingPoliza?.vehiculoId ?? undefined)
+    const vehiculo = await getVehiculo(serialData, poliza.saasId, existingInciso?.vehiculoId ?? undefined)
     const uso = await getUso(serialData)
     const servicio = await getServicio(serialData)
     const porcentajeDescuento = getNumber(serialData, '% Desc')?.[0]?.toFixed(2) ?? undefined
@@ -90,21 +91,21 @@ export const qualitasScrappedInciso = async (poliza: InferSelectModel<typeof tbl
     }
 
 
-    if (existingPoliza) {
-        [existingPoliza] = await pgDb.update(tblPolizas).set(usPoliza).where(eq(tblPolizas.id, existingPoliza.id)).returning()
+    if (existingInciso) {
+        [existingInciso] = await pgDb.update(tblPolizas).set(usPoliza).where(eq(tblPolizas.id, existingInciso.id)).returning()
     } else {
         await pgDb.transaction(async tx => {
-            [existingPoliza] = await tx.insert(tblPolizas).values(usPoliza).returning()
+            [existingInciso] = await tx.insert(tblPolizas).values(usPoliza).returning()
             await tx.insert(tblPolizaMovimientos).values({
-                agenteId: existingPoliza.agenteId,
-                aseguradoId: existingPoliza.asegurado_id,
-                companyId: existingPoliza.companyId,
-                conductoId: existingPoliza.conductoId,
+                agenteId: existingInciso.agenteId,
+                aseguradoId: existingInciso.asegurado_id,
+                companyId: existingInciso.companyId,
+                conductoId: existingInciso.conductoId,
                 fechaMovimiento: sql`now()`,
-                numeroPoliza: existingPoliza.numeroPoliza,
-                saasId: existingPoliza.saasId,
-                vehiculoId: existingPoliza.vehiculoId,
-                polizaId: existingPoliza.id,
+                numeroPoliza: existingInciso.numeroPoliza,
+                saasId: existingInciso.saasId,
+                vehiculoId: existingInciso.vehiculoId,
+                polizaId: existingInciso.id,
                 motivo: `Registro inicial de iniciso`,
                 tipoMovimiento: 'REGISTRO'
             })
@@ -113,8 +114,8 @@ export const qualitasScrappedInciso = async (poliza: InferSelectModel<typeof tbl
         })
     }
 
-    if (inciso.polizaInciso.recibos) await processQualitasScrappedRecibos(existingPoliza, inciso.polizaInciso.recibos)
-    if (inciso.polizaInciso.statusPoliza) await processQualitasScrappedEndosos(existingPoliza, inciso.polizaInciso.statusPoliza)
-    if (inciso.polizaInciso.siniestros) await processQualitasScrappedSiniestros(existingPoliza, inciso.polizaInciso.siniestros)
+    if (inciso.polizaInciso.recibos) await processQualitasScrappedRecibos(poliza, inciso.polizaInciso.recibos)
+    if (inciso.polizaInciso.statusPoliza) await processQualitasScrappedEndosos(poliza, inciso.polizaInciso.statusPoliza)
+    if (inciso.polizaInciso.siniestros) await processQualitasScrappedSiniestros(existingInciso, inciso.polizaInciso.siniestros)
     return
 }

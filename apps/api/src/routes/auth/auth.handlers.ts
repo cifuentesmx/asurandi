@@ -1,4 +1,4 @@
-import type { AppRouteHandler } from "@/types/api/types.js";
+import type { AppRouteHandler } from "@asurandi/types";
 import type { AuthCreateProvider, AuthGetEmail, AuthGetSession } from "./auth.routes.js";
 import * as HttpStatusCodes from 'stoker/http-status-codes'
 import { getAuthEmail } from "./getAuthEmail.js";

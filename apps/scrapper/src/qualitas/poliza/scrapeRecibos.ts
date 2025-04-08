@@ -1,12 +1,12 @@
-import { QualitasScrappedPolizaRecibos } from '@asurandi/types';
-export async function scrapeRecibos(element: WebdriverIO.Element): Promise<QualitasScrappedPolizaRecibos> {
+import { ScrappedPolizaRecibos } from '@asurandi/types';
+export async function scrapeRecibos(element: WebdriverIO.Element): Promise<ScrappedPolizaRecibos> {
     const parent = element.parentElement()
     await element.waitUntil(async () => {
         return await element.isDisplayed()
     })
     await element.waitForClickable()
     await element.click()
-    const recibos: QualitasScrappedPolizaRecibos = []
+    const recibos: ScrappedPolizaRecibos = []
     const table = parent.$('table')
     const body = table.$('tbody')
     await body.$$('tr').forEach(async row => {

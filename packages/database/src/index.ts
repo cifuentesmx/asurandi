@@ -23,3 +23,11 @@ export * from './schema/tipoEndoso.js'
 export * from './schema/tipoVehiculos.js'
 export * from './schema/usos.js'
 export * from './schema/vehiculos.js'
+
+// Base implementation for database package
+export const databaseVersion = '1.0.0';
+
+// Export default placeholder
+export default {
+    version: databaseVersion
+};

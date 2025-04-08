@@ -1,7 +1,7 @@
-import { NexusConnector } from "./connection";
+import { NexusConnector } from "./connection.js";
 import { eq, InferSelectModel } from "drizzle-orm";
-import { nxPolizas } from "./polizas";
-import { nxClientes } from "./clientes";
+import { nxPolizas } from "./polizas.js";
+import { nxClientes } from "./clientes.js";
 
 export const nexusGetAsegurado = async (numeroPoliza: string): Promise<InferSelectModel<typeof nxClientes> | null> => {
     const nexusConnection: NexusConnector = new NexusConnector()

@@ -70,7 +70,7 @@ export class ConnectionCluster {
         msg.intents++
         if (msg.intents > msg.maxIntents) {
             console.error('El mensaje ha fallado permanentemente.')
-            return await rabbitSendToMessageBus({ ...msg, exchange: 'ex.dlx.dropped' }, this.amqpChannel)
+            return await rabbitSendToMessageBus({ ...msg, exchange: 'ex.jobs', routingKey: 'failed.whatsapp.outgoing' }, this.amqpChannel)
         }
         try {
             return await this.bots.get(msg.payload.saasId)?.outgoingMessage(msg.payload)
@@ -78,8 +78,8 @@ export class ConnectionCluster {
             console.error(error instanceof Error ? `${msg.intents} - ${error.message}` : 'nada')
             rabbitSendToMessageBus({
                 ...msg,
-                exchange: 'ex.whatsapp.retry',
-                routingKey: 'whatsapp.outgoing',
+                exchange: 'ex.jobs',
+                routingKey: 'waiting.whatsapp.outgoing',
             },
                 this.amqpChannel
             )

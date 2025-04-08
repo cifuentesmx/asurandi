@@ -1,12 +1,12 @@
 import { and, eq, InferInsertModel, InferSelectModel } from "drizzle-orm";
 import { tblEndosos, tblPolizas } from "@asurandi/database";
-import { QualitasScrappedPolizaEstatusEndoso } from "@asurandi/types";
+import { ScrappedPolizaEstatusEndoso } from "@asurandi/types";
 import { pgDb } from "../db.js";
 import { getFechaRecibos } from "./getFechaEmision.js";
 import { getNumberString } from "./getNumber.js";
 import { getTipoEndoso } from "./getTipoEndoso.js";
 
-export const processQualitasScrappedEndosos = async (poliza: InferSelectModel<typeof tblPolizas>, endosos: QualitasScrappedPolizaEstatusEndoso[]): Promise<void> => {
+export const processQualitasScrappedEndosos = async (poliza: InferSelectModel<typeof tblPolizas>, endosos: ScrappedPolizaEstatusEndoso[]): Promise<void> => {
     endosos.forEach(async e => {
         const tipoEndosoId = await getTipoEndoso(e.tipo_movimiento)
         let [existing] = await pgDb.select().from(tblEndosos).where(

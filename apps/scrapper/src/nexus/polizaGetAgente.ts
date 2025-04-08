@@ -1,5 +1,5 @@
-import { nxPolizas } from "./polizas";
-import { NexusConnector } from "./connection";
+import { nxPolizas } from "./polizas.js";
+import { NexusConnector } from "./connection.js";
 import { eq } from "drizzle-orm";
 
 export const nexusGetAgente = async (numeroPoliza: string): Promise<number | null> => {

@@ -1,32 +1,50 @@
-export type QualitasScrappedDailyStats = {
-    renovadas: PolizasRenovadas
-    noRenovadas: PolizasNoRenovadas
-    pagadas: PolizasPagadas
-    canceladas: PolizasCanceladas
-    porVencer: PolizasPorVencer
-    porRenovar: PolizasPorRenovar
-    porCobrar: PolizasPorCobrar
+import { Aseguradoras } from "../company/index.js"
+
+export type PolizasToScrapeFromDaily = {
+    porRenovar?: PolizaPorRenovar
+    porCobrar?: PolizaPorCobrar
+    canceladas?: PolizaCancelada
+    noRenovadas?: PolizaNoRenovada
+    porVencer?: PolizaPorVencer
+    pagadas?: PolizaPagada
+    renovadas?: PolizaRenovada
+    siniestradas?: PolizaSiniestrada
+    emitidas?: PolizaEmitida
+}
+export type PolizaEmitida = {
+    company: Aseguradoras
+    poliza: string
+    ramo: string
+    endoso: string
+    fechaEmision: string
+    inicioVigencia: string
+    moneda: string
+    primaRecibo: string
+    tipoMovimiento: string
 }
 
-export type PolizasRenovadas = {
+export type PolizaRenovada = {
+    company: Aseguradoras
     polizaAnterior: string
     fechaVencimiento: string
     datos: string
     asegurado: string
     planPago: string
     polizaRenovada: string
-}[]
+}
 
-export type PolizasNoRenovadas = {
+export type PolizaNoRenovada = {
+    company: Aseguradoras
     poliza: string
     primaTotal: string
     asegurado: string
     numeroSerie: string
     fechaVencimiento: string
     causaNoRenovación: string
-}[]
+}
 
-export type PolizasPagadas = {
+export type PolizaPagada = {
+    company: Aseguradoras
     poliza: string
     ramo: string
     endoso: string
@@ -37,29 +55,30 @@ export type PolizasPagadas = {
     moneda: string
     primaRecibo: string
 
-}[]
+}
 
-export type PolizasCanceladas = {
-
+export type PolizaCancelada = {
+    company: Aseguradoras
     poliza: string
     ramo: string
     endoso: string
     fechaCancelacion: string
     causa: string
     primaRecibo: string
-}[]
+}
 
-export type PolizasSiniestradas = {
+export type PolizaSiniestrada = {
+    company: Aseguradoras
     poliza: string
     numSiniestro: string
     ejercicio: string
     reporte: string
     estimacion: string
     fecha: string
-}[]
+}
 
-export type PolizasPorVencer = {
-
+export type PolizaPorVencer = {
+    company: Aseguradoras
     poliza: string
     formapago: string
     fechaHasta: string
@@ -67,9 +86,10 @@ export type PolizasPorVencer = {
     nombreAsegurado: string
     vehiculo: string
 
-}[]
+}
 
-export type PolizasPorRenovar = {
+export type PolizaPorRenovar = {
+    company: Aseguradoras
     checked: string
     poliza: string
     fechaVencimiento: string
@@ -82,9 +102,10 @@ export type PolizasPorRenovar = {
     estatus: string
     editar: string
     causaNoRenovacion: string
-}[]
+}
 
-export type PolizasPorCobrar = {
+export type PolizaPorCobrar = {
+    company: Aseguradoras
     poliza: string
     ramo: string
     endoso: string
@@ -97,4 +118,4 @@ export type PolizasPorCobrar = {
     moneda: string
     importe: string
     actividad: string
-}[]
+}

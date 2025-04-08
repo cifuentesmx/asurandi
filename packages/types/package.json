@@ -12,7 +12,12 @@
     "prepublishOnly": "pnpm build"
   },
   "devDependencies": {
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "@hono/zod-openapi": "^0.19.2",
+    "amqplib": "^0.10.7",
+    "hono-pino": "^0.8.0"
   },
   "description": "",
   "type": "module",

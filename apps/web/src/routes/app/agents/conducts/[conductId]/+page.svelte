@@ -8,7 +8,7 @@
 	import { getToastState } from '$lib/toast-state.svelte';
 	import type { ActionResult } from '@sveltejs/kit';
 	import type { InferSelectModel } from 'drizzle-orm';
-	import { tblConductos } from '../../../../../database/schema';
+	import { tblConductos } from '@asurandi/database';
 
 	const conductos = $state<ListConductos['conductos']>(page.data.conductos);
 	const conducto = $state(conductos.find((t) => t.id === Number(page.params.conductId)));
