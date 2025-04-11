@@ -6,12 +6,12 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "dev": "tsx watch src/index.ts",
-    "build": "tsc --p tsconfig.json",
-    "start": "node dist/index.js"
+    "build": "tsc --project tsconfig.json",
+    "start": "tsx dist/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.14.0",
-    "@hono/zod-openapi": "^0.19.2",
+    "@hono/zod-openapi": "^0.19.4",
     "@scalar/hono-api-reference": "^0.5.184",
     "dotenv": "^16.4.7",
     "dotenv-expand": "^12.0.1",
@@ -30,6 +30,7 @@
     "@asurandi/types": "workspace:*",
     "@types/node": "^20.17.30",
     "eslint": "^9.24.0",
-    "tsx": "^4.19.3"
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
   }
 }

@@ -1,4 +1,4 @@
-import { pgDb } from "@/lib/db.js"
+import { pgDb } from "../../lib/db.js"
 import {
     tblAgentes,
     tblAsegurados,
@@ -10,7 +10,7 @@ import {
     tblSubRamos,
     tblUsos,
     tblServicios,
-    tblModoPagos , 
+    tblModoPagos,
     tblPolizaMovimientos,
     tblSiniestros,
     tblEndosos,
@@ -27,7 +27,7 @@ export const getOne = async (params: {
     uid: string
     id: number
 }) => {
-    const conditions =  and (
+    const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
             eq(tblAgentes.uid, params.uid),

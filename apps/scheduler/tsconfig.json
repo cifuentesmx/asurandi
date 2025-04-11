@@ -21,8 +21,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./src",
-    "paths": {
-      "@/*": ["src/*"]
-    }
+    "incremental": true,
+    "tsBuildInfoFile": "./dist/.tsbuildinfo"
   }
 }

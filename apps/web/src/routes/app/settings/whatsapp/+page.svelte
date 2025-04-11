@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { db } from '$lib/firebase/app.client';
 	import { getSession } from '$lib/session.svelte';
-	import type { QrConnection } from '$types/whats-baileys/providers';
+	import type { QrConnection } from '@asurandi/types';
 	import { doc, onSnapshot, type Unsubscribe } from 'firebase/firestore';
 	import { onDestroy } from 'svelte';
 	import WhatsappStatus from './whatsapp-status.svelte';

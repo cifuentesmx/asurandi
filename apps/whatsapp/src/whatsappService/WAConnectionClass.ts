@@ -1,6 +1,6 @@
 import type { ConnectedApp, SaasAccount, BotStatus, OutgoingWhatsappMessageRequest } from "@asurandi/types";
 import type { MediaUrl, WAProvider, WhatsappMessage } from "./types.ts";
-import { AppError } from "@/lib/AppError.js";
+import { AppError } from "../lib/AppError.js";
 import { BaileysProvider } from "./providers/Baileys/BaileysProvider.js";
 import { statusUpdate } from "./statusUpdate.js";
 

@@ -1,4 +1,4 @@
-import { initializeAdminApp } from "@/lib/firebase.server.ts"
+import { initializeAdminApp } from "../lib/firebase.server.js"
 import { getFirestore } from "firebase-admin/firestore"
 
 export const updateQr = async (base64: string, accountId: string) => {

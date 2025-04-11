@@ -1,5 +1,5 @@
-import { AppError } from "@/lib/AppError.js"
-import { initializeAdminApp } from "@/lib/firebase.server.js"
+import { AppError } from "../../lib/AppError.js"
+import { initializeAdminApp } from "../../lib/firebase.server.js"
 import { getAuth } from "firebase-admin/auth"
 
 export const getAuthEmail = async (email: string):

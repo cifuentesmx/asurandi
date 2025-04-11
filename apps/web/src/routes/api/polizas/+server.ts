@@ -8,7 +8,7 @@ export const GET = async ({ locals, url }) => {
         throw redirect(302, '/')
     }
 
-    if (!await hasRole('emisiones', locals)) throw redirect(302, '/app')
+    if (!await hasRole('user', locals)) throw redirect(302, '/app')
 
     let limit = Number(url.searchParams.get('l'))
     if (!limit || !Number.isInteger(limit) || limit > 200 || limit < 10) limit = 10

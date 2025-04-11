@@ -1,10 +1,10 @@
 import amqp from 'amqplib';
-import { assertRabbitMQ, rabbitSendToMessageBus } from '@/lib/rabbit.js';
-import env from '@/env.js';
+import { assertRabbitMQ, rabbitSendToMessageBus } from '../lib/rabbit.js';
+import env from '../env.js';
 import type { SaasAccount, MessageBusMessage, OutgoingWhatsappMessageRequest } from '@asurandi/types';
-import { accountsSubscribe } from '@/lib/accountsSubscribe.js';
+import { accountsSubscribe } from '../lib/accountsSubscribe.js';
 import { restartConnection } from './restartConnection.js';
-import { WAConnection } from './WAConnectionClass.ts';
+import { WAConnection } from './WAConnectionClass.js';
 let count = 0
 export class ConnectionCluster {
     unsubs?: () => void

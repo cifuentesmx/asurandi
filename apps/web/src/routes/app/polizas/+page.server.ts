@@ -1,9 +1,9 @@
 import { AppError } from '$lib/ApplicationError.js';
 import { hasRole } from '$lib/auth/hasRole.js';
-import type { PolizaStatus } from '$types/polizas/poliza-estatus.js';
 import { assignQualitasAgenteConductoUsecase } from '$useCases/poliza/assignQualitasAgenteConductoUsecase';
 import { updatePolizaOrigen } from '$useCases/poliza/updatePolizaOrigen.js';
 import { updatePolizaStatus } from '$useCases/poliza/updatePolizaStatus.js';
+import type { PolizaStatus } from '@asurandi/types';
 import { fail, redirect } from '@sveltejs/kit';
 export const actions = {
     actualizarConductoAgente: async ({ request, locals }) => {

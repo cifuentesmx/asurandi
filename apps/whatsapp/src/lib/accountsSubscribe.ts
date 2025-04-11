@@ -1,7 +1,7 @@
 import { getFirestore } from 'firebase-admin/firestore';
 import { initializeAdminApp } from "./firebase.server.js"
 import type { SaasAccount } from '@asurandi/types'
-import env from '@/env.js'
+import env from '../env.js'
 
 export const accountsSubscribe = (cb: (account: SaasAccount, change: FirebaseFirestore.DocumentChangeType) => void) => {
     console.info(`Suscribiendose a eventos para el cluster de conexión: ${env.CLUSTER_SERVER_NAME}`)

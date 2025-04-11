@@ -1,4 +1,4 @@
-import { pgDb } from "@/lib/db.js"
+import { pgDb } from "../../lib/db.js"
 import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblVehiculos } from "@asurandi/database"
 import { and, eq, ilike, or, count, desc } from "drizzle-orm"
 

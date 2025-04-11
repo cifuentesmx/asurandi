@@ -38,7 +38,7 @@ export const checkLastDailyScrap = async () => {
             const interval = diferenciaDias > 10 ? 10 : 1
 
             const end = new Date(initial.getTime() + interval * DAY_IN_MS + 1).toISOString().substring(0, 10)
-            const start = new Date(initial.getTime() - 4 * DAY_IN_MS).toISOString().substring(0, 10)
+            const start = new Date(initial.getTime() - 1 * DAY_IN_MS).toISOString().substring(0, 10)
 
             const updateRequest: UpdateRequestPolizasInRange = {
                 intents: 0,

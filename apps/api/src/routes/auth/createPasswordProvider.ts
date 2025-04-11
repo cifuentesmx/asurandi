@@ -1,6 +1,6 @@
-import { pgDb } from "@/lib/db.js";
-import { AppError } from "@/lib/AppError.js";
-import { initializeAdminApp } from "@/lib/firebase.server.js"
+import { pgDb } from "../../lib/db.js";
+import { AppError } from "../../lib/AppError.js";
+import { initializeAdminApp } from "../../lib/firebase.server.js"
 import { eq } from "drizzle-orm";
 import { getAuth } from 'firebase-admin/auth';
 import { tblAgentes, tblConductos } from "@asurandi/database";

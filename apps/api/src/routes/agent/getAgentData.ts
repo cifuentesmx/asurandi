@@ -1,8 +1,8 @@
 import { getFirestore } from 'firebase-admin/firestore';
-import { pgDb } from "@/lib/db.js"
-import { initializeAdminApp } from "@/lib/firebase.server.js"
+import { pgDb } from "../../lib/db.js"
+import { initializeAdminApp } from "../../lib/firebase.server.js"
 import { eq } from "drizzle-orm"
-import { AppError } from '@/lib/AppError.js';
+import { AppError } from '../../lib/AppError.js';
 import { tblAgentes, tblConductos } from '@asurandi/database';
 
 export const getAgentData = async (user: { uid: string, email: string }) => {

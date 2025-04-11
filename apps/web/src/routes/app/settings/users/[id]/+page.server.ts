@@ -1,6 +1,6 @@
 import { hasRole } from '$lib/auth/hasRole.js'
 import { redirect } from '@sveltejs/kit'
-import type { SaasRole } from '$types/saas/user'
+import type { SaasRole } from '@asurandi/types';
 import { updateUserUsecase } from '$useCases/users/updateUserUsecase.js';
 import { getUser } from '$api/users/getUser.js';
 

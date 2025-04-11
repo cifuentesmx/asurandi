@@ -15,25 +15,20 @@ const EnvSchema = z.object({
     FIREBASE_ADMIN_PRIVATE_KEY: z.string(),
     FIREBASE_CONNECT_EMULATORS: z.coerce.boolean(),
     FIREBASE_EMULATORS_HOST: z.string(),
-    RABBIT_CONECCTION_STRING: z.string().url(),
+    RABBIT_CONNECTION_STRING: z.string().url(),
 })
 
 export type env = z.infer<typeof EnvSchema>
-
-
-// eslint-disable-next-line import/no-mutable-exports, ts/no-redeclare
-let env: env
+let theEnv: env
 try {
-    // eslint-disable-next-line node/prefer-global/process
-    env = EnvSchema.parse(process.env)
-}
-catch (e) {
+    theEnv = EnvSchema.parse(process.env)
+} catch (e) {
     const error = e as ZodError
     error.flatten()
     console.error('❌ invalid env:')
     console.error(error.flatten().fieldErrors)
-    // eslint-disable-next-line node/prefer-global/process
     process.exit(1)
 }
+export const env = theEnv
 export const dev = env.NODE_ENV !== 'production'
-export default env
+

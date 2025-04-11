@@ -6,6 +6,10 @@
 			cambios: [
 				[
 					'fix',
+					'El usuario de siniestros ahora puede ver los siniestros y las pólizas correctamente, usando únicamente el rol de siniestros.'
+				],
+				[
+					'fix',
 					'Se corrigió el error en la sincronización de pólizas de flotilla cuando la póliza no está vigente o no existe.'
 				],
 				['add', 'Se implementó el registro de errores en la sincronización de pólizas.'],

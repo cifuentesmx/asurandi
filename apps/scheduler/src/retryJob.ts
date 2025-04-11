@@ -1,5 +1,5 @@
 import { MessageBusMessage } from '@asurandi/types';
-import { sendToMessageBus } from 'sendMessage.js';
+import { sendToMessageBus } from './sendMessage.js';
 
 export async function retryJob(message: MessageBusMessage<MessageBusMessage<unknown>>)
     : Promise<void> {

@@ -1,4 +1,4 @@
-import { initializeAdminApp } from '@/lib/firebase.server.js';
+import { initializeAdminApp } from '../lib/firebase.server.js';
 import { getFirestore } from 'firebase-admin/firestore';
 
 export async function restartConnection(accountId: string): Promise<void> {

@@ -1,7 +1,7 @@
 import { and, eq } from 'drizzle-orm';
 import { pgDb } from '../db.js';
 import { tblRenovaciones, tblPolizas, tblAsegurados, tblVehiculos, tblCobros } from '@asurandi/database';
-import { newPDF } from 'configure-pdf.js';
+import { newPDF } from '../configure-pdf.js';
 
 
 

@@ -1,5 +1,5 @@
 import { PolizasToScrapeFromDaily, UpdateRequestPoliza } from "@asurandi/types"
-import { sendToMessageBus } from "sendMessage.js"
+import { sendToMessageBus } from "../sendMessage.js"
 
 export const qualitasProcessPolizasToScrape = async (polizas: Map<string, PolizasToScrapeFromDaily>,
     saasId: string,

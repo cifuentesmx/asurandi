@@ -1,5 +1,5 @@
 import { getDownloadURL, getStorage } from "firebase-admin/storage";
-import { initializeAdminApp } from "./firebase.server.ts";
+import { initializeAdminApp } from "./firebase.server.js";
 
 export async function uploadFile(originalFullFileName: string, destinationFolderName: string) {
   const fileName = originalFullFileName.split("/").pop();

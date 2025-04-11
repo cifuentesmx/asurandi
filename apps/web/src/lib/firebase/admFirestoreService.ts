@@ -1,12 +1,12 @@
-import { getFirestore } from 'firebase-admin/firestore';
+import { getFirestore, type SetOptions } from 'firebase-admin/firestore';
 import type { PartialWithFieldValue } from './firestoreDAL';
 import { initializeAdminApp } from './app.server';
 
 const app = initializeAdminApp()
 const db = getFirestore(app)
 export const admFirestoreService = {
-    setDocument: async (documentPath: string, data: PartialWithFieldValue<unknown>): Promise<void> => {
-        await db.doc(documentPath).set(data, { merge: true })
+    setDocument: async (documentPath: string, data: PartialWithFieldValue<unknown>, opts: SetOptions = { merge: true }): Promise<void> => {
+        await db.doc(documentPath).set(data, opts)
         return
     },
     deleteDocument: async (documentPath: string): Promise<void> => {

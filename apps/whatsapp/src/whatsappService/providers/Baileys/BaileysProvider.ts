@@ -1,15 +1,15 @@
 // import { HttpsProxyAgent } from 'https-proxy-agent';
 
-import { deleteOldFilesAndDirectories } from "@/lib/deleteOldFiles.ts";
+import { deleteOldFilesAndDirectories } from "../../../lib/deleteOldFiles.js";
 import type { ConnectedApp, SaasAccount, BotStatus } from "@asurandi/types";
-import type { WhatsappMessage } from "@/whatsappService/types.ts";
+import type { WhatsappMessage } from "../../../whatsappService/types.js";
 import { Boom } from "@hapi/boom";
 import { Browsers, DisconnectReason, makeWASocket, useMultiFileAuthState, type AnyMessageContent } from 'baileys';
 import { pino } from "pino";
 import { delay } from "../utils/delay.js";
 import { baileysDownloadMediaFile } from "./baileysDownloadMediaFile.js";
 import { baileysGenerateQR } from "./generateQR.js";
-import { newWhatsappMessage } from "./newWhatsappMessage.ts";
+import { newWhatsappMessage } from "./newWhatsappMessage.js";
 
 export const baileyesLogger = pino({ level: "fatal" });
 // const agent = new HttpsProxyAgent('', {}) ?? undefined

@@ -1,6 +1,6 @@
-import { getExtensionFromMime } from '@/lib/getExtensionFromMime.ts';
-import { uploadFile } from '@/lib/uploadFile.ts';
-import type { MediaUrl, WhatsappMessage } from '@/whatsappService/types.ts';
+import { getExtensionFromMime } from '../../../lib/getExtensionFromMime.js';
+import { uploadFile } from '../../../lib/uploadFile.js';
+import type { MediaUrl, WhatsappMessage } from '../../../whatsappService/types.js';
 import { downloadContentFromMessage, downloadMediaMessage } from 'baileys';
 import { existsSync, mkdirSync } from 'fs';
 

@@ -1,6 +1,6 @@
 import { getOrCreateUser } from "$api/users/getOrCreateUser";
 import { admFirestoreService } from "$lib/firebase/admFirestoreService";
-import type { SaasRole, SaasUser } from "$types/saas/user";
+import type { SaasRole, SaasUser } from "@asurandi/types";
 
 export const addUserUsecase = async (saasId: string, email: string, roles: SaasRole[]): Promise<SaasUser> => {
     try {

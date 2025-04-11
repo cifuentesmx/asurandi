@@ -16,7 +16,7 @@ import {
 } from "@asurandi/database"
 import { getOrigenId } from "./qualitas/getOrigenId.js"
 import { getAllCuentas } from "./qualitas/getAllCuentas.js"
-import { sendToMessageBus } from "sendMessage.js"
+import { sendToMessageBus } from "../sendMessage.js"
 import { UpdateRequestPoliza } from "@asurandi/types"
 
 export const updateAll = async (saasId: string) => {

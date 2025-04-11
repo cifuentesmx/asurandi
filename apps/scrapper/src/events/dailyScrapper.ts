@@ -1,4 +1,4 @@
-import { sendToMessageBus } from "sendMessage.js";
+import { sendToMessageBus } from "../sendMessage.js";
 import { dailyScrapperQualitas } from "./dailyScrapperQualitas.js";
 import { MessageBusMessage, UpdateRequestPolizasInRange } from "@asurandi/types";
 export async function dailyScrapper(request: MessageBusMessage<UpdateRequestPolizasInRange>) {

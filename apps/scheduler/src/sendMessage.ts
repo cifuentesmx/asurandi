@@ -1,13 +1,13 @@
 import amqp from 'amqplib';
 import { MessageBusMessage } from '@asurandi/types';
-import env from 'env.js';
+import { env } from './env.js';
 
 let channel: amqp.Channel
 let connection: amqp.ChannelModel
 export async function sendToMessageBus(message: MessageBusMessage<unknown>): Promise<void> {
     try {
 
-        if (!connection) connection = await amqp.connect(env.RABBIT_CONECCTION_STRING)
+        if (!connection) connection = await amqp.connect(env.RABBIT_CONNECTION_STRING)
         if (!channel) channel = await connection.createChannel()
         // Publish the message
         channel.publish(message.exchange, message.routingKey, Buffer.from(JSON.stringify(message)), {

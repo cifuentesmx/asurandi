@@ -5,7 +5,7 @@ service cloud.firestore {
       match /services {
         // TODO hacer que pertenezca a la cuenta
         match /whatsapp {
-          allow read: if true;
+          allow get: if hasAnyRole(['admin']);
         }
       }
       match /config/{configId} {
@@ -14,11 +14,16 @@ service cloud.firestore {
       }
       match /profiles/{profileId} {
         allow read: if true;
-        allow update, create: if true;
+        // allow update, create: if true;
       }
       match /{document=**} {
         allow read, write: if false;
       }
+      function hasAnyRole(roles) {
+        return request.auth != null 
+          && get(/databases/$(database)/documents/accounts/$(saasId)/users/$(request.auth.uid)).data.roles.hasAny(roles)
+      }
     }
   }
+
 }

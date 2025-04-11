@@ -1,11 +1,11 @@
 import amqp from 'amqplib';
-import { retryJob } from 'retryJob.js';
+import { retryJob } from './retryJob.js';
 import { MessageBusMessage } from '@asurandi/types';
-import env from 'env.js';
+import { env } from './env.js';
 
 export async function startConsumer(): Promise<void> {
     try {
-        const connection = await amqp.connect(env.RABBIT_CONECCTION_STRING, { timeout: 10_000 });
+        const connection = await amqp.connect(env.RABBIT_CONNECTION_STRING, { timeout: 10_000 });
         const channel = await connection.createChannel();
 
         if (!connection || !channel) {

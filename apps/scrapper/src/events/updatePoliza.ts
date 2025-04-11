@@ -1,7 +1,7 @@
 import { handleScrapped } from '../database/handleScrapped.js';
 import { UpdateRequestPoliza, MessageBusMessage } from "@asurandi/types";
 import { QualitasPortalSession } from "../qualitas/QualitasPortalSession.js";
-import { sendToMessageBus } from 'sendMessage.js';
+import { sendToMessageBus } from '../sendMessage.js';
 import { getPolizaMaestra } from '../database/getPolizaMaestra.js';
 export async function updatePoliza(request: MessageBusMessage<UpdateRequestPoliza>): Promise<void> {
     console.info(`Solicitud recibida para la poliza: ${request.payload.numeroPoliza}, intentos previos: ${request.intents}  `)

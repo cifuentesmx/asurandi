@@ -16,7 +16,7 @@
     "@asurandi/types": "workspace:*",
     "@hapi/boom": "^10.0.1",
     "@hono/node-server": "^1.14.0",
-    "@hono/zod-openapi": "^0.19.2",
+    "@hono/zod-openapi": "^0.19.4",
     "@scalar/hono-api-reference": "^0.5.184",
     "amqplib": "^0.10.7",
     "baileys": "^6.7.16",

@@ -1,5 +1,5 @@
 import amqp from 'amqplib';
-import env from '@/env.js'
+import env from '../env.js'
 import type { MessageBusMessage } from '@asurandi/types';
 
 export async function assertRabbitMQ() {

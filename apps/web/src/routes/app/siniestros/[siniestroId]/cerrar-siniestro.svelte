@@ -6,12 +6,12 @@
 	import { getToastState } from '$lib/toast-state.svelte';
 	import { _upsert } from '$lib/helpers/_upsert';
 	import FileUploader from '$lib/components/file-uploader.svelte';
-	import type { SiniestroActividad } from '../../../../database/schema/siniestros';
 	import Label from '$lib/components/ui/label/label.svelte';
 	import Textarea from '$lib/components/ui/textarea/textarea.svelte';
 	import * as Alert from '$lib/components/ui/alert';
 	import { getSiniestroCtx } from './siniestroCtx.svelte';
 	import { tick } from 'svelte';
+	import type { SiniestroActividad } from '@asurandi/types';
 	const toast = getToastState();
 	const siniestro = getSiniestroCtx();
 

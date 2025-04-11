@@ -1,4 +1,4 @@
-import { initializeAdminApp } from '@/lib/firebase.server.js'
+import { initializeAdminApp } from '../lib/firebase.server.js'
 import type { ApiAuthUser } from '@asurandi/types'
 import { getAuth } from 'firebase-admin/auth'
 import type { Context, MiddlewareHandler } from 'hono'

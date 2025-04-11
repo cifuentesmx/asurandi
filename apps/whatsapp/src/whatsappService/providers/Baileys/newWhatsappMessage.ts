@@ -1,7 +1,7 @@
 import type { SaasAccount } from "@asurandi/types";
-import type { WhatsappMessage } from "@/whatsappService/types.ts";
+import type { WhatsappMessage } from "../../../whatsappService/types.js";
 import type { MessageUpsertType, proto } from "baileys";
-import { BaileyesGetMessageType } from "./getMessageType.ts";
+import { BaileyesGetMessageType } from "./getMessageType.js";
 
 export const newWhatsappMessage = (m: {
   messages: proto.IWebMessageInfo[];

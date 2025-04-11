@@ -1,8 +1,7 @@
-import "dotenv/config";
 import { cronJobs } from "./cron-jobs/cronJobs.js";
 import cron from 'node-cron'
 import { startConsumer } from "./messageProcessor.js";
-import { reporteConductoCobranzaRenovaciones } from "reports/conducto-cobranza-renovaciones.js";
+import { reporteConductoCobranzaRenovaciones } from "./reports/conducto-cobranza-renovaciones.js";
 (async () => {
   try {
     const crontab = process.env.DAILY_STATS_CRONTAB_STRING ?? '0 */4 * * *'

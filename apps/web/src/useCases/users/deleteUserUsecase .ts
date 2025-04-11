@@ -1,7 +1,6 @@
 import { belongsToAccount } from "$api/users/belongsToAccount";
 import { getUser } from "$api/users/getUser";
 import { admFirestoreService } from "$lib/firebase/admFirestoreService";
-import type { SaasRole, SaasUser } from "$types/saas/user";
 
 export const deleteUserUsecase = async (saasId: string, id: string): Promise<boolean> => {
     try {

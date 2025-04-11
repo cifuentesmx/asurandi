@@ -1,4 +1,4 @@
-import env, { dev } from '@/env.js'
+import env, { dev } from '../env.js'
 import { getApps, getApp, initializeApp, cert } from 'firebase-admin/app'
 
 const projectId = env.FIREBASE_PROJECT_ID

@@ -1,9 +1,9 @@
 import { hasRole } from '$lib/auth/hasRole.js'
 import { addUserUsecase } from '$useCases/users/addUserUsecase.js';
 import { redirect } from '@sveltejs/kit'
-import type { SaasRole } from '$types/saas/user'
 import { deleteUserUsecase } from '$useCases/users/deleteUserUsecase .js';
 import { _validEmail } from '$lib/helpers/_validEmail.js';
+import type { SaasRole } from '@asurandi/types';
 
 export const actions = {
     addUser: async ({ locals, request }) => {
