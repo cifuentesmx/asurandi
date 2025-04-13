@@ -1,0 +1,1 @@
+ALTER TABLE "conductos" ADD COLUMN "send_tareas" varchar(10);

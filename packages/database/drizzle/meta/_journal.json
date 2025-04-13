@@ -169,6 +169,13 @@
       "when": 1742403666084,
       "tag": "0023_low_roland_deschain",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1744543210193,
+      "tag": "0024_bizarre_white_queen",
+      "breakpoints": true
     }
   ]
 }

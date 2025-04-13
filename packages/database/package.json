@@ -13,6 +13,7 @@
     "prepublishOnly": "pnpm build",
     "generate": "pnpm drizzle-kit generate",
     "migrate": "pnpm drizzle-kit migrate",
+    "migrate:prod": "NODE_ENV=production dotenv -e .env.prod pnpm drizzle-kit migrate",
     "studio": "pnpm drizzle-kit studio"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
   },
   "devDependencies": {
     "@asurandi/types": "workspace:*",
+    "dotenv-cli": "^8.0.0",
     "drizzle-kit": "^0.30.6",
     "typescript": "^5.8.3"
   },
