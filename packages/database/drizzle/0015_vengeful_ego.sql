@@ -1,0 +1,1 @@
+ALTER TABLE "polizas" ADD COLUMN "clave_agente" varchar;

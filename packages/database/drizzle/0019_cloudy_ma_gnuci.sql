@@ -1,0 +1,1 @@
+ALTER TABLE "siniestros" ADD COLUMN "en_seguimiento" boolean;

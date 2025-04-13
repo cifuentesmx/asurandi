@@ -1,6 +1,6 @@
 import { pgTable, varchar, text, date, boolean, bigserial, integer, bigint, primaryKey, timestamp } from 'drizzle-orm/pg-core';
 import { tblAgentes } from './agentes.js';
-import { tblConductos } from './conductos.js';
+import { tblConductos } from './agentes_conductos.js';
 import { relations } from 'drizzle-orm';
 import { tblAsegurados } from './asegurados.js';
 

@@ -1,0 +1,2 @@
+ALTER TABLE "poliza_movimientos" DROP CONSTRAINT "unique_poliza_movimiento_idx";--> statement-breakpoint
+CREATE INDEX IF NOT EXISTS "unique_poliza_movimiento_idx" ON "poliza_movimientos" USING btree ("saas_id","numero_poliza","fecha_movimiento","tipo_movimiento","poliza_id");

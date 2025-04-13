@@ -1,0 +1,1 @@
+ALTER TABLE "polizas" ADD COLUMN "last_sync" date;

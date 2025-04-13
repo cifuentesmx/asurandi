@@ -1,0 +1,2252 @@
+{
+  "id": "34516c25-2b28-4756-a956-3fbd052212d7",
+  "prevId": "1a210a2c-98e9-4be5-b75e-e4517a65bc23",
+  "version": "7",
+  "dialect": "postgresql",
+  "tables": {
+    "public.agentes_to_conductos": {
+      "name": "agentes_to_conductos",
+      "schema": "",
+      "columns": {
+        "agente_id": {
+          "name": "agente_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "conducto_id": {
+          "name": "conducto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "agentes_to_conductos_agente_id_agentes_id_fk": {
+          "name": "agentes_to_conductos_agente_id_agentes_id_fk",
+          "tableFrom": "agentes_to_conductos",
+          "tableTo": "agentes",
+          "columnsFrom": [
+            "agente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "agentes_to_conductos_conducto_id_agentes_id_fk": {
+          "name": "agentes_to_conductos_conducto_id_agentes_id_fk",
+          "tableFrom": "agentes_to_conductos",
+          "tableTo": "agentes",
+          "columnsFrom": [
+            "conducto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "agentes_to_conductos_agente_id_conducto_id_pk": {
+          "name": "agentes_to_conductos_agente_id_conducto_id_pk",
+          "columns": [
+            "agente_id",
+            "conducto_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.asegurados_to_contactos": {
+      "name": "asegurados_to_contactos",
+      "schema": "",
+      "columns": {
+        "asegurado_id": {
+          "name": "asegurado_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "contacto_id": {
+          "name": "contacto_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "asegurados_to_contactos_asegurado_id_asegurados_id_fk": {
+          "name": "asegurados_to_contactos_asegurado_id_asegurados_id_fk",
+          "tableFrom": "asegurados_to_contactos",
+          "tableTo": "asegurados",
+          "columnsFrom": [
+            "asegurado_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "asegurados_to_contactos_contacto_id_contactos_id_fk": {
+          "name": "asegurados_to_contactos_contacto_id_contactos_id_fk",
+          "tableFrom": "asegurados_to_contactos",
+          "tableTo": "contactos",
+          "columnsFrom": [
+            "contacto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "asegurados_to_contactos_asegurado_id_contacto_id_pk": {
+          "name": "asegurados_to_contactos_asegurado_id_contacto_id_pk",
+          "columns": [
+            "asegurado_id",
+            "contacto_id"
+          ]
+        }
+      },
+      "uniqueConstraints": {}
+    },
+    "public.agentes": {
+      "name": "agentes",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nexus_id": {
+          "name": "nexus_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "alias": {
+          "name": "alias",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "conducto_id": {
+          "name": "conducto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qualitas_id": {
+          "name": "qualitas_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "anaseguros_id": {
+          "name": "anaseguros_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "account_nombre_idx": {
+          "name": "account_nombre_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "nombre",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "agentes_conducto_id_conductos_id_fk": {
+          "name": "agentes_conducto_id_conductos_id_fk",
+          "tableFrom": "agentes",
+          "tableTo": "conductos",
+          "columnsFrom": [
+            "conducto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.asegurados": {
+      "name": "asegurados",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "rfc": {
+          "name": "rfc",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nexus_id": {
+          "name": "nexus_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "qualitas_id": {
+          "name": "qualitas_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ana_id": {
+          "name": "ana_id",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "celular": {
+          "name": "celular",
+          "type": "varchar(45)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "direccion": {
+          "name": "direccion",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "asegurados_name_idx": {
+          "name": "asegurados_name_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "account_rfc_idx": {
+          "name": "account_rfc_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "rfc",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.companias": {
+      "name": "companias",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(15)",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "compania": {
+          "name": "compania",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.conductos": {
+      "name": "conductos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nexus_id": {
+          "name": "nexus_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "alias": {
+          "name": "alias",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "phone": {
+          "name": "phone",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "conductos_name_idx": {
+          "name": "conductos_name_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "name",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "conductos_nexus_idx": {
+          "name": "conductos_nexus_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "nexus_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.contactos": {
+      "name": "contactos",
+      "schema": "",
+      "columns": {
+        "13": {
+          "name": "13",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "agente_id": {
+          "name": "agente_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "conducto_id": {
+          "name": "conducto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "telefono": {
+          "name": "telefono",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "direccion": {
+          "name": "direccion",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ciudad": {
+          "name": "ciudad",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "pais": {
+          "name": "pais",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_nacimiento": {
+          "name": "fecha_nacimiento",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "es_cliente": {
+          "name": "es_cliente",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "fecha_creacion": {
+          "name": "fecha_creacion",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "fecha_conversion": {
+          "name": "fecha_conversion",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_actualizacion": {
+          "name": "fecha_actualizacion",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "contactos_agente_id_agentes_id_fk": {
+          "name": "contactos_agente_id_agentes_id_fk",
+          "tableFrom": "contactos",
+          "tableTo": "agentes",
+          "columnsFrom": [
+            "agente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "contactos_conducto_id_conductos_id_fk": {
+          "name": "contactos_conducto_id_conductos_id_fk",
+          "tableFrom": "contactos",
+          "tableTo": "conductos",
+          "columnsFrom": [
+            "conducto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.endosos": {
+      "name": "endosos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_id": {
+          "name": "poliza_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "endoso": {
+          "name": "endoso",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_vencimiento": {
+          "name": "fecha_vencimiento",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_recibo": {
+          "name": "numero_recibo",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "remesa": {
+          "name": "remesa",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_pago": {
+          "name": "fecha_pago",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_registro_pago": {
+          "name": "fecha_registro_pago",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "importe": {
+          "name": "importe",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tipoendoso_id": {
+          "name": "tipoendoso_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "endosos_tipoendoso_id_tipo_endoso_id_fk": {
+          "name": "endosos_tipoendoso_id_tipo_endoso_id_fk",
+          "tableFrom": "endosos",
+          "tableTo": "tipo_endoso",
+          "columnsFrom": [
+            "tipoendoso_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.modo_pagos": {
+      "name": "modo_pagos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "modo_pago": {
+          "name": "modo_pago",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.poliza_movimientos": {
+      "name": "poliza_movimientos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_id": {
+          "name": "poliza_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "agente_id": {
+          "name": "agente_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_poliza": {
+          "name": "numero_poliza",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "conducto_id": {
+          "name": "conducto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "asegurado_id": {
+          "name": "asegurado_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vehiculo_id": {
+          "name": "vehiculo_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tipoMovimiento": {
+          "name": "tipoMovimiento",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "motivo": {
+          "name": "motivo",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_registro": {
+          "name": "fecha_registro",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "fecha_movimiento": {
+          "name": "fecha_movimiento",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "poliza_movimientos_poliza_id_polizas_id_fk": {
+          "name": "poliza_movimientos_poliza_id_polizas_id_fk",
+          "tableFrom": "poliza_movimientos",
+          "tableTo": "polizas",
+          "columnsFrom": [
+            "poliza_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "poliza_movimientos_agente_id_agentes_id_fk": {
+          "name": "poliza_movimientos_agente_id_agentes_id_fk",
+          "tableFrom": "poliza_movimientos",
+          "tableTo": "agentes",
+          "columnsFrom": [
+            "agente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "poliza_movimientos_conducto_id_conductos_id_fk": {
+          "name": "poliza_movimientos_conducto_id_conductos_id_fk",
+          "tableFrom": "poliza_movimientos",
+          "tableTo": "conductos",
+          "columnsFrom": [
+            "conducto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "poliza_movimientos_asegurado_id_asegurados_id_fk": {
+          "name": "poliza_movimientos_asegurado_id_asegurados_id_fk",
+          "tableFrom": "poliza_movimientos",
+          "tableTo": "asegurados",
+          "columnsFrom": [
+            "asegurado_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "poliza_movimientos_vehiculo_id_vehiculos_id_fk": {
+          "name": "poliza_movimientos_vehiculo_id_vehiculos_id_fk",
+          "tableFrom": "poliza_movimientos",
+          "tableTo": "vehiculos",
+          "columnsFrom": [
+            "vehiculo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "poliza_movimientos_company_id_companias_id_fk": {
+          "name": "poliza_movimientos_company_id_companias_id_fk",
+          "tableFrom": "poliza_movimientos",
+          "tableTo": "companias",
+          "columnsFrom": [
+            "company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "unique_poliza_movimiento_idx": {
+          "name": "unique_poliza_movimiento_idx",
+          "nullsNotDistinct": false,
+          "columns": [
+            "saas_id",
+            "numero_poliza",
+            "fecha_movimiento",
+            "tipoMovimiento",
+            "poliza_id"
+          ]
+        }
+      }
+    },
+    "public.polizas": {
+      "name": "polizas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "es_maestra": {
+          "name": "es_maestra",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "ramo_id": {
+          "name": "ramo_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "subramo_id": {
+          "name": "subramo_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "agente_id": {
+          "name": "agente_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "conducto_id": {
+          "name": "conducto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vehiculo_id": {
+          "name": "vehiculo_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "asegurado_id": {
+          "name": "asegurado_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "uso_id": {
+          "name": "uso_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "servicio_id": {
+          "name": "servicio_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "placas": {
+          "name": "placas",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_serie": {
+          "name": "numero_serie",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_economico": {
+          "name": "numero_economico",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_poliza": {
+          "name": "numero_poliza",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_anterior": {
+          "name": "poliza_anterior",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_renovada": {
+          "name": "poliza_renovada",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cobertura": {
+          "name": "cobertura",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total_incisos": {
+          "name": "total_incisos",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 1
+        },
+        "incisos_vigentes": {
+          "name": "incisos_vigentes",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 1
+        },
+        "incisos_cancelados": {
+          "name": "incisos_cancelados",
+          "type": "smallint",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 0
+        },
+        "inciso": {
+          "name": "inciso",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "endoso": {
+          "name": "endoso",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "oficina_emision": {
+          "name": "oficina_emision",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "descuento_porcentual": {
+          "name": "descuento_porcentual",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'0'"
+        },
+        "fecha_emision": {
+          "name": "fecha_emision",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vigencia_inicio": {
+          "name": "vigencia_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vigencia_fin": {
+          "name": "vigencia_fin",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tarifa": {
+          "name": "tarifa",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "modopago_id": {
+          "name": "modopago_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "moneda": {
+          "name": "moneda",
+          "type": "varchar(3)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'MXN'"
+        },
+        "descripcion_pago": {
+          "name": "descripcion_pago",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "periodo_gracia": {
+          "name": "periodo_gracia",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prima_neta": {
+          "name": "prima_neta",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recargo_financiero_porcentual": {
+          "name": "recargo_financiero_porcentual",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "financiamiento": {
+          "name": "financiamiento",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "costo_expedicion": {
+          "name": "costo_expedicion",
+          "type": "numeric(9, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "subtotal": {
+          "name": "subtotal",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "iva": {
+          "name": "iva",
+          "type": "numeric(9, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "total": {
+          "name": "total",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "coberturas": {
+          "name": "coberturas",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'[]'::jsonb"
+        },
+        "poliza_estatus": {
+          "name": "poliza_estatus",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'Emitida'"
+        },
+        "prima_neta_comision": {
+          "name": "prima_neta_comision",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "porcentaje_comision": {
+          "name": "porcentaje_comision",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "numero_poliza_idx": {
+          "name": "numero_poliza_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "numero_poliza",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "inciso",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "polizas_ramo_id_ramos_id_fk": {
+          "name": "polizas_ramo_id_ramos_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "ramos",
+          "columnsFrom": [
+            "ramo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_subramo_id_subramos_id_fk": {
+          "name": "polizas_subramo_id_subramos_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "subramos",
+          "columnsFrom": [
+            "subramo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_company_id_companias_id_fk": {
+          "name": "polizas_company_id_companias_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "companias",
+          "columnsFrom": [
+            "company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_agente_id_agentes_id_fk": {
+          "name": "polizas_agente_id_agentes_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "agentes",
+          "columnsFrom": [
+            "agente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_conducto_id_conductos_id_fk": {
+          "name": "polizas_conducto_id_conductos_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "conductos",
+          "columnsFrom": [
+            "conducto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_vehiculo_id_vehiculos_id_fk": {
+          "name": "polizas_vehiculo_id_vehiculos_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "vehiculos",
+          "columnsFrom": [
+            "vehiculo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_asegurado_id_asegurados_id_fk": {
+          "name": "polizas_asegurado_id_asegurados_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "asegurados",
+          "columnsFrom": [
+            "asegurado_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_uso_id_usos_id_fk": {
+          "name": "polizas_uso_id_usos_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "usos",
+          "columnsFrom": [
+            "uso_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_servicio_id_servicios_id_fk": {
+          "name": "polizas_servicio_id_servicios_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "servicios",
+          "columnsFrom": [
+            "servicio_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "polizas_modopago_id_modo_pagos_id_fk": {
+          "name": "polizas_modopago_id_modo_pagos_id_fk",
+          "tableFrom": "polizas",
+          "tableTo": "modo_pagos",
+          "columnsFrom": [
+            "modopago_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.ramos": {
+      "name": "ramos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "ramo": {
+          "name": "ramo",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.recibos": {
+      "name": "recibos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_id": {
+          "name": "poliza_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_recibo": {
+          "name": "numero_recibo",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "serie": {
+          "name": "serie",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "folio": {
+          "name": "folio",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "serieEmision": {
+          "name": "serieEmision",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "importe": {
+          "name": "importe",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "prima_neta_comision": {
+          "name": "prima_neta_comision",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vigencia_inicio": {
+          "name": "vigencia_inicio",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vigencia_fin": {
+          "name": "vigencia_fin",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "estado": {
+          "name": "estado",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'DESCONOCIDO'"
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "recibo_status_id": {
+          "name": "recibo_status_id",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "estado",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "vigencia_inicio",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "vigencia_fin",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "recibos_poliza_id_polizas_id_fk": {
+          "name": "recibos_poliza_id_polizas_id_fk",
+          "tableFrom": "recibos",
+          "tableTo": "polizas",
+          "columnsFrom": [
+            "poliza_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.remesas": {
+      "name": "remesas",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_id": {
+          "name": "poliza_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "recibo_id": {
+          "name": "recibo_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_recibo": {
+          "name": "numero_recibo",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_poliza": {
+          "name": "numero_poliza",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "numero_endoso": {
+          "name": "numero_endoso",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "serie": {
+          "name": "serie",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "remesa": {
+          "name": "remesa",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "clave": {
+          "name": "clave",
+          "type": "varchar(5)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "concepto": {
+          "name": "concepto",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_pago": {
+          "name": "fecha_pago",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "importe": {
+          "name": "importe",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "comision": {
+          "name": "comision",
+          "type": "numeric(9, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "cargo": {
+          "name": "cargo",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "abono": {
+          "name": "abono",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "contabilizado": {
+          "name": "contabilizado",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "porcentaje_comision": {
+          "name": "porcentaje_comision",
+          "type": "numeric(5, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "comisionConducto": {
+          "name": "comisionConducto",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "remesa_search_idx": {
+          "name": "remesa_search_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "numero_recibo",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "numero_poliza",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "remesa",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "clave",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.servicios": {
+      "name": "servicios",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "servicio": {
+          "name": "servicio",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.siniestros_causa": {
+      "name": "siniestros_causa",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "causa": {
+          "name": "causa",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.siniestros": {
+      "name": "siniestros",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_id": {
+          "name": "poliza_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "agente_id": {
+          "name": "agente_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "conducto_id": {
+          "name": "conducto_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "asegurado_id": {
+          "name": "asegurado_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "vehiculo_id": {
+          "name": "vehiculo_id",
+          "type": "bigint",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "causa_id": {
+          "name": "causa_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "company_id": {
+          "name": "company_id",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "poliza_primaneta": {
+          "name": "poliza_primaneta",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'0'"
+        },
+        "numero_siniestro": {
+          "name": "numero_siniestro",
+          "type": "varchar(20)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "monto_estimado": {
+          "name": "monto_estimado",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "monto_actualizado": {
+          "name": "monto_actualizado",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "monto_final": {
+          "name": "monto_final",
+          "type": "numeric(12, 2)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_siniestro": {
+          "name": "fecha_siniestro",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hora_siniestro": {
+          "name": "hora_siniestro",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_reporte": {
+          "name": "fecha_reporte",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "hora_reporte": {
+          "name": "hora_reporte",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "fecha_cierre": {
+          "name": "fecha_cierre",
+          "type": "date",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "codigo_postal": {
+          "name": "codigo_postal",
+          "type": "varchar(8)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "detalle": {
+          "name": "detalle",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'{}'::jsonb"
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "updated": {
+          "name": "updated",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        },
+        "actividades": {
+          "name": "actividades",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'[]'::jsonb"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "siniestros_poliza_id_polizas_id_fk": {
+          "name": "siniestros_poliza_id_polizas_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "polizas",
+          "columnsFrom": [
+            "poliza_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "siniestros_agente_id_agentes_id_fk": {
+          "name": "siniestros_agente_id_agentes_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "agentes",
+          "columnsFrom": [
+            "agente_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "siniestros_conducto_id_conductos_id_fk": {
+          "name": "siniestros_conducto_id_conductos_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "conductos",
+          "columnsFrom": [
+            "conducto_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "siniestros_asegurado_id_asegurados_id_fk": {
+          "name": "siniestros_asegurado_id_asegurados_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "asegurados",
+          "columnsFrom": [
+            "asegurado_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "siniestros_vehiculo_id_vehiculos_id_fk": {
+          "name": "siniestros_vehiculo_id_vehiculos_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "vehiculos",
+          "columnsFrom": [
+            "vehiculo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "siniestros_causa_id_siniestros_causa_id_fk": {
+          "name": "siniestros_causa_id_siniestros_causa_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "siniestros_causa",
+          "columnsFrom": [
+            "causa_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        },
+        "siniestros_company_id_companias_id_fk": {
+          "name": "siniestros_company_id_companias_id_fk",
+          "tableFrom": "siniestros",
+          "tableTo": "companias",
+          "columnsFrom": [
+            "company_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "siniestros_numero_siniestro_unique": {
+          "name": "siniestros_numero_siniestro_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "numero_siniestro"
+          ]
+        }
+      }
+    },
+    "public.subramos": {
+      "name": "subramos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "subramo": {
+          "name": "subramo",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.tipo_endoso": {
+      "name": "tipo_endoso",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tipo_endoso": {
+          "name": "tipo_endoso",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "tipo_endoso_tipo_endoso_unique": {
+          "name": "tipo_endoso_tipo_endoso_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "tipo_endoso"
+          ]
+        }
+      }
+    },
+    "public.tipo_vehiculos": {
+      "name": "tipo_vehiculos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "tipovehiculo": {
+          "name": "tipovehiculo",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.usos": {
+      "name": "usos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "uso": {
+          "name": "uso",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "public.vehiculos": {
+      "name": "vehiculos",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "bigserial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "saas_id": {
+          "name": "saas_id",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nombre": {
+          "name": "nombre",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "descripcion": {
+          "name": "descripcion",
+          "type": "varchar(200)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "serie": {
+          "name": "serie",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "motor": {
+          "name": "motor",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "placas": {
+          "name": "placas",
+          "type": "varchar(25)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tipovehicuo_id": {
+          "name": "tipovehicuo_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "carroceria": {
+          "name": "carroceria",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "color": {
+          "name": "color",
+          "type": "varchar(40)",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "ocupantes": {
+          "name": "ocupantes",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created": {
+          "name": "created",
+          "type": "timestamp",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "now()"
+        }
+      },
+      "indexes": {
+        "vehiculo_serie_account_idx": {
+          "name": "vehiculo_serie_account_idx",
+          "columns": [
+            {
+              "expression": "saas_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "serie",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "vehiculos_tipovehicuo_id_tipo_vehiculos_id_fk": {
+          "name": "vehiculos_tipovehicuo_id_tipo_vehiculos_id_fk",
+          "tableFrom": "vehiculos",
+          "tableTo": "tipo_vehiculos",
+          "columnsFrom": [
+            "tipovehicuo_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "sequences": {},
+  "_meta": {
+    "columns": {},
+    "schemas": {},
+    "tables": {}
+  }
+}

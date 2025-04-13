@@ -1,0 +1,1 @@
+ALTER TABLE "poliza_movimientos" DROP COLUMN IF EXISTS "fecha_registro";
