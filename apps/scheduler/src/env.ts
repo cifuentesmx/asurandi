@@ -11,6 +11,7 @@ const EnvSchema = z.object({
     LOG_LEVEL: z.enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace']),
     DB_URL: z.string().url(),
     FIREBASE_PROJECT_ID: z.string(),
+    FIREBASE_STORAGE_BUCKET: z.string(),
     FIREBASE_ADMIN_CLIENT_EMAIL: z.string(),
     FIREBASE_ADMIN_PRIVATE_KEY: z.string(),
     FIREBASE_CONNECT_EMULATORS: z.coerce.boolean(),

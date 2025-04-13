@@ -1,11 +1,16 @@
 import { and, eq } from 'drizzle-orm';
 import { pgDb } from '../db.js';
-import { tblRenovaciones, tblPolizas, tblAsegurados, tblVehiculos, tblCobros } from '@asurandi/database';
+import { tblRenovaciones, tblPolizas, tblAsegurados, tblVehiculos, tblCobros, tblConductos } from '@asurandi/database';
 import { newPDF } from '../configure-pdf.js';
+import { storageSaveFile } from '../firebase/storageSaveFile.js';
+import { PublicFileUrl } from '@asurandi/types';
 
 
-
-export const reporteConductoCobranzaRenovaciones = async (conductoId: number) => {
+export const reporteConductoCobranzaRenovaciones = async (conductoId: number): Promise<PublicFileUrl[]> => {
+    const [conducto] = await pgDb.select().from(tblConductos).where(eq(tblConductos.id, conductoId))
+    if (!conducto) {
+        throw new Error(`Conducto ${conductoId} no encontrado`)
+    }
     const porRenovar = await pgDb.select({
         id: tblPolizas.id,
         numeroPoliza: tblPolizas.numeroPoliza,
@@ -87,7 +92,7 @@ export const reporteConductoCobranzaRenovaciones = async (conductoId: number) =>
             month: 'long',
             year: 'numeric'
         })}`, 15, 38)
-        .text(`Agente: ${conductoId}`, 15, 32)
+        .text(`Agente: ${conducto.nombre}`, 15, 32)
 
     doc.autoTable({
         didParseCell: (data) => {
@@ -153,8 +158,13 @@ export const reporteConductoCobranzaRenovaciones = async (conductoId: number) =>
         startY: 45
     })
 
+    const tempFilePath = `${process.cwd()}/storage/reporte-conducto-cobranza-renovaciones.pdf`
+    doc.save(tempFilePath)
 
-    doc.save('reporte-conducto-cobranza-renovaciones.pdf')
-
-    return doc;
-}
+    const file = await storageSaveFile({
+        files: [tempFilePath],
+        storagePath: `p/reportes/${conducto.uid}/pendientes`
+    })
+    console.log(file)
+    return file
+} 

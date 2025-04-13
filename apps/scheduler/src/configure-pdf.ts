@@ -1,8 +1,6 @@
 
 import { jsPDF } from 'jspdf';
 import { applyPlugin, UserOptions } from 'jspdf-autotable'
-
-
 declare module 'jspdf' {
     interface jsPDF {
         autoTable: (options: UserOptions) => jsPDF;
@@ -10,10 +8,7 @@ declare module 'jspdf' {
     }
 }
 
-
 applyPlugin(jsPDF)
-
-
 export class newPDF extends jsPDF {
     constructor() {
         super()

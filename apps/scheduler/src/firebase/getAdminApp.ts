@@ -25,10 +25,10 @@ export const getAdminApp = () => {
   } else {
     if (dev && env.FIREBASE_CONNECT_EMULATORS) {
       console.info("Conectando emuladores para el Admin SDK...");
-      env["FIRESTORE_EMULATOR_HOST"] = "127.0.0.1:8080";
-      env["FIREBASE_AUTH_EMULATOR_HOST"] = "127.0.0.1:9099";
+      env["FIRESTORE_EMULATOR_HOST"] = "192.168.1.253:8080";
+      env["FIREBASE_AUTH_EMULATOR_HOST"] = "192.168.1.253:9099";
       // TODO not working on emulator HOST
-      // env['FIREBASE_STORAGE_EMULATOR_HOST'] = '127.0.0.1:9199';
+      env['FIREBASE_STORAGE_EMULATOR_HOST'] = '192.168.1.253:9199';
     }
     return initializeApp(adminConfig);
   }
