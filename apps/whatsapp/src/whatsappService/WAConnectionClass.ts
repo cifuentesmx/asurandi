@@ -3,6 +3,7 @@ import type { MediaUrl, WAProvider, WhatsappMessage } from "./types.ts";
 import { AppError } from "../lib/AppError.js";
 import { BaileysProvider } from "./providers/Baileys/BaileysProvider.js";
 import { statusUpdate } from "./statusUpdate.js";
+import { getExtensionFromMime } from "src/lib/getExtensionFromMime.js";
 
 const providers = [BaileysProvider, BaileysProvider];
 export class WAConnection {
@@ -107,9 +108,20 @@ export class WAConnection {
   async outgoingMessage(message: OutgoingWhatsappMessageRequest): Promise<void> {
     const cel = message.phoneNumber.replace(/\s|\D/g, '');
     const jid = cel?.length === 10 ? `521${cel}@s.whatsapp.net` : `${cel}@s.whatsapp.net`;
-
     if (message.text)
-      this.provider?.sendMessage({ text: message.text }, jid)
+      await this.provider?.sendMessage({ text: message.text }, jid)
+
+    if (message.urls) {
+      for (const file of message.urls) {
+        if (file.url) {
+          await this.provider?.sendMessage({
+            document: { url: file.url },
+            mimetype: file.mimeType || 'application/octet-stream',
+            fileName: file.fileName
+          }, jid);
+        }
+      }
+    }
 
   }
   async sendMessage(

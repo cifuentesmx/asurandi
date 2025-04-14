@@ -171,19 +171,20 @@ export class BaileysProvider {
     try {
       if (!this.socket) return null;
       const inWhatsapp = await this.onWhatsApp(jid)
-      console.log({ inWhatsapp })
       if (!inWhatsapp) return null
 
       await this.socket.presenceSubscribe(jid);
-      await delay(300);
+      await delay(500);
       if (Object.keys(msg).includes("text")) {
         await this.socket.sendPresenceUpdate("composing", jid);
-        await delay(500);
+        await delay(2500);
       }
+
       await this.socket.sendPresenceUpdate("paused", jid);
+      await delay(500);
 
       await this.socket.sendMessage(jid, msg);
-
+      await delay(1500);
       return true;
     } catch (err) {
       console.error(err);

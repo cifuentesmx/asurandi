@@ -39,12 +39,13 @@ export const storageSaveFile = async ({
 
         try {
             await fileRef.save(file);
+            const [metadata] = await fileRef.getMetadata();
             const downloadUrl = await getDownloadURL(fileRef);
             results.push({
                 path: storagePath,
                 fileName: safeFileName,
                 url: downloadUrl,
-                // mimeType: file.type || 'application/octet-stream'
+                mimeType: metadata.contentType || 'application/octet-stream',
             }); // Usar el nombre original
         } catch (error) {
             console.error(`Error uploading file ${safeFileName}:`, error);

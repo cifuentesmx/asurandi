@@ -4,13 +4,9 @@ import { tblRenovaciones, tblPolizas, tblAsegurados, tblVehiculos, tblCobros, tb
 import { newPDF } from '../configure-pdf.js';
 import { storageSaveFile } from '../firebase/storageSaveFile.js';
 import { PublicFileUrl } from '@asurandi/types';
+import { InferSelectModel } from 'drizzle-orm';
 
-
-export const reporteConductoCobranzaRenovaciones = async (conductoId: number): Promise<PublicFileUrl[]> => {
-    const [conducto] = await pgDb.select().from(tblConductos).where(eq(tblConductos.id, conductoId))
-    if (!conducto) {
-        throw new Error(`Conducto ${conductoId} no encontrado`)
-    }
+export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<typeof tblConductos>): Promise<PublicFileUrl[]> => {
     const porRenovar = await pgDb.select({
         id: tblPolizas.id,
         numeroPoliza: tblPolizas.numeroPoliza,
@@ -28,7 +24,7 @@ export const reporteConductoCobranzaRenovaciones = async (conductoId: number): P
         .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
         .where(
             and(
-                eq(tblPolizas.conductoId, conductoId),
+                eq(tblPolizas.conductoId, conducto.id),
                 eq(tblRenovaciones.estado, 'PENDIENTE')
             )
         )
@@ -52,7 +48,7 @@ export const reporteConductoCobranzaRenovaciones = async (conductoId: number): P
         .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
         .where(
             and(
-                eq(tblPolizas.conductoId, conductoId),
+                eq(tblPolizas.conductoId, conducto.id),
                 eq(tblCobros.estado, 'PENDIENTE')
             )
         )
@@ -165,6 +161,5 @@ export const reporteConductoCobranzaRenovaciones = async (conductoId: number): P
         files: [tempFilePath],
         storagePath: `p/reportes/${conducto.uid}/pendientes`
     })
-    console.log(file)
     return file
 } 
