@@ -10,6 +10,7 @@ type inputParams = {
     email?: string
     tel?: string
     saasId: string
+    sendTareas?: 'never' | 'weekly' | 'monthly'
 }
 
 export const updateConductoUsecase = async (params: inputParams):
@@ -28,7 +29,7 @@ export const updateConductoUsecase = async (params: inputParams):
     conducto.alias = params.alias ?? conducto.alias
     conducto.phone = params.tel ?? conducto.phone
     conducto.email = params.email ?? conducto.email
-
+    conducto.sendTareas = params.sendTareas ?? conducto.sendTareas
     const [response] = await pgDb.update(tblConductos).set(conducto).where(eq(tblConductos.id, conducto.id)).returning()
     return response
 }

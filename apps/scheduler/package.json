@@ -6,23 +6,23 @@
     "type": "module",
     "scripts": {
         "build": "tsc --project tsconfig.json",
-        "start": "node dist/index.js",
+        "start": "tsx dist/index.js",
         "dev": "tsx watch src/index.ts"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@asurandi/database": "workspace:*",
         "@types/amqplib": "^0.10.7",
+        "@types/fs-extra": "^11.0.4",
         "@types/node-cron": "^3.0.11",
-        "nodemon": "^3.1.9",
         "openai": "^4.93.0",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.3",
         "typescript": "^5.8.3"
     },
     "dependencies": {
+        "@asurandi/database": "workspace:*",
         "@asurandi/types": "workspace:*",
         "amqplib": "^0.10.7",
         "dotenv": "^16.5.0",

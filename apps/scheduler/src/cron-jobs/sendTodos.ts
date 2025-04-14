@@ -1,9 +1,9 @@
 import { OutgoingWhatsappMessageRequest } from '@asurandi/types';
 import { tblConductos } from "@asurandi/database"
 import { eq } from "drizzle-orm"
-import { pgDb } from "db.js"
+import { pgDb } from "../db.js"
 import { conductoCobranzaRenovaciones } from "../reports/conducto-cobranza-renovaciones.js"
-import { sendToMessageBus } from 'sendMessage.js';
+import { sendToMessageBus } from '../sendMessage.js';
 export const sendTodos = async (preference: 'weekly' | 'monthly') => {
     const conductos = await pgDb.select().from(tblConductos).where(
         eq(tblConductos.sendTareas, preference)

@@ -17,6 +17,10 @@ const EnvSchema = z.object({
     FIREBASE_CONNECT_EMULATORS: z.coerce.boolean(),
     FIREBASE_EMULATORS_HOST: z.string(),
     RABBIT_CONNECTION_STRING: z.string().url(),
+    DAILY_SCRAPPER_CRONTAB_STRING: z.string().default('0 */4 * * *'), // every 4 hours
+    WEEKLY_REPORT_CRONTAB_STRING: z.string().default('0 8 * * 1'), // every monday at 8:00 am
+    MONTHLY_REPORT_CRONTAB_STRING: z.string().default('30 7 1 * *'), // every first day of the month at 7:30 am
+    CLEANUP_FILES_CRONTAB_STRING: z.string().default('0 */6 * * *'), // every 6 hours
 })
 
 export type env = z.infer<typeof EnvSchema>

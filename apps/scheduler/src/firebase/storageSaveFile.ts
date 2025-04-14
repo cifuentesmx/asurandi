@@ -1,7 +1,7 @@
 import { getDownloadURL, getStorage } from 'firebase-admin/storage';
 import type { PublicFileUrl } from '@asurandi/types';
 import { getAdminApp } from './getAdminApp.js';
-import { env } from 'env.js';
+import { env } from '../env.js';
 import fs from 'fs/promises';
 import path from 'node:path';
 

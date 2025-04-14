@@ -9,10 +9,20 @@
 	import type { ActionResult } from '@sveltejs/kit';
 	import type { InferSelectModel } from 'drizzle-orm';
 	import { tblConductos } from '@asurandi/database';
+	import * as Select from '$lib/components/ui/select';
 
 	const conductos = $state<ListConductos['conductos']>(page.data.conductos);
 	const conducto = $state(conductos.find((t) => t.id === Number(page.params.conductId)));
+	let sendTareas = $state(conducto?.sendTareas ?? 'never');
 	const toast = getToastState();
+	const sendTareasOptions = [
+		{ value: 'never', label: 'Nunca' },
+		{ value: 'weekly', label: 'Semanalmente' },
+		{ value: 'monthly', label: 'Mensualmente' }
+	];
+	const sendTrigger = $derived(
+		sendTareasOptions.find((option) => option.value === sendTareas)?.label ?? 'Nunca'
+	);
 </script>
 
 <div class="py-4 text-2xl">Conductos</div>
@@ -64,6 +74,17 @@
 			<Input type="email" id="email" name="email" placeholder="Email" bind:value={conducto.email} />
 			<Label class="mt-2" for="tel">Número de teléfono</Label>
 			<Input type="phone" id="tel" name="tel" placeholder="Teléfono" bind:value={conducto.phone} />
+			<Label class="mt-2" for="sendTareas">Enviar reporte de tareas pendientes</Label>
+			<Select.Root type="single" name="sendTareas" bind:value={sendTareas} required>
+				<Select.Trigger>
+					{sendTrigger}
+				</Select.Trigger>
+				<Select.Content>
+					{#each sendTareasOptions as option}
+						<Select.Item value={option.value}>{option.label}</Select.Item>
+					{/each}
+				</Select.Content>
+			</Select.Root>
 		</div>
 		<input type="hidden" name="id" bind:value={conducto.id} />
 		<div class="mt-4">

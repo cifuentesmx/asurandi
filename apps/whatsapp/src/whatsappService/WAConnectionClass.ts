@@ -3,7 +3,6 @@ import type { MediaUrl, WAProvider, WhatsappMessage } from "./types.ts";
 import { AppError } from "../lib/AppError.js";
 import { BaileysProvider } from "./providers/Baileys/BaileysProvider.js";
 import { statusUpdate } from "./statusUpdate.js";
-import { getExtensionFromMime } from "src/lib/getExtensionFromMime.js";
 
 const providers = [BaileysProvider, BaileysProvider];
 export class WAConnection {
@@ -112,6 +111,7 @@ export class WAConnection {
       await this.provider?.sendMessage({ text: message.text }, jid)
 
     if (message.urls) {
+      await new Promise(resolve => setTimeout(resolve, 1500 + (Math.random() * 1000)));
       for (const file of message.urls) {
         if (file.url) {
           await this.provider?.sendMessage({

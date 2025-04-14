@@ -8,21 +8,15 @@
 		{ value: 100, label: 'Ver 100' },
 		{ value: 200, label: 'Ver 200' }
 	];
-	let { value = $bindable() } = $props<{ value: number }>();
+	let { value = $bindable() }: { value: number } = $props();
+	const triggerContent = $derived(
+		perPageItems.find((f) => f.value === value)?.label ?? 'Seleccionar'
+	);
 </script>
 
-<Select.Root portal={null}>
-	<Select.Trigger class="w-[180px]">
-		<Select.Value placeholder={`Ver ${value}`} />
-	</Select.Trigger>
-	<Select.Content>
-		<Select.Group>
-			{#each perPageItems as item}
-				<Select.Item value={item.value} label={item.label}>{item.label}</Select.Item>
-			{/each}
-		</Select.Group>
-	</Select.Content>
-	<Select.Input
+<Select.Root type="single" name="perPage" value={value.toString()}>
+	<Select.Trigger
+		class="w-[180px]"
 		onchange={(v) => {
 			const el = v.target as HTMLInputElement | null;
 			if (el instanceof HTMLInputElement) {
@@ -32,5 +26,14 @@
 				document.cookie = `DataTable:perPage=${val};path=/;samesite=strict;`;
 			}
 		}}
-	/>
+	>
+		{triggerContent}
+	</Select.Trigger>
+	<Select.Content>
+		<Select.Group>
+			{#each perPageItems as item}
+				<Select.Item value={item.value.toString()} label={item.label}>{item.label}</Select.Item>
+			{/each}
+		</Select.Group>
+	</Select.Content>
 </Select.Root>

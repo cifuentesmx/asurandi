@@ -9,7 +9,7 @@
   ],
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc",
+    "build": "tsc -p tsconfig.build.json",
     "prepublishOnly": "pnpm build",
     "generate": "pnpm drizzle-kit generate",
     "migrate": "pnpm drizzle-kit migrate",

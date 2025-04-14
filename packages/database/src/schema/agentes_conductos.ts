@@ -9,7 +9,7 @@ export const tblConductos = pgTable('conductos', {
     email: varchar('email', { length: 200 }),
     alias: varchar('alias'),
     phone: varchar('phone', { length: 50 }),
-    sendTareas: varchar('send_tareas', { length: 10, enum: ['weekly', 'monthly'] }),
+    sendTareas: varchar('send_tareas', { length: 10, enum: ['weekly', 'monthly', 'never'] }),
     created: timestamp('created', { mode: 'date' }).defaultNow(),
     uid: varchar('firebase_uid'),
 }, (tblConducto) => {

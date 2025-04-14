@@ -27,14 +27,18 @@ export class ConnectionCluster {
             console.info(`${new Date().toISOString()} - Esperando mensajes en la cola: 'q.whatsapp.outgoing'`);
             this.amqpChannel.consume('q.whatsapp.outgoing', async (msg) => {
                 if (msg) {
-                    const str = msg.content.toString()
-                    const message = await JSON.parse(str) as MessageBusMessage<OutgoingWhatsappMessageRequest>
-                    await this.processOutgoing(message)
-                    this.amqpChannel?.ack(msg);
-                    return
+                    try {
+                        const str = msg.content.toString()
+                        const message = await JSON.parse(str) as MessageBusMessage<OutgoingWhatsappMessageRequest>
+                        await this.processOutgoing(message)
+                        this.amqpChannel?.ack(msg);
+                        return
+                    } catch (error) {
+                        this.amqpChannel?.nack(msg, false, false);
+                        console.error(`${new Date()} - El mensaje  ${msg.fields.routingKey}#${msg.fields.deliveryTag} ha fallado permanentemente debido al siguiente error:`)
+                        console.error(error)
+                    }
                 }
-                // Acknowledge the message as successfully processed
-
             });
         } catch (error) {
             console.error(`${new Date().toISOString()} - Error al establecer el procesador de mensajes:`);
@@ -78,6 +82,7 @@ export class ConnectionCluster {
             console.error(error instanceof Error ? `${msg.intents} - ${error.message}` : 'nada')
             rabbitSendToMessageBus({
                 ...msg,
+                ttl: 1000 * 60 * 1, // Reintenta en 1 minuto
                 exchange: 'ex.jobs',
                 routingKey: 'waiting.whatsapp.outgoing',
             },

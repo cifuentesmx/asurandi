@@ -7,8 +7,7 @@ import {
 import { tblRamos } from './ramos.js';
 import { tblSubRamos } from './subRamo.js';
 import { tblCompanias } from './companias.js';
-import { tblAgentes } from './agentes.js';
-import { tblConductos } from './agentes_conductos.js';
+import { tblAgentes, tblConductos } from './agentes_conductos.js';
 import { tblVehiculos } from './vehiculos.js';
 import { tblAsegurados } from './asegurados.js';
 import { tblUsos } from './usos.js';

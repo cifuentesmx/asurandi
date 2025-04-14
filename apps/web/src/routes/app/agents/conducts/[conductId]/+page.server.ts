@@ -24,16 +24,18 @@ export const actions = {
             let alias = data.get('alias') as string | undefined
             let email = data.get('email') as string | undefined
             let tel = data.get('tel') as string | undefined
+            let sendTareas = data.get('sendTareas') as 'never' | 'weekly' | 'monthly' | undefined
             const id = Number(data.get('id'))
 
             if (typeof name !== 'string') name = undefined
             if (typeof alias !== 'string') alias = undefined
             if (typeof email !== 'string') email = undefined
             if (typeof tel !== 'string') tel = undefined
+            if (typeof sendTareas !== 'string' || (sendTareas !== 'weekly' && sendTareas !== 'monthly')) sendTareas = 'never'
             if (Number.isNaN(id)) throw new AppError('Parámetro incorrecto, no se encontró el conducto que intenta actualizar.')
 
             const conducto = await updateConductoUsecase({
-                id, name, alias, email, tel, saasId: locals.saasId
+                id, name, alias, email, tel, saasId: locals.saasId, sendTareas
             })
             return { conducto }
         } catch (error) {

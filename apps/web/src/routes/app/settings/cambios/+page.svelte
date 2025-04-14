@@ -5,6 +5,10 @@
 			fecha: 'Abril 2025',
 			cambios: [
 				[
+					'add',
+					'Los agentes ahora reciben un reporte semanal o mensual de las renovaciones y cobranza de pólizas, dependiendo de la frecuencia configurada en el sistema.'
+				],
+				[
 					'fix',
 					'El usuario de siniestros ahora puede ver los siniestros y las pólizas correctamente, usando únicamente el rol de siniestros.'
 				],
@@ -57,7 +61,7 @@
 				<h3 class="mb-4 text-lg font-semibold">Versión {release.version} - {release.fecha}</h3>
 				<div class="text-muted-foreground layout my-2">
 					{#each release.cambios as cambio}
-						<div class="w-90 bg-muted place-self-end rounded p-1 text-xs font-bold">
+						<div class="w-90 bg-muted mt-1 place-self-end self-start rounded p-1 text-xs font-bold">
 							{cambio[0]}
 						</div>
 						<div class="flex items-center">{cambio[1]}</div>
@@ -72,6 +76,7 @@
 	.layout {
 		display: grid;
 		grid-template-columns: 50px 1fr;
-		gap: 0.4rem;
+		row-gap: 0.6rem;
+		column-gap: 0.5rem;
 	}
 </style>

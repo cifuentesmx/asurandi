@@ -1,8 +1,7 @@
 import { SiniestroDetalle, SiniestroActividad } from '@asurandi/types';
 import { bigint, bigserial, jsonb, numeric, pgTable, varchar, date, integer, timestamp, boolean } from 'drizzle-orm/pg-core';
 import { tblPolizas } from './polizas.js';
-import { tblAgentes } from './agentes.js';
-import { tblConductos } from './agentes_conductos.js';
+import { tblAgentes, tblConductos } from './agentes_conductos.js';
 import { tblAsegurados } from './asegurados.js';
 import { tblVehiculos } from './vehiculos.js';
 import { tblSiniestroCausas } from './siniestrocausas.js';

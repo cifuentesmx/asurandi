@@ -1,7 +1,6 @@
 import { bigint, bigserial, pgTable, varchar, date, integer, timestamp, index } from 'drizzle-orm/pg-core';
 import { tblPolizas } from './polizas.js';
-import { tblAgentes } from './agentes.js';
-import { tblConductos } from './agentes_conductos.js';
+import { tblAgentes, tblConductos } from './agentes_conductos.js';
 import { tblAsegurados } from './asegurados.js';
 import { tblVehiculos } from './vehiculos.js';
 import { tblCompanias } from './companias.js';

@@ -3,9 +3,6 @@ import { desc, eq } from "drizzle-orm"
 import { pgDb } from "$lib/db.js"
 import { tblConductos } from "@asurandi/database"
 
-
-
-
 export type ListConductos = Awaited<ReturnType<typeof listConductos>>
 
 
@@ -21,7 +18,8 @@ export const listConductos = async ({
         nombre: tblConductos.nombre,
         email: tblConductos.email,
         phone: tblConductos.phone,
-        alias: tblConductos.alias
+        alias: tblConductos.alias,
+        sendTareas: tblConductos.sendTareas
     })
         .from(tblConductos)
         .where(

@@ -52,12 +52,13 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
                 eq(tblCobros.estado, 'PENDIENTE')
             )
         )
+    const money = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })
 
     const body = [...porRenovar.map((row) => [
         row.numeroPoliza,
         row.vehiculo ?? '',
         row.email ?? '',
-        row.importe,
+        money.format(Number(row.importe ?? '0') || 0),
         row.fechaVencimiento as string,
         row.telefono ?? '',
         row.asegurado ?? '',
@@ -67,7 +68,7 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
         `${row.numeroRecibo} / ${row.serie}`,
         row.vehiculo ?? '',
         row.email ?? '',
-        row.importe,
+        money.format(Number(row.importe ?? '0') || 0),
         row.fechaLimite as string,
         row.telefono ?? '',
         row.asegurado ?? '',
@@ -154,7 +155,7 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
         startY: 45
     })
 
-    const tempFilePath = `${process.cwd()}/storage/reporte-conducto-cobranza-renovaciones.pdf`
+    const tempFilePath = `${process.cwd()}/storage/${conducto.id}-cobranza-y-renovaciones.pdf`
     doc.save(tempFilePath)
 
     const file = await storageSaveFile({
