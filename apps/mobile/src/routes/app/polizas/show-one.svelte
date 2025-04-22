@@ -5,6 +5,7 @@
 	import DatosGenerales from './datos-generales.svelte';
 	import DatosPago from './datos-pago.svelte';
 	import DatosVehiculo from './datos-vehiculo.svelte';
+	import Movimientos from './movimientos.svelte';
 
 	const polizasStore = getPolizasStore();
 	const poliza = $derived(polizasStore?.onePoliza?.poliza ?? null);
@@ -18,6 +19,7 @@
 	<DatosPago />
 	<DatosAsegurado />
 	<DatosVehiculo />
+	<Movimientos />
 	<BottomMenu />
 {/if}
 <div class="py-16"></div>

@@ -7,6 +7,7 @@ import {
     PUBLIC_FIREBASE_PROJECT_ID,
     PUBLIC_FIREBASE_STORAGE_BUCKET,
     PUBLIC_FIREBASE_CONNECT_EMULATORS,
+    PUBLIC_FIREBASE_EMULATOR_HOST,
 } from '$env/static/public'
 
 
@@ -50,10 +51,10 @@ export const auth = getAuth(getFirebaseClientApp() || getApp())
 
 if (dev && PUBLIC_FIREBASE_CONNECT_EMULATORS === 'true') {
     try {
-        connectAuthEmulator(auth, 'http://localhost:9099', { disableWarnings: false })
-        connectFirestoreEmulator(db, 'localhost', 8080)
-        connectStorageEmulator(storage, 'localhost', 9199)
-        connectFunctionsEmulator(functions, 'localhost', 5001)
+        connectAuthEmulator(auth, `http://${PUBLIC_FIREBASE_EMULATOR_HOST}:9099`, { disableWarnings: false })
+        connectFirestoreEmulator(db, PUBLIC_FIREBASE_EMULATOR_HOST, 8080)
+        connectStorageEmulator(storage, PUBLIC_FIREBASE_EMULATOR_HOST, 9199)
+        connectFunctionsEmulator(functions, PUBLIC_FIREBASE_EMULATOR_HOST, 5001)
     } catch (error) {
         console.error(error)
         console.error('// TODO unified handle error')

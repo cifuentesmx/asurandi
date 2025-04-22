@@ -1,19 +1,11 @@
 <script lang="ts">
-	import {
-		ArrowLeft,
-		CircleDollarSign,
-		Contact,
-		HandCoins,
-		MessageCircle,
-		Siren,
-		WalletCards
-	} from 'lucide-svelte';
+	import { ArrowLeft, MessageCircle } from 'lucide-svelte';
 	import { getPolizasStore } from '$lib/polizas-store.svelte';
 	import BottomSiniestros from './bottom-siniestros.svelte';
 	import BottomRecibos from './bottom-recibos.svelte';
 	import BottomEndosos from './bottom-endosos.svelte';
 	import BottomComisiones from './bottom-comisiones.svelte';
-	import BottomCotactos from './bottom-cotactos.svelte';
+	import BottomContactos from './bottom-contactos.svelte';
 	const polizasStore = getPolizasStore();
 	const poliza = $derived(polizasStore.onePoliza?.poliza);
 
@@ -30,7 +22,7 @@
 		<BottomEndosos />
 		<BottomRecibos />
 		<BottomComisiones />
-		<BottomCotactos />
+		<BottomContactos />
 		{#if numero}
 			<a href={`https://wa.me/${numero}`} target="_blank">
 				<MessageCircle class="h-6 w-6" />

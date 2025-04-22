@@ -4,6 +4,6 @@ import * as routes from './polizas.routes.js'
 
 
 const router = createRouter()
-    .openapi(routes.searchPoliza, handlers.searchPoliza)
-    .openapi(routes.getPoliza, handlers.getPoliza)
+    .openapi(routes.searchPolizaRoute, handlers.searchPolizaHandler)
+    .openapi(routes.getPolizaRoute, handlers.getPolizaHandler)
 export default router

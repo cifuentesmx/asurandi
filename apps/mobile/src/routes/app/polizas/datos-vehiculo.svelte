@@ -1,6 +1,5 @@
 <script lang="ts">
 	import TextData from '$lib/components/text-data.svelte';
-	import type { GetOnePoliza } from '../../../types/api/polizas';
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { ChevronsUpDown } from 'lucide-svelte';

@@ -6,9 +6,6 @@
 	import { Siren } from 'lucide-svelte';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
-	$effect(() => {
-		console.log(polizasStore.onePoliza?.siniestros);
-	});
 </script>
 
 {#if poliza}

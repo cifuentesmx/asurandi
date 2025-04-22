@@ -86,6 +86,9 @@ importers:
         specifier: ^11.6.0
         version: 11.6.0
     devDependencies:
+      '@asurandi/types':
+        specifier: workspace:*
+        version: link:../../packages/types
       '@eslint/compat':
         specifier: ^1.2.8
         version: 1.2.8(eslint@9.24.0(jiti@1.21.7))
@@ -560,7 +563,7 @@ importers:
         version: 0.30.6
       esbuild-register:
         specifier: ^3.6.0
-        version: 3.6.0(esbuild@0.25.2)
+        version: 3.6.0(esbuild@0.19.12)
       eslint:
         specifier: ^9.24.0
         version: 9.24.0(jiti@1.21.7)
@@ -7890,13 +7893,6 @@ snapshots:
     dependencies:
       debug: 4.4.0(supports-color@5.5.0)
       esbuild: 0.19.12
-    transitivePeerDependencies:
-      - supports-color
-
-  esbuild-register@3.6.0(esbuild@0.25.2):
-    dependencies:
-      debug: 4.4.0(supports-color@5.5.0)
-      esbuild: 0.25.2
     transitivePeerDependencies:
       - supports-color
 

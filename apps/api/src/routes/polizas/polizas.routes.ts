@@ -1,17 +1,15 @@
 import { createRoute, z } from "@hono/zod-openapi";
 import * as HttpStatusCodes from 'stoker/http-status-codes'
-import { jsonContent, jsonContentRequired } from "stoker/openapi/helpers";
+import { jsonContent } from "stoker/openapi/helpers";
 import { createErrorSchema, IdParamsSchema } from "stoker/openapi/schemas";
+import { searchPolizaResponseSchema, getOnePolizaResponseSchema } from "@asurandi/types";
 
 const tags = ['Polizas']
 
-// verificar si tiene una cuenta y saber si puede iniciar sesión con correo
-export type SearchPoliza = typeof searchPoliza
-export const searchPolizaResponseSchema = z.object({
-    data: z.object({}),
-    total: z.object({ count: z.number() })
-})
-export const searchPoliza = createRoute({
+// buscar polizas
+export type SearchPolizaRoute = typeof searchPolizaRoute
+
+export const searchPolizaRoute = createRoute({
     path: '/polizas',
     tags,
     method: 'get',
@@ -19,21 +17,22 @@ export const searchPoliza = createRoute({
         query: z.object({ q: z.string() }),
     },
     responses: {
-        [HttpStatusCodes.OK]: jsonContent(searchPolizaResponseSchema, 'Resultados de búsqueda de las pólizas.'),
+        [HttpStatusCodes.OK]: jsonContent(z.object({
+            data: z.array(searchPolizaResponseSchema),
+            total: z.object({ count: z.number() })
+        }
+        ), 'Resultados de búsqueda de las pólizas.'),
         [HttpStatusCodes.BAD_REQUEST]: jsonContent(
             z.object({
                 message: z.string()
             }), 'Ha ocurrido un error y no se pudo procesar la petición.'),
         [HttpStatusCodes.UNAUTHORIZED]: jsonContent(z.object({ message: z.string() }), 'No se ha iniciado sesión'),
-        // [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(searchPolizaRequestSchema), 'Validation errors')
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(searchPolizaResponseSchema), 'Validation errors')
     }
 })
 
-export type GetPoliza = typeof getPoliza
-export const getPolizaResponseSchema = z.object({
-
-})
-export const getPoliza = createRoute({
+export type GetPolizaRoute = typeof getPolizaRoute
+export const getPolizaRoute = createRoute({
     path: '/polizas/{id}',
     tags,
     method: 'get',
@@ -41,7 +40,7 @@ export const getPoliza = createRoute({
         params: IdParamsSchema,
     },
     responses: {
-        [HttpStatusCodes.OK]: jsonContent(getPolizaResponseSchema, 'Resultados de búsqueda de las pólizas.'),
+        [HttpStatusCodes.OK]: jsonContent(getOnePolizaResponseSchema, 'Resultados de búsqueda de las pólizas.'),
         [HttpStatusCodes.BAD_REQUEST]: jsonContent(
             z.object({
                 message: z.string()

@@ -20,13 +20,17 @@ import {
     aseguradosToContactos, tblContactos,
     tblTipoVehiculos,
     tblSiniestroCausas,
+    tblTipoEndoso,
 } from "@asurandi/database"
 import { and, eq, or } from "drizzle-orm"
+import { z } from "zod"
+import { getPolizaRoute } from "./polizas.routes.js"
+
 
 export const getOne = async (params: {
     uid: string
     id: number
-}) => {
+}): Promise<z.infer<typeof getPolizaRoute['responses'][200]['content']['application/json']['schema']>> => {
     const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
@@ -104,7 +108,8 @@ export const getOne = async (params: {
         modoPago: tblModoPagos.modoPago,
         company: tblCompanias.compania,
 
-    })
+    }
+    )
         .from(tblPolizas)
         .leftJoin(tblAgentes, eq(tblAgentes.id, tblPolizas.agenteId))
         .leftJoin(tblConductos, eq(tblConductos.id, tblPolizas.conductoId))
@@ -159,13 +164,65 @@ export const getOne = async (params: {
     }).from(tblSiniestros)
         .leftJoin(tblSiniestroCausas, eq(tblSiniestroCausas.id, tblSiniestros.causaId))
         .where(eq(tblSiniestros.polizaId, poliza?.id ?? 0))
-    const endosos = await pgDb.select().from(tblEndosos)
+    const endosos = await pgDb.select({
+        id: tblEndosos.id,
+        saasId: tblEndosos.saasId,
+        polizaId: tblEndosos.polizaId,
+        endoso: tblEndosos.endoso,
+        fechaVencimiento: tblEndosos.fechaVencimiento,
+        numeroRecibo: tblEndosos.numeroRecibo,
+        remesa: tblEndosos.remesa,
+        fechaPago: tblEndosos.fechaPago,
+        fechaRegistroPago: tblEndosos.fechaRegistroPago,
+        importe: tblEndosos.importe,
+        estado: tblEndosos.estado,
+        tipoEndosoId: tblEndosos.tipoEndosoId,
+        created: tblEndosos.created,
+        tipoEndoso: tblTipoEndoso.tipoEndoso
+    }).from(tblEndosos)
+        .leftJoin(tblTipoEndoso, eq(tblTipoEndoso.id, tblEndosos.tipoEndosoId))
         .where(eq(tblEndosos.polizaId, poliza?.id ?? 0))
 
-    const recibos = await pgDb.select().from(tblRecibos)
+    const recibos = await pgDb.select({
+        id: tblRecibos.id,
+        saasId: tblRecibos.saasId,
+        polizaId: tblRecibos.polizaId,
+        numeroRecibo: tblRecibos.numeroRecibo,
+        serie: tblRecibos.serie,
+        folio: tblRecibos.folio,
+        serieEmision: tblRecibos.serieEmision,
+        importe: tblRecibos.importe,
+        primaNetaComision: tblRecibos.primaNetaComision,
+        vigenciaInicio: tblRecibos.vigenciaInicio,
+        vigenciaFin: tblRecibos.vigenciaFin,
+        estado: tblRecibos.estado,
+        created: tblRecibos.created,
+    }).from(tblRecibos)
         .where(eq(tblRecibos.polizaId, poliza?.id ?? 0))
 
-    const remesas = await pgDb.select().from(tblRemesas)
+    const remesas = await pgDb.select({
+        id: tblRemesas.id,
+        saasId: tblRemesas.saasId,
+        polizaId: tblRemesas.polizaId,
+        reciboId: tblRemesas.reciboId,
+        numeroRecibo: tblRemesas.numeroRecibo,
+        numeroPoliza: tblRemesas.numeroPoliza,
+        numeroEndoso: tblRemesas.numeroEndoso,
+        serie: tblRemesas.serie,
+        remesa: tblRemesas.remesa,
+        clave: tblRemesas.clave,
+        concepto: tblRemesas.concepto,
+        fechaPago: tblRemesas.fechaPago,
+        importe: tblRemesas.importe,
+        comision: tblRemesas.comision,
+        cargo: tblRemesas.cargo,
+        abono: tblRemesas.abono,
+        contabilizado: tblRemesas.contabilizado,
+        porcentajeComision: tblRemesas.porcentajeComision,
+        comisionConducto: tblRemesas.comisionConducto,
+        created: tblRemesas.created,
+    }
+    ).from(tblRemesas)
         .where(eq(tblRemesas.polizaId, poliza?.id ?? 0))
 
     const contactos = await pgDb.select({

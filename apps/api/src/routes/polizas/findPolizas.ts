@@ -1,13 +1,14 @@
 import { pgDb } from "../../lib/db.js"
 import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblVehiculos } from "@asurandi/database"
 import { and, eq, ilike, or, count, desc } from "drizzle-orm"
-
+import { z } from '@hono/zod-openapi'
+import { SearchPolizaRoute } from "./polizas.routes.js"
 export const findPolizas = async (params: {
     uid: string,
     searchTxt: string
     limit?: number
     offset?: number
-}) => {
+}): Promise<z.infer<SearchPolizaRoute['responses'][200]['content']['application/json']['schema']>> => {
     const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
@@ -37,7 +38,6 @@ export const findPolizas = async (params: {
         iva: tblPolizas.iva,
         origen: tblPolizaOrigen.origen,
         status: tblPolizas.polizaEstatus,
-
     })
         .from(tblPolizas)
         .leftJoin(tblAgentes, eq(tblAgentes.id, tblPolizas.agenteId))
@@ -54,8 +54,10 @@ export const findPolizas = async (params: {
         .select({ count: count() })
         .from(tblPolizas)
         .leftJoin(tblAgentes, eq(tblAgentes.id, tblPolizas.agenteId))
-        .leftJoin(tblConductos, eq(tblConductos.id, tblPolizas.agenteId))
+        .leftJoin(tblConductos, eq(tblConductos.id, tblPolizas.conductoId))
         .leftJoin(tblAsegurados, eq(tblAsegurados.id, tblPolizas.asegurado_id))
+        .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
+        .leftJoin(tblPolizaOrigen, eq(tblPolizaOrigen.id, tblPolizas.origenId))
         .where(conditions)
     return {
         data, total
