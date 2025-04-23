@@ -26,15 +26,15 @@
 			<ScrollArea class=" mx-2 h-[50vh]">
 				{#each endosos as endoso}
 					<div class="layout m-2 mt-4 rounded-sm border border-b p-2 text-sm">
-						<TextData caption="No. endoso" text={endoso.numeroEndoso} />
-						<TextData caption="Tipo" text={endoso.tipoEndoso} />
-						<TextData caption="Recibo" text={endoso.numeroRecibo} />
-						<TextData caption="Remesa" text={endoso.remesa} />
-						<TextData caption="Pago" text={endoso.fechaPago} />
-						<TextData caption="Registro" text={endoso.fechaRegistroPago} />
-						<TextData caption="Estado" text={endoso.estado} />
-						<TextData caption="Importe" text={endoso.importe} />
-						<TextData caption="Vencimiento" text={endoso.fechaVencimiento} />
+						<TextData caption="No. endoso" text={endoso.numeroEndoso ?? 'N.A.'} />
+						<TextData caption="Tipo" text={endoso.tipoEndoso ?? 'N.A.'} />
+						<TextData caption="Recibo" text={endoso.numeroRecibo ?? 'N.A.'} />
+						<TextData caption="Remesa" text={endoso.remesa ?? 'N.A.'} />
+						<TextData caption="Pago" text={endoso.fechaPago ?? 'N.A.'} />
+						<TextData caption="Registro" text={endoso.fechaRegistroPago ?? 'N.A.'} />
+						<TextData caption="Estado" text={endoso.estado ?? 'N.A.'} />
+						<TextData caption="Importe" text={endoso.importe ?? 'N.A.'} />
+						<TextData caption="Vencimiento" text={endoso.fechaVencimiento ?? 'N.A.'} />
 					</div>
 				{/each}
 			</ScrollArea>

@@ -6,16 +6,29 @@
 	import { getPolizasStore } from '$lib/polizas-store.svelte';
 	import type { GetOnePolizaResponse } from '@asurandi/types';
 	import { CircleDollarSign } from 'lucide-svelte';
+	import { Badge } from '$lib/components/ui/badge/index.js';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
-	const recibos: GetOnePolizaResponse['recibos'] = polizasStore.onePoliza?.recibos;
+	const recibos: GetOnePolizaResponse['recibos'] = polizasStore.onePoliza?.recibos ?? [];
+	const recibosPendientes =
+		recibos?.filter((recibo) => recibo?.estado?.toLowerCase() === 'pendiente') ?? [];
 </script>
 
 {#if poliza && recibos}
 	<Drawer.Root>
 		<Drawer.Trigger>
 			{#snippet child({ props })}
-				<button {...props}><CircleDollarSign class="h-6 w-6 " /></button>
+				<button {...props} class="relative">
+					<CircleDollarSign class="h-6 w-6 " />
+					{#if recibosPendientes.length > 0}
+						<Badge
+							variant="destructive"
+							class="absolute -right-3 -top-1 rounded-full px-1 py-0 text-xs"
+						>
+							{recibosPendientes.length}
+						</Badge>
+					{/if}
+				</button>
 			{/snippet}
 		</Drawer.Trigger>
 		<Drawer.Content>

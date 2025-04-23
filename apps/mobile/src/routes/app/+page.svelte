@@ -5,4 +5,3 @@
 </script>
 
 <div>Bienvenido de nuevo, {session.user?.displayName ?? session.user?.email}</div>
-<pre>{JSON.stringify(session.accounts, undefined, 2)}</pre>

@@ -22,7 +22,7 @@ import {
     tblSiniestroCausas,
     tblTipoEndoso,
 } from "@asurandi/database"
-import { and, eq, or } from "drizzle-orm"
+import { and, asc, desc, eq, or } from "drizzle-orm"
 import { z } from "zod"
 import { getPolizaRoute } from "./polizas.routes.js"
 
@@ -107,9 +107,7 @@ export const getOne = async (params: {
         servicio: tblServicios.servicio,
         modoPago: tblModoPagos.modoPago,
         company: tblCompanias.compania,
-
-    }
-    )
+    })
         .from(tblPolizas)
         .leftJoin(tblAgentes, eq(tblAgentes.id, tblPolizas.agenteId))
         .leftJoin(tblConductos, eq(tblConductos.id, tblPolizas.conductoId))
@@ -133,6 +131,7 @@ export const getOne = async (params: {
     })
         .from(tblPolizaMovimientos)
         .where(eq(tblPolizaMovimientos.polizaId, poliza?.id ?? 0))
+
     const siniestros = await pgDb.select({
         id: tblSiniestros.id,
         saasId: tblSiniestros.saasId,
@@ -164,6 +163,8 @@ export const getOne = async (params: {
     }).from(tblSiniestros)
         .leftJoin(tblSiniestroCausas, eq(tblSiniestroCausas.id, tblSiniestros.causaId))
         .where(eq(tblSiniestros.polizaId, poliza?.id ?? 0))
+        .orderBy(desc(tblSiniestros.fechaSiniestro))
+
     const endosos = await pgDb.select({
         id: tblEndosos.id,
         saasId: tblEndosos.saasId,
@@ -182,6 +183,7 @@ export const getOne = async (params: {
     }).from(tblEndosos)
         .leftJoin(tblTipoEndoso, eq(tblTipoEndoso.id, tblEndosos.tipoEndosoId))
         .where(eq(tblEndosos.polizaId, poliza?.id ?? 0))
+        .orderBy(asc(tblEndosos.fechaVencimiento), asc(tblEndosos.numeroRecibo))
 
     const recibos = await pgDb.select({
         id: tblRecibos.id,
@@ -199,6 +201,7 @@ export const getOne = async (params: {
         created: tblRecibos.created,
     }).from(tblRecibos)
         .where(eq(tblRecibos.polizaId, poliza?.id ?? 0))
+        .orderBy(desc(tblRecibos.vigenciaInicio), desc(tblRecibos.vigenciaFin))
 
     const remesas = await pgDb.select({
         id: tblRemesas.id,
@@ -214,9 +217,6 @@ export const getOne = async (params: {
         concepto: tblRemesas.concepto,
         fechaPago: tblRemesas.fechaPago,
         importe: tblRemesas.importe,
-        comision: tblRemesas.comision,
-        cargo: tblRemesas.cargo,
-        abono: tblRemesas.abono,
         contabilizado: tblRemesas.contabilizado,
         porcentajeComision: tblRemesas.porcentajeComision,
         comisionConducto: tblRemesas.comisionConducto,
@@ -224,6 +224,15 @@ export const getOne = async (params: {
     }
     ).from(tblRemesas)
         .where(eq(tblRemesas.polizaId, poliza?.id ?? 0))
+        .orderBy(desc(tblRemesas.numeroRecibo))
+
+    const remesasTransformed = remesas.map(remesa => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(remesa)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
 
     const contactos = await pgDb.select({
         id: tblContactos.id,
@@ -255,6 +264,6 @@ export const getOne = async (params: {
             )
         ))
 
-    const value = { poliza, movimientos, siniestros, endosos, recibos, remesas, contactos }
+    const value = { poliza, movimientos, siniestros, endosos, recibos, remesas: remesasTransformed, contactos }
     return value
 }

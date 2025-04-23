@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SimpleTable from '$lib/components/simple-table/simple-table.svelte';
 	import TextData from '$lib/components/ui/text-data.svelte';
-	import type { SiniestroDetalle } from '../../../../database/schema/siniestros';
+	import type { SiniestroDetalle } from '@asurandi/types';
 
 	let { reporte = {} } = $props<{
 		reporte: SiniestroDetalle;

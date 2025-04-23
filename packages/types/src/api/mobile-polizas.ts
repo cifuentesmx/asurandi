@@ -1,5 +1,4 @@
 import { z } from "@hono/zod-openapi"
-import type { PublicFileUrl } from "../saas/files.js"
 import { ManyItemsResponse } from "./index.js"
 
 export type FindPolizasResponse = ManyItemsResponse<z.infer<typeof searchPolizaResponseSchema>>

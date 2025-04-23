@@ -100,8 +100,6 @@ export const actions = {
             if (typeof siniestroId !== 'number' || Number.isNaN(siniestroId)) throw new AppError('No se ha recibido el número de siniestro correctamente.')
 
             const enSeguimiento = data.get('enSeguimiento') === 'on'
-            console.log(enSeguimiento)
-
             const siniestro = await toggleSeguimientoUsecase({
                 siniestroId,
                 saasId: locals.saasId,

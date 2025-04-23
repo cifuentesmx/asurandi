@@ -12,7 +12,8 @@ export const POST = async ({ request }) => {
             throw new Error("No se recibió el token de inicio de sesión.");
         }
         const decodedToken = await decodeToken(token)
-            .catch(() => {
+            .catch((e) => {
+                console.error(e)
                 throw new Error("Token de sesión inválido.");
             })
 

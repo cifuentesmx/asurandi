@@ -5,7 +5,7 @@
 	import BottomRecibos from './bottom-recibos.svelte';
 	import BottomEndosos from './bottom-endosos.svelte';
 	import BottomComisiones from './bottom-comisiones.svelte';
-	import BottomContactos from './bottom-contactos.svelte';
+	// import BottomContactos from './bottom-contactos.svelte';
 	const polizasStore = getPolizasStore();
 	const poliza = $derived(polizasStore.onePoliza?.poliza);
 
@@ -22,7 +22,7 @@
 		<BottomEndosos />
 		<BottomRecibos />
 		<BottomComisiones />
-		<BottomContactos />
+		<!-- <BottomContactos /> -->
 		{#if numero}
 			<a href={`https://wa.me/${numero}`} target="_blank">
 				<MessageCircle class="h-6 w-6" />
