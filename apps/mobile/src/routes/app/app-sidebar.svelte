@@ -26,11 +26,11 @@
 		},
 		{
 			title: 'Historial de pólizas',
-			url: '/app/polizas',
+			url: '/app/polizas?newsearch=true',
 			icon: Inbox,
 			items: [
-				{ title: 'Con siniestros', url: '/app/siniestradas' },
-				{ title: 'No renovadas', url: '/app/no-renovadas' }
+				{ title: 'Con siniestros', url: '/app/polizas?consiniestros=true' },
+				{ title: 'No renovadas', url: '/app/polizas?norenovadas=true' }
 			]
 		},
 		{
@@ -95,7 +95,7 @@
 											}}
 										>
 											{#snippet child({ props })}
-												<a href={item.url} {...props}>{subItem.title}</a>
+												<a href={subItem.url} {...props}>{subItem.title}</a>
 											{/snippet}
 										</Sidebar.MenuSubButton>
 									</Sidebar.MenuSubItem>

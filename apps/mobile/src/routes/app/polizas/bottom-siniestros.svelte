@@ -11,7 +11,7 @@
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
 	const siniestros: GetOnePolizaResponse['siniestros'] = polizasStore.onePoliza?.siniestros ?? [];
-	let open = true;
+	let open = false;
 </script>
 
 {#if siniestros && poliza}

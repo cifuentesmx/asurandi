@@ -14,7 +14,11 @@ export const searchPolizaRoute = createRoute({
     tags,
     method: 'get',
     request: {
-        query: z.object({ q: z.string() }),
+        query: z.object({
+            q: z.string(),
+            offset: z.coerce.number().optional().default(0),
+            limit: z.coerce.number().optional().default(20),
+        }),
     },
     responses: {
         [HttpStatusCodes.OK]: jsonContent(z.object({
@@ -51,3 +55,57 @@ export const getPolizaRoute = createRoute({
     }
 })
 
+export type FindPolizasSiniestradasRoute = typeof findPolizasSiniestradasRoute
+export const findPolizasSiniestradasRoute = createRoute({
+    path: '/polizas-siniestradas',
+    tags,
+    method: 'get',
+    request: {
+        query: z.object({
+            offset: z.coerce.number().optional().default(0),
+            limit: z.coerce.number().optional().default(200),
+        }),
+    },
+    responses: {
+        [HttpStatusCodes.OK]: jsonContent(z.object({
+            data: z.array(searchPolizaResponseSchema),
+            total: z.object({ count: z.number() })
+        }), 'Resultados de búsqueda de las pólizas.'),
+        [HttpStatusCodes.UNAUTHORIZED]: jsonContent(z.object({ message: z.string() }), 'No se ha iniciado sesión.'),
+        [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+            z.object({
+                message: z.string()
+            }), 'Ha ocurrido un error y no se pudo procesar la petición.'),
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(z.object({
+            offset: z.coerce.number(), limit: z.coerce.number()
+        })), 'Invalid query parameters.')
+    }
+})
+
+
+export type FindPolizasNoRenovadasRoute = typeof findPolizasNoRenovadasRoute
+export const findPolizasNoRenovadasRoute = createRoute({
+    path: '/polizas-norenovadas',
+    tags,
+    method: 'get',
+    request: {
+        query: z.object({
+            offset: z.coerce.number().optional().default(0),
+            limit: z.coerce.number().optional().default(200),
+        }),
+    },
+    responses: {
+        [HttpStatusCodes.OK]: jsonContent(z.object({
+            data: z.array(searchPolizaResponseSchema),
+            total: z.object({ count: z.number() })
+        }), 'Resultados de búsqueda de las pólizas.'),
+        [HttpStatusCodes.UNAUTHORIZED]: jsonContent(z.object({ message: z.string() }), 'No se ha iniciado sesión.'),
+        [HttpStatusCodes.BAD_REQUEST]: jsonContent(
+            z.object({
+                message: z.string()
+            }), 'Ha ocurrido un error y no se pudo procesar la petición.'),
+        [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(z.object({
+            offset: z.coerce.number(), limit: z.coerce.number()
+        })), 'Invalid query parameters.')
+    }
+})

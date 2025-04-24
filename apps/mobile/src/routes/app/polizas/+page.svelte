@@ -5,11 +5,24 @@
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';
 	import { getSearchStore } from '$lib/search-store.svelte';
 	import ShowOne from './show-one.svelte';
-
+	import { page } from '$app/state';
+	import { goto } from '$app/navigation';
 	setPolizasStore();
 	const polizas = getPolizasStore();
 	const search = getSearchStore();
 
+	$effect(() => {
+		if (page.url.searchParams.get('newsearch')) {
+			polizas.reset();
+			goto('/app/polizas');
+		} else if (page.url.searchParams.get('consiniestros')) {
+			polizas.reset();
+			polizas.searchSiniestros();
+		} else if (page.url.searchParams.get('norenovadas')) {
+			polizas.reset();
+			polizas.searchNoRenovadas();
+		}
+	});
 	search.searchFn = async () => {
 		await polizas.search(search.value);
 	};

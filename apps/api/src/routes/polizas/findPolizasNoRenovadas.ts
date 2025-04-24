@@ -1,25 +1,22 @@
 import { pgDb } from "../../lib/db.js"
-import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblVehiculos } from "@asurandi/database"
-import { and, eq, ilike, or, count, desc } from "drizzle-orm"
+import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblSiniestros, tblVehiculos } from "@asurandi/database"
+import { and, eq, or, count, desc, sql, lte, not } from "drizzle-orm"
 import { z } from '@hono/zod-openapi'
-import { SearchPolizaRoute } from "./polizas.routes.js"
-export const findPolizas = async (params: {
+import { FindPolizasNoRenovadasRoute } from "./polizas.routes.js"
+export const findPolizasNoRenovadas = async (params: {
     uid: string,
-    searchTxt: string
-    limit: number
-    offset: number
-}): Promise<z.infer<SearchPolizaRoute['responses'][200]['content']['application/json']['schema']>> => {
+    limit?: number
+    offset?: number
+}): Promise<z.infer<FindPolizasNoRenovadasRoute['responses'][200]['content']['application/json']['schema']>> => {
     const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
             eq(tblAgentes.uid, params.uid),
             eq(tblConductos.uid, params.uid),
         ),
-        or(
-            eq(tblPolizas.numeroPoliza, params.searchTxt.trim()),
-            ilike(tblAsegurados.nombre, `${params.searchTxt.trim()}%`)
-        )
-
+        sql`${tblPolizas.vigenciaInicio} >= CURRENT_DATE - INTERVAL '18 months'`,
+        sql`${tblPolizas.vigenciaFin} < CURRENT_DATE`,
+        not(eq(tblPolizas.polizaEstatus, 'Renovada'))
     )
     const data = await pgDb.select({
         id: tblPolizas.id,
@@ -47,8 +44,8 @@ export const findPolizas = async (params: {
         .leftJoin(tblPolizaOrigen, eq(tblPolizaOrigen.id, tblPolizas.origenId))
         .where(conditions)
         .orderBy(desc(tblPolizas.fechaEmision))
-        .limit(params.limit)
-        .offset(params.offset)
+        .limit(params.limit ?? 40)
+        .offset(params.offset ?? 0)
 
     const [total] = await pgDb
         .select({ count: count() })
