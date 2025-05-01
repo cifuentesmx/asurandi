@@ -52,6 +52,7 @@
 		"vite": "^6.3.2"
 	},
 	"dependencies": {
+		"@hono/zod-openapi": "^0.19.5",
 		"firebase": "^11.6.0"
 	}
 }

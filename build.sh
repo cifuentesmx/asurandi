@@ -1,13 +1,19 @@
 CURRENT_DATE=$(date -u +"%Y_%m_%d")
 START_TIME=$(date +%s)
-## construir imagenes
-docker build . --target api --tag bullcloud-api
-docker build . --target mobile --tag bullcloud-mobile
-docker build . --target scheduler --tag bullcloud-scheduler
-docker build . --target scrapper --tag bullcloud-scrapper
-docker build . --target web --tag bullcloud-web
-docker build . --target whatsapp --tag bullcloud-whatsapp
 
+echo "Iniciando proceso de build - $(date)"
+
+# for service in mobile scheduler scrapper web whatsapp api; do
+for service in scheduler scrapper web; do
+    echo "⏳ Construyendo $service..."
+    docker build . --target $service --tag bullcloud-$service  || {
+        echo "❌ Error construyendo $service"
+        exit 1
+    }
+    echo "✅ Build de $service completado"
+done
+
+echo "🏷️ Etiquetando imágenes..."
 ## tag imagenes con el tag de la fecha y el tag de ultima version
 docker image tag bullcloud-api cifuentesmx/bullcloud:api-${CURRENT_DATE}
 docker image tag bullcloud-api cifuentesmx/bullcloud:api
@@ -31,4 +37,5 @@ docker image push cifuentesmx/bullcloud:web
 docker image push cifuentesmx/bullcloud:whatsapp
 
 END_TIME=$(date +%s)
-echo "Tiempo de ejecución: $(( (END_TIME - START_TIME) / 60 )) minutos"
+DURATION=$((END_TIME - START_TIME))
+echo "✨ Proceso completado en: $((DURATION / 60)) minutos y $((DURATION % 60)) segundos"

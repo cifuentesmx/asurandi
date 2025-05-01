@@ -1,13 +1,12 @@
 import { pgDb } from "../../lib/db.js"
 import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblSiniestros, tblVehiculos } from "@asurandi/database"
 import { and, eq, or, count, desc, sql, lte, not } from "drizzle-orm"
-import { z } from '@hono/zod-openapi'
-import { FindPolizasNoRenovadasRoute } from "./polizas.routes.js"
+
 export const findPolizasNoRenovadas = async (params: {
     uid: string,
     limit?: number
     offset?: number
-}): Promise<z.infer<FindPolizasNoRenovadasRoute['responses'][200]['content']['application/json']['schema']>> => {
+}) => {
     const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
@@ -56,7 +55,16 @@ export const findPolizasNoRenovadas = async (params: {
         .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
         .leftJoin(tblPolizaOrigen, eq(tblPolizaOrigen.id, tblPolizas.origenId))
         .where(conditions)
+
+
+    const transformedData = data.map(item => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(item)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
     return {
-        data, total
+        data: transformedData, total
     }
 }

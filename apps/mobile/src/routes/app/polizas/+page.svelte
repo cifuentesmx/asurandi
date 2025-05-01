@@ -1,13 +1,12 @@
 <script lang="ts">
 	import Loader from '$lib/components/ui/loader.svelte';
 	import ListPolizas from './list-polizas.svelte';
-	import { getPolizasStore, setPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from '$lib/polizas-store.svelte';
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';
 	import { getSearchStore } from '$lib/search-store.svelte';
 	import ShowOne from './show-one.svelte';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	setPolizasStore();
 	const polizas = getPolizasStore();
 	const search = getSearchStore();
 

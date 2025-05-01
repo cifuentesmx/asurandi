@@ -1,13 +1,15 @@
+
 import { goto } from "$app/navigation";
 import { page } from "$app/state";
 import { apiRequest } from "$lib/ApiRequest.svelte";
 import { AppError } from "$lib/AppError";
 import { getCookie, setCookie } from "$lib/cookies";
 import { getToastState } from "$lib/toast-state.svelte"
-import type { GetOnePolizaResponse } from "@asurandi/types";
+import type { GetOnePolizaResponse, searchPolizaResponseSchema } from "@asurandi/types";
 import { getContext, setContext } from "svelte"
+import { z } from "@hono/zod-openapi";
 
-type PolizaResult = unknown
+type PolizaResult = z.infer<typeof searchPolizaResponseSchema>
 type StoreStatus = 'idle' | 'searching' | 'search-result' | 'show-one' | 'not-found' | Error | 'searching-more'
 const KEY = 'PolizasResult'
 
@@ -81,7 +83,6 @@ class PolizasResult {
                 this.status = 'search-result';
             })
             .catch((error) => {
-                console.log(error);
                 const message =
                     error instanceof AppError
                         ? error.message
@@ -171,15 +172,21 @@ class PolizasResult {
     }
     async getOne(polizaId: string) {
         this.status = 'searching'
-        apiRequest(`/polizas/${polizaId}`)
+        await apiRequest(`/polizas/${polizaId}`)
             .then(async (r) => {
                 if (r.status === 404) {
                     this.status = 'not-found';
                     return;
                 }
 
+
                 const data = await r.json().catch(() => null);
-                if (!data) throw new AppError('No se pudo leer la respuesta del servidor.');
+                if (!data) throw new Error('No se pudo leer la respuesta del servidor.');
+                if (r.status === 400) {
+                    console.log(400)
+                    this.status = new Error(data.message ?? 'Error inesperado en la API de asurandi.');
+                    return;
+                }
                 this.onePoliza = data
                 this.status = 'show-one';
             })
@@ -190,10 +197,8 @@ class PolizasResult {
 }
 
 
-export const setPolizasStore = () => {
-    return setContext(KEY, new PolizasResult())
-}
-
 export const getPolizasStore = () => {
-    return getContext<ReturnType<typeof setPolizasStore>>(KEY)
+    const store = getContext<PolizasResult>(KEY)
+    if (!store) return setContext(KEY, new PolizasResult())
+    return store
 }

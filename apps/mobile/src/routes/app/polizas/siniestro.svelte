@@ -81,7 +81,9 @@
 					<div class="py-4 text-lg">Actividades de seguimiento</div>
 					{#each siniestro.actividades as actividad}
 						<div class="p-2">
-							<TextData caption="Fecha">{actividad.timestamp}</TextData>
+							<TextData caption="Fecha"
+								>{new Date(actividad.timestamp ?? new Date()).toLocaleString()}</TextData
+							>
 							<TextData caption="Usuario">{actividad.user}</TextData>
 							<TextData caption="Comentario">{''}</TextData>
 							<div class="text-muted-foreground px-1 text-sm">{actividad.comentario}</div>

@@ -1,11 +1,11 @@
 packages:
   - 'packages/*'
-  - "apps/api"
-  - "apps/mobile"
   - "apps/web"
   - "apps/scrapper"
-  - "apps/whatsapp"
   - "apps/scheduler"
+  # - "apps/api"
+  # - "apps/mobile"
+  # - "apps/whatsapp"
 syncInjectedDepsAfterScripts:
 - build
 injectWorkspacePackages: true

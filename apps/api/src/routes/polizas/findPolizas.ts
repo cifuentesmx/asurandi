@@ -1,14 +1,13 @@
 import { pgDb } from "../../lib/db.js"
 import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblVehiculos } from "@asurandi/database"
 import { and, eq, ilike, or, count, desc } from "drizzle-orm"
-import { z } from '@hono/zod-openapi'
-import { SearchPolizaRoute } from "./polizas.routes.js"
+
 export const findPolizas = async (params: {
     uid: string,
     searchTxt: string
     limit: number
     offset: number
-}): Promise<z.infer<SearchPolizaRoute['responses'][200]['content']['application/json']['schema']>> => {
+}) => {
     const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
@@ -19,7 +18,6 @@ export const findPolizas = async (params: {
             eq(tblPolizas.numeroPoliza, params.searchTxt.trim()),
             ilike(tblAsegurados.nombre, `${params.searchTxt.trim()}%`)
         )
-
     )
     const data = await pgDb.select({
         id: tblPolizas.id,
@@ -59,7 +57,17 @@ export const findPolizas = async (params: {
         .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
         .leftJoin(tblPolizaOrigen, eq(tblPolizaOrigen.id, tblPolizas.origenId))
         .where(conditions)
+
+    const transformedData = data.map(item => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(item)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
+
     return {
-        data, total
+        data: transformedData,
+        total
     }
 }

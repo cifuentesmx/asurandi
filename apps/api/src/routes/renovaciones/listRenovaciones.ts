@@ -1,63 +1,68 @@
 import { pgDb } from "../../lib/db.js"
-import { tblAgentes, tblAsegurados, tblConductos, tblPolizaOrigen, tblPolizas, tblSiniestros, tblVehiculos } from "@asurandi/database"
-import { and, eq, or, count, desc, sql } from "drizzle-orm"
-
-export const findPolizasSiniestradas = async (params: {
+import { and, eq, or, count } from "drizzle-orm"
+import {
+    tblRenovaciones,
+    tblPolizas,
+    tblAgentes,
+    tblConductos,
+    tblAsegurados,
+    tblVehiculos,
+    tblPolizaOrigen,
+    tblCompanias
+} from "@asurandi/database"
+export const listRenovaciones = async (params: {
     uid: string,
-    limit?: number
-    offset?: number
+    limit: number
+    offset: number
 }) => {
     const conditions = and(
-        eq(tblPolizas.esMaestra, true),
         or(
             eq(tblAgentes.uid, params.uid),
             eq(tblConductos.uid, params.uid),
         ),
-        sql`${tblSiniestros.fechaSiniestro} >= CURRENT_DATE - INTERVAL '12 months'`,
-        sql`${tblSiniestros.fechaSiniestro} <= CURRENT_DATE`,
-        sql`${tblPolizas.vigenciaInicio} <= CURRENT_DATE AND ${tblPolizas.vigenciaFin} >= CURRENT_DATE`,
+        eq(tblRenovaciones.estado, 'PENDIENTE')
     )
     const data = await pgDb.select({
-        id: tblPolizas.id,
-        company: tblPolizas.companyId,
-        account: tblPolizas.saasId,
-        numeroPoliza: tblPolizas.numeroPoliza,
+        id: tblRenovaciones.id,
+        saasId: tblRenovaciones.saasId,
+        polizaId: tblPolizas.id,
+        numeroPoliza: tblRenovaciones.numeroPoliza,
         asegurado: tblAsegurados.nombre,
+        celular: tblAsegurados.celular,
+        email: tblAsegurados.email,
         agente: tblAgentes.nombre,
         conducto: tblConductos.nombre,
-        serie: tblPolizas.numeroSerie,
-        vehiculoId: tblPolizas.vehiculoId,
         vehiculo: tblVehiculos.nombre,
         vigenciaInicio: tblPolizas.vigenciaInicio,
         vigenciaFin: tblPolizas.vigenciaFin,
-        primaTotal: tblPolizas.total,
-        iva: tblPolizas.iva,
-        origen: tblPolizaOrigen.origen,
-        status: tblPolizas.polizaEstatus,
+        fechaVencimiento: tblRenovaciones.fechaVencimiento,
+        estado: tblRenovaciones.estado,
+        company: tblCompanias.compania,
+        created: tblRenovaciones.created,
     })
-        .from(tblSiniestros)
-        .leftJoin(tblPolizas, eq(tblPolizas.id, tblSiniestros.polizaId))
+        .from(tblRenovaciones)
+        .leftJoin(tblPolizas, eq(tblPolizas.id, tblRenovaciones.polizaId))
+        .leftJoin(tblCompanias, eq(tblCompanias.id, tblPolizas.companyId))
         .leftJoin(tblAgentes, eq(tblAgentes.id, tblPolizas.agenteId))
         .leftJoin(tblConductos, eq(tblConductos.id, tblPolizas.conductoId))
         .leftJoin(tblAsegurados, eq(tblAsegurados.id, tblPolizas.asegurado_id))
         .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
         .leftJoin(tblPolizaOrigen, eq(tblPolizaOrigen.id, tblPolizas.origenId))
         .where(conditions)
-        .orderBy(desc(tblPolizas.fechaEmision))
-        .limit(params.limit ?? 40)
-        .offset(params.offset ?? 0)
+        .orderBy(tblRenovaciones.fechaVencimiento)
+        .limit(params.limit)
+        .offset(params.offset)
 
     const [total] = await pgDb
         .select({ count: count() })
-        .from(tblSiniestros)
-        .leftJoin(tblPolizas, eq(tblPolizas.id, tblSiniestros.polizaId))
+        .from(tblRenovaciones)
+        .leftJoin(tblPolizas, eq(tblPolizas.id, tblRenovaciones.polizaId))
         .leftJoin(tblAgentes, eq(tblAgentes.id, tblPolizas.agenteId))
         .leftJoin(tblConductos, eq(tblConductos.id, tblPolizas.conductoId))
         .leftJoin(tblAsegurados, eq(tblAsegurados.id, tblPolizas.asegurado_id))
         .leftJoin(tblVehiculos, eq(tblVehiculos.id, tblPolizas.vehiculoId))
         .leftJoin(tblPolizaOrigen, eq(tblPolizaOrigen.id, tblPolizas.origenId))
         .where(conditions)
-
 
     const transformedData = data.map(item => {
         const transformed: Record<string, any> = {}

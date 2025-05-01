@@ -125,6 +125,11 @@
 			caption: 'Fecha de vencimiento',
 			type: 'dateInterval',
 			param: 'fechaVencimiento'
+		},
+		{
+			caption: 'Fecha de pago',
+			type: 'dateInterval',
+			param: 'fechaPago'
 		}
 	];
 	const searchOptions: SearchOptions = [

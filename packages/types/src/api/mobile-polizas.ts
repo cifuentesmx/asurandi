@@ -220,6 +220,25 @@ export const getOnePolizaResponseSchema = z.object({
         porcentajeComision: z.string().nullable().optional(),
         comisionConducto: z.string().nullable().optional(),
         created: z.string().nullable().optional(),
+    })),
+    contactos: z.array(z.object({
+        id: z.number(),
+        saasId: z.string().nullable().optional(),
+        agenteId: z.number().nullable().optional(),
+        conductoId: z.number().nullable().optional(),
+        nombre: z.string().nullable().optional(),
+        email: z.string().nullable().optional(),
+        rfc: z.string().nullable().optional(),
+        telefono: z.string().nullable().optional(),
+        direccion: z.string().nullable().optional(),
+        ciudad: z.string().nullable().optional(),
+        pais: z.string().nullable().optional(),
+        fechaNacimiento: z.string().nullable().optional(),
+        esCliente: z.boolean().nullable().optional(),
+        fechaCreacion: z.string().nullable().optional(),
+        fechaConversion: z.string().nullable().optional(),
+        fechaActualizacion: z.string().nullable().optional(),
+        created: z.string().nullable().optional(),
     }))
 })
 

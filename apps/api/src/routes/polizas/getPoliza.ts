@@ -23,14 +23,12 @@ import {
     tblTipoEndoso,
 } from "@asurandi/database"
 import { and, asc, desc, eq, or } from "drizzle-orm"
-import { z } from "zod"
-import { getPolizaRoute } from "./polizas.routes.js"
 
 
 export const getOne = async (params: {
     uid: string
     id: number
-}): Promise<z.infer<typeof getPolizaRoute['responses'][200]['content']['application/json']['schema']>> => {
+}) => {
     const conditions = and(
         eq(tblPolizas.esMaestra, true),
         or(
@@ -256,7 +254,6 @@ export const getOne = async (params: {
         .leftJoin(tblAsegurados, eq(tblAsegurados.id, aseguradosToContactos.aseguradoId))
         .leftJoin(tblContactos, eq(tblContactos.id, aseguradosToContactos.contactoId))
         .where(and(
-
             eq(aseguradosToContactos.aseguradoId, poliza.asegurado_id ?? 0),
             or(
                 eq(tblContactos.agenteId, poliza.agenteId ?? 0),
@@ -264,6 +261,58 @@ export const getOne = async (params: {
             )
         ))
 
-    const value = { poliza, movimientos, siniestros, endosos, recibos, remesas: remesasTransformed, contactos }
-    return value
+    // Transform null values to undefined in poliza object
+    const polizaTransformed: Record<string, any> = {}
+    for (const [key, value] of Object.entries(poliza)) {
+        polizaTransformed[key] = value === null ? undefined : value
+    }
+
+    const movimientosTransformed = movimientos.map(movimiento => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(movimiento)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
+
+    const siniestrosTransformed = siniestros.map(siniestro => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(siniestro)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
+
+    const endososTransformed = endosos.map(endoso => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(endoso)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
+
+    const recibosTransformed = recibos.map(recibo => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(recibo)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
+
+    const contactosTransformed = contactos.map(contacto => {
+        const transformed: Record<string, any> = {}
+        for (const [key, value] of Object.entries(contacto)) {
+            transformed[key] = value === null ? undefined : value
+        }
+        return transformed
+    })
+    return {
+        poliza: polizaTransformed,
+        movimientos: movimientosTransformed,
+        siniestros: siniestrosTransformed,
+        endosos: endososTransformed,
+        recibos: recibosTransformed,
+        remesas: remesasTransformed,
+        contactos: contactosTransformed
+    }
 }

@@ -58,6 +58,23 @@ export const listRecibos = async ({
             between(tblEndosos.fechaVencimiento, startDate.toISOString(), endDate.toISOString()),
         )
     }
+
+    if (f.fechaPago && f.fechaPago.start && f.fechaPago.end) {
+        const startDate = new Date(
+            f.fechaPago.start.year,
+            f.fechaPago.start.month - 1,
+            f.fechaPago.start.day
+        );
+        const endDate = new Date(
+            f.fechaPago.end.year,
+            f.fechaPago.end.month - 1,
+            f.fechaPago.end.day
+        );
+        conditions.push(
+            between(tblEndosos.fechaPago, startDate.toISOString(), endDate.toISOString()),
+        )
+    }
+
     if (f.estado) conditions.push(eq(tblEndosos.estado, f.estado))
 
     const searchTerms: SQL<unknown>[] = []
@@ -101,7 +118,7 @@ export const listRecibos = async ({
         .where(and(
             ...conditions
         ))
-        .orderBy(desc(tblEndosos.fechaVencimiento), tblEndosos.numeroRecibo)
+        .orderBy(desc(tblEndosos.fechaPago), desc(tblEndosos.fechaVencimiento), tblEndosos.numeroRecibo)
         .limit(limit)
         .offset(offset)
 
