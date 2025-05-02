@@ -1,25 +1,36 @@
-import type { AppBindings, AppOpenAPI } from '@asurandi/types'
-import { logger } from '../middlewares/pinoLogger.js'
-import { OpenAPIHono } from '@hono/zod-openapi'
-import { notFound, onError, serveEmojiFavicon } from 'stoker/middlewares'
-import { defaultHook } from 'stoker/openapi'
-import { cors } from 'hono/cors'
-import { sessionCookieMiddleware } from '../middlewares/authenticationMiddleware.js'
+import express from 'express';
+import cors from 'cors';
+import { logger } from '../middlewares/pinoLogger.js';
+import { sessionCookieMiddleware } from '../middlewares/authenticationMiddleware.js';
 
-export function createRouter(): AppOpenAPI {
-    return new OpenAPIHono<AppBindings>({
-        strict: false,
-        defaultHook,
-    })
+export function createRouter() {
+    return express();
 }
 
-export default function createApp(): AppOpenAPI {
-    const app = createRouter()
-    app.use(logger())
-    app.use(serveEmojiFavicon('🚘'))
-    app.notFound(notFound)
-    app.onError(onError)
-    app.use('/*', cors())
-    app.use('/*', sessionCookieMiddleware())
-    return app
+export default function createApp() {
+    const app = createRouter();
+
+    // Middlewares
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    app.use(cors());
+    app.use(logger());
+    app.use(sessionCookieMiddleware());
+
+    // Favicon
+    app.get('/favicon.ico', (req, res) => {
+        res.status(204).end();
+    });
+
+    // Error handling
+    app.use((req, res) => {
+        res.status(404).json({ error: 'Not Found' });
+    });
+
+    app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        console.error(err.stack);
+        res.status(500).json({ error: 'Internal Server Error' });
+    });
+
+    return app;
 }

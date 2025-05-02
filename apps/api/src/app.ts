@@ -1,20 +1,27 @@
-import configureOpenAPI from './lib/configure-openapi.js'
-import createApp from './lib/createApp.js'
-import auth from './routes/auth/auth.index.js'
-import agent from './routes/agent/agent.index.js'
-import polizas from './routes/polizas/polizas.index.js'
-import renovaciones from './routes/renovaciones/renovaciones.index.js'
+import express from 'express';
+import cors from 'cors';
+import env from './env.js';
+import { ApiAuthUser } from '@asurandi/types'
+import { sessionCookieMiddleware } from './middlewares/authenticationMiddleware.js'
+declare global {
+    namespace Express {
+        interface Request {
+            user?: ApiAuthUser
+        }
+    }
+}
 
-const app = createApp()
-const routes = [
-    auth,
-    agent,
-    polizas,
-    renovaciones
-]
-configureOpenAPI(app)
-routes.forEach(route => {
-    app.route('/v1', route)
-})
+const port = env.PORT
+const app = express();
+// Middleware
+app.use(cors());
+app.use(express.json());
+app.use(sessionCookieMiddleware)
 
-export default app
+
+// Iniciar el servidor
+export const createServer = () => {
+    app.listen(port, () => {
+        console.log(`Servidor corriendo en http://localhost:${port}`);
+    });
+}
