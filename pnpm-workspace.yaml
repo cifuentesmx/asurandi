@@ -3,8 +3,8 @@ packages:
   - "apps/web"
   - "apps/scrapper"
   - "apps/scheduler"
-  # - "apps/api"
-  # - "apps/mobile"
+  - "apps/api"
+  - "apps/mobile"
   # - "apps/whatsapp"
 syncInjectedDepsAfterScripts:
 - build

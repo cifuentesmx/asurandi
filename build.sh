@@ -3,8 +3,8 @@ START_TIME=$(date +%s)
 
 echo "Iniciando proceso de build - $(date)"
 
-# for service in mobile scheduler scrapper web whatsapp api; do
-for service in scheduler scrapper web; do
+for service in mobile scheduler scrapper web whatsapp api; do
+# for service in scheduler scrapper web; do
     echo "⏳ Construyendo $service..."
     docker build . --target $service --tag bullcloud-$service  || {
         echo "❌ Error construyendo $service"
