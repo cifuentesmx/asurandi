@@ -6,6 +6,7 @@ export async function dailyScrapper(request: MessageBusMessage<UpdateRequestPoli
         await dailyScrapperQualitas(request)
         // TODO: Agregar scrapper de otras agencias
     } catch (error) {
+        console.log('error', Date.now().toLocaleString())
         console.error(error)
 
         request.intents++

@@ -96,7 +96,7 @@ class PolizasResult {
         this.lastSearch = searchTxt
         this.status = offset === 0 ? 'searching' : 'searching-more';
 
-        apiRequest(`/polizas-siniestradas?offset=${offset}`)
+        apiRequest(`/polizas/siniestradas?offset=${offset}`)
             .then(async (response) => {
                 const data = await response.json().catch(() => {
                     throw new AppError('No se pudo leer la respuesta del servidor de la API de Asurandi');
@@ -128,7 +128,7 @@ class PolizasResult {
         this.lastSearch = searchTxt
         this.status = offset === 0 ? 'searching' : 'searching-more';
 
-        apiRequest(`/polizas-norenovadas?offset=${offset}`)
+        apiRequest(`/polizas/norenovadas?offset=${offset}`)
             .then(async (response) => {
                 const data = await response.json().catch(() => {
                     throw new AppError('No se pudo leer la respuesta del servidor de la API de Asurandi');

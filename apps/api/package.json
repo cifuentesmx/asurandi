@@ -10,27 +10,25 @@
     "start": "tsx dist/index.js"
   },
   "dependencies": {
-    "@hono/node-server": "^1.14.0",
-    "@hono/zod-openapi": "^0.19.4",
-    "@scalar/hono-api-reference": "^0.5.184",
-    "dotenv": "^16.4.7",
-    "dotenv-expand": "^12.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "dotenv-expand": "^12.0.2",
     "drizzle-orm": "^0.41.0",
-    "firebase-admin": "^13.2.0",
-    "hono": "^4.7.6",
-    "hono-pino": "^0.7.2",
+    "express": "^5.1.0",
+    "firebase-admin": "^13.3.0",
     "pino": "^9.6.0",
     "pino-pretty": "^13.0.0",
     "postgres": "^3.4.5",
-    "stoker": "^1.4.2",
-    "zod": "^3.24.2"
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@asurandi/database": "workspace:*",
     "@asurandi/types": "workspace:*",
-    "@types/node": "^20.17.30",
-    "eslint": "^9.24.0",
-    "tsx": "^4.19.3",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.1",
+    "@types/node": "^20.17.32",
+    "eslint": "^9.25.1",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3"
   }
 }

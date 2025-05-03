@@ -30,7 +30,7 @@ export const processPorRenovar = async (porRenovar: PolizaPorRenovar, saasId: st
     ))
     if (!renovacion) {
         await pgDb.insert(tblRenovaciones).values({
-            fechaVencimiento: porRenovar.fechaVencimiento,
+            fechaVencimiento: porRenovar.fechaVencimiento.substring(0, 10),
             numeroPoliza: porRenovar.poliza,
             estado: 'PENDIENTE',
             saasId,

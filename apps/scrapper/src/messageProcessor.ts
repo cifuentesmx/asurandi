@@ -1,7 +1,7 @@
 import amqp from 'amqplib';
 import { updatePoliza } from './events/updatePoliza.js';
 import { MessageBusMessage, UpdateRequestPoliza, UpdateRequestPolizasInRange } from '@asurandi/types';
-import { RABBIT_CONECCTION_STRING } from './env.js';
+import { RABBIT_CONECCTION_STRING, RABBIT_PREFETCH } from './env.js';
 import { dailyScrapper } from './events/dailyScrapper.js';
 export async function startConsumer(): Promise<void> {
     try {
@@ -27,7 +27,7 @@ export async function startConsumer(): Promise<void> {
 
         console.info(`${new Date()} - Rabbit MQ server is ready`);
 
-        channel.prefetch(2);
+        channel.prefetch(RABBIT_PREFETCH);
         // Consume messages for service
         channel.consume('q.scrapper', async (msg) => {
             try {

@@ -22,10 +22,10 @@ export const processPorCobrar = async (porCobrar: PolizaPorCobrar, saasId: strin
     ))
     if (!cobro) {
         await pgDb.insert(tblCobros).values({
-            fechaVencimiento: porCobrar.fechaVencimiento,
+            fechaVencimiento: porCobrar.fechaVencimiento.substring(0, 10),
             numeroPoliza: porCobrar.poliza,
             company: porCobrar.company,
-            fechaLimite: porCobrar.periodoGracia,
+            fechaLimite: porCobrar.periodoGracia.substring(0, 10),
             endoso: porCobrar.endoso,
             estado: 'PENDIENTE',
             importe: porCobrar.importe,

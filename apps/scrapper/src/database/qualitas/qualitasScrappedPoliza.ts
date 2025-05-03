@@ -134,7 +134,6 @@ export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, clav
         total: getNumberString(serialData, 'Importe total'),
         primaNetaComision: comision ? await getPrimaNetaComision(serialData, comision) : null,
         porcentajeComision: comision,
-        lastSync: new Date().toISOString(),
         claveAgente,
         origenId,
     }
@@ -166,13 +165,45 @@ export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, clav
     if (poliza.siniestros) await processQualitasScrappedSiniestros(existingPoliza, poliza.siniestros)
 
 
-    if (dataFromDailyScrapper?.canceladas) await processCancelada(dataFromDailyScrapper.canceladas)
-    if (dataFromDailyScrapper?.noRenovadas) await processNoRenovada(dataFromDailyScrapper.noRenovadas)
-    if (dataFromDailyScrapper?.pagadas) await processPagada(dataFromDailyScrapper.pagadas)
-    if (dataFromDailyScrapper?.porCobrar) await processPorCobrar(dataFromDailyScrapper.porCobrar, saasId)
-    if (dataFromDailyScrapper?.porRenovar) await processPorRenovar(dataFromDailyScrapper.porRenovar, saasId)
-    if (dataFromDailyScrapper?.renovadas) await processRenovada(dataFromDailyScrapper.renovadas)
-    if (dataFromDailyScrapper?.porVencer) await processPorVencer(dataFromDailyScrapper.porVencer)
+    if (dataFromDailyScrapper?.canceladas) await processCancelada(dataFromDailyScrapper.canceladas).catch(error => {
+        console.error(`Error al procesar las canceladas de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+    if (dataFromDailyScrapper?.noRenovadas) await processNoRenovada(dataFromDailyScrapper.noRenovadas).catch(error => {
+        console.error(`Error al procesar las no renovadas de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+    if (dataFromDailyScrapper?.pagadas) await processPagada(dataFromDailyScrapper.pagadas).catch(error => {
+        console.error(`Error al procesar las pagadas de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+    if (dataFromDailyScrapper?.porCobrar) await processPorCobrar(dataFromDailyScrapper.porCobrar, saasId).catch(error => {
+        console.error(`Error al procesar los por cobrar de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+    if (dataFromDailyScrapper?.porRenovar) await processPorRenovar(dataFromDailyScrapper.porRenovar, saasId).catch(error => {
+        console.error(`Error al procesar los por renovar de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+    if (dataFromDailyScrapper?.renovadas) await processRenovada(dataFromDailyScrapper.renovadas).catch(error => {
+        console.error(`Error al procesar las renovadas de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+    if (dataFromDailyScrapper?.porVencer) await processPorVencer(dataFromDailyScrapper.porVencer).catch(error => {
+        console.error(`Error al procesar los por vencer de la poliza ${numeroPoliza} ${inciso}: ${error}`)
+        console.log(existingPoliza)
+        throw error
+    })
+
+    await pgDb.update(tblPolizas).set({
+        lastSync: new Date().toISOString(),
+    }).where(eq(tblPolizas.id, existingPoliza.id))
 
     return
 }

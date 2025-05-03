@@ -4,6 +4,7 @@ import { auth } from './firebase/app.client';
 
 export const apiRequest = async (url: string | URL | Request, requestInit?: RequestInit) => {
     try {
+        await auth.authStateReady()
         const response = await fetch(url, requestInit)
         if (!response.ok) {
             if (response.status === 401) {
