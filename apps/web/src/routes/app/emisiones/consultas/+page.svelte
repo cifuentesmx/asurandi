@@ -103,6 +103,11 @@
 			enableSorting: true
 		},
 		{
+			accessorKey: 'polizaAnterior',
+			header: 'Poliza anterior',
+			enableSorting: true
+		},
+		{
 			accessorKey: 'agente',
 			header: 'Agente',
 			enableSorting: true
@@ -110,6 +115,16 @@
 		{
 			accessorKey: 'fechaEmision',
 			header: 'Fecha Emisión',
+			enableSorting: true
+		},
+		{
+			accessorKey: 'vigenciaInicio',
+			header: 'Vigencia Inicio',
+			enableSorting: true
+		},
+		{
+			accessorKey: 'vigenciaFin',
+			header: 'Vigencia Fin',
 			enableSorting: true
 		},
 		{

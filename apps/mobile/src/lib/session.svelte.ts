@@ -1,4 +1,3 @@
-import type { Account } from '../types/mobile/mobile'
 import { goto } from "$app/navigation";
 import { page } from "$app/state";
 import { apiRequest } from "$lib/ApiRequest.svelte";
@@ -6,6 +5,7 @@ import { auth } from "$lib/firebase";
 import { getContext, setContext } from "svelte";
 import { getToastState, ToastState } from '$lib/toast-state.svelte';
 import type { User } from 'firebase/auth';
+import type { Account } from "@asurandi/types";
 
 type AuthState = 'unknown-user'
     | 'email-known'
@@ -41,6 +41,8 @@ class Session {
                 .catch(() => null);
             if (!response || response.status !== 200) {
                 this.errorToast('No se pudo iniciar sesión en el servidor de la API de Asurandi.')
+                await auth.signOut()
+                goto('/')
             }
             await this.getConfigInfo()
         }

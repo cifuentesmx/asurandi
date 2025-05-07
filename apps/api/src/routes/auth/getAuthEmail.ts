@@ -6,7 +6,10 @@ export const getAuthEmail = async (email: string):
     Promise<{ email: string, hasPassword: boolean }> => {
     const app = initializeAdminApp()
     const auth = getAuth(app)
-    const user = await auth.getUserByEmail(email).catch(() => null)
+    const user = await auth.getUserByEmail(email).catch((e) => {
+        console.error(e)
+        return null
+    })
     if (!user || !user.providerData) throw new AppError(`No se encuentra la cuenta para el correo electrónico ${email}`);
     if (!user.email) throw new AppError(`El correo ${email} no existe. Comunícate con tu oficina de emisión.`)
 

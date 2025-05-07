@@ -6,7 +6,7 @@ echo "Iniciando proceso de build - $(date)"
 for service in mobile scheduler scrapper web whatsapp api; do
 # for service in scheduler scrapper web; do
     echo "⏳ Construyendo $service..."
-    docker build . --target $service --tag bullcloud-$service  || {
+    docker build . --target $service --tag bullcloud-$service --platform linux/amd64  || {
         echo "❌ Error construyendo $service"
         exit 1
     }

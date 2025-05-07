@@ -10,11 +10,11 @@ importers:
   .:
     devDependencies:
       eslint:
-        specifier: ^9.25.1
-        version: 9.25.1(jiti@1.21.7)
+        specifier: ^9.26.0
+        version: 9.26.0(jiti@1.21.7)
       eslint-plugin-format:
         specifier: ^1.0.1
-        version: 1.0.1(eslint@9.25.1(jiti@1.21.7))
+        version: 1.0.1(eslint@9.26.0(jiti@1.21.7))
 
   apps/api:
     dependencies:
@@ -78,14 +78,14 @@ importers:
     dependencies:
       '@hono/zod-openapi':
         specifier: ^0.19.5
-        version: 0.19.5(hono@4.7.8)(zod@3.24.3)
+        version: 0.19.5(hono@4.7.8)(zod@3.24.4)
       firebase:
         specifier: ^11.6.0
         version: 11.6.0
     devDependencies:
       '@asurandi/types':
         specifier: workspace:*
-        version: file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.3)
+        version: file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.4)
       '@eslint/compat':
         specifier: ^1.2.8
         version: 1.2.8(eslint@9.25.1(jiti@1.21.7))
@@ -300,7 +300,7 @@ importers:
     devDependencies:
       '@asurandi/types':
         specifier: workspace:*
-        version: file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.3)
+        version: file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.4)
       '@types/amqplib':
         specifier: ^0.10.7
         version: 0.10.7
@@ -309,7 +309,7 @@ importers:
         version: 3.1.9
       openai:
         specifier: ^4.93.0
-        version: 4.93.0(ws@8.18.1)(zod@3.24.3)
+        version: 4.93.0(ws@8.18.1)(zod@3.24.4)
       ts-node:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.15.3)(typescript@5.8.3)
@@ -554,7 +554,7 @@ importers:
         version: 0.30.6
       esbuild-register:
         specifier: ^3.6.0
-        version: 3.6.0(esbuild@0.19.12)
+        version: 3.6.0(esbuild@0.25.3)
       eslint:
         specifier: ^9.25.1
         version: 9.25.1(jiti@1.21.7)
@@ -579,7 +579,7 @@ importers:
     devDependencies:
       '@asurandi/types':
         specifier: workspace:*
-        version: file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.3)
+        version: file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.4)
       dotenv-cli:
         specifier: ^8.0.0
         version: 8.0.0
@@ -594,7 +594,7 @@ importers:
     dependencies:
       '@hono/zod-openapi':
         specifier: ^0.19.2
-        version: 0.19.4(hono@4.7.8)(zod@3.24.3)
+        version: 0.19.4(hono@4.7.8)(zod@3.24.4)
       amqplib:
         specifier: ^0.10.7
         version: 0.10.7
@@ -1300,6 +1300,10 @@ packages:
     resolution: {integrity: sha512-dEIwmjntEx8u3Uvv+kr3PDeeArL8Hw07H9kyYxCjnM9pBjfEhk6uLXSchxxzgiwtRhhzVzqmUSDFBOi1TuZ7qg==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
+  '@eslint/js@9.26.0':
+    resolution: {integrity: sha512-I9XlJawFdSMvWjDt6wksMCrgns5ggLNfFwFvnShsleWruvXM514Qxk8V246efTw+eo9JABvVz+u3q2RiAowKxQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
   '@eslint/object-schema@2.1.6':
     resolution: {integrity: sha512-RBMg5FRL0I0gs51M/guSAj5/e14VQ4tpZnQNWwuDT66P14I43ItmPfIZRhO9fUVIPOAQXU47atlywZ/czoqFPA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
@@ -1878,6 +1882,10 @@ packages:
     resolution: {integrity: sha512-b3SbhMIgVJAj/rPa3go6uplTzaFkJzz91TSPO8I8gc2evtHOA2OgSmPYz0S+yEKFIWqLUZ4gika19ljV+tnmyQ==}
     peerDependencies:
       svelte: ^5
+
+  '@modelcontextprotocol/sdk@1.11.0':
+    resolution: {integrity: sha512-k/1pb70eD638anoi0e8wUGAlbMJXyvdV4p62Ko+EZ7eBe1xMx8Uhak1R5DgfoofsK5IBBnRwsYGTaLZl+6/+RQ==}
+    engines: {node: '>=18'}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -3620,6 +3628,16 @@ packages:
       jiti:
         optional: true
 
+  eslint@9.26.0:
+    resolution: {integrity: sha512-Hx0MOjPh6uK9oq9nVsATZKE/Wlbai7KFjfCuw9UHaguDW3x+HF0O5nIi3ud39TWgrTjTO5nHxmL3R1eANinWHQ==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    hasBin: true
+    peerDependencies:
+      jiti: '*'
+    peerDependenciesMeta:
+      jiti:
+        optional: true
+
   esm-env@1.2.2:
     resolution: {integrity: sha512-Epxrv+Nr/CaL4ZcFGPJIYLWFom+YeV1DqMLHJoEd9SYRxNbaFruBwfEX/kkHUJf55j2+TUbmDcmuilbP1TmXHA==}
 
@@ -3672,6 +3690,20 @@ packages:
   events@3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
+
+  eventsource-parser@3.0.1:
+    resolution: {integrity: sha512-VARTJ9CYeuQYb0pZEPbzi740OWFgpHe7AYJ2WFZVnUDUQp5Dk2yJUgF36YsZ81cOyxT0QxmXD2EQpapAouzWVA==}
+    engines: {node: '>=18.0.0'}
+
+  eventsource@3.0.6:
+    resolution: {integrity: sha512-l19WpE2m9hSuyP06+FbuUUf1G+R0SFLrtQfbRb9PRr+oimOfxQhgGCbVaXg5IvZyyTThJsxh6L/srkMiCeBPDA==}
+    engines: {node: '>=18.0.0'}
+
+  express-rate-limit@7.5.0:
+    resolution: {integrity: sha512-eB5zbQh5h+VenMPM3fh+nw1YExi5nMr6HUCR62ELSP11huvxm/Uir1H1QEyTkk5QX6A58pX6NmaTMceKZ0Eodg==}
+    engines: {node: '>= 16'}
+    peerDependencies:
+      express: ^4.11 || 5 || ^5.0.0-beta.1
 
   express@5.1.0:
     resolution: {integrity: sha512-DT9ck5YIRU+8GYzzU5kT3eHGA5iL+1Zd0EutOmTE9Dtk+Tvuzd23VBU+ec7HPNSTxXYO55gPV/hq4pSBJDjFpA==}
@@ -4517,6 +4549,7 @@ packages:
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    deprecated: Use your platform's native DOMException instead
 
   node-fetch@2.7.0:
     resolution: {integrity: sha512-c4FRfUm/dbcWZ7U+1Wq0AwCyFL+3nt2bEw05wfxSz+DWpWsitgmSgYmy2dQdWyKC1694ELPqMs/YzUSNozLt8A==}
@@ -4739,6 +4772,10 @@ packages:
   pirates@4.0.7:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
+
+  pkce-challenge@5.0.0:
+    resolution: {integrity: sha512-ueGLflrrnvwB3xuo/uGob5pd5FN7l0MsLf0Z87o/UQmRtwjvfylfc9MurIxRAWywCYTgrvpXBcqjV4OfCYGCIQ==}
+    engines: {node: '>=16.20.0'}
 
   pngjs@5.0.0:
     resolution: {integrity: sha512-40QW5YalBNfQo5yRYmiw7Yz6TKKVr3h6970B2YE+3fQpsWcrbj1PzJgxeJ19DRQjhMbKPIuMY8rFaXc8moolVw==}
@@ -5923,6 +5960,9 @@ packages:
   zod@3.24.3:
     resolution: {integrity: sha512-HhY1oqzWCQWuUqvBFnsyrtZRhyPeR7SUGv+C4+MsisMuVfSPx8HpwWqH8tRahSlt6M3PiFAcoeFhZAqIXTxoSg==}
 
+  zod@3.24.4:
+    resolution: {integrity: sha512-OdqJE9UDRPwWsrHjLN2F8bPxvwJBK22EHLWtanu0LSYr5YqzsaaW3RMgmjwr8Rypg5k+meEJdSPXJZXE/yqOMg==}
+
 snapshots:
 
   '@adiwajshing/keyed-db@0.2.4': {}
@@ -5952,6 +5992,11 @@ snapshots:
       openapi3-ts: 4.4.0
       zod: 3.24.3
 
+  '@asteasolutions/zod-to-openapi@7.3.0(zod@3.24.4)':
+    dependencies:
+      openapi3-ts: 4.4.0
+      zod: 3.24.4
+
   '@asurandi/types@file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.2)':
     dependencies:
       '@hono/zod-openapi': 0.19.6(hono@4.7.8)(zod@3.24.2)
@@ -5965,6 +6010,16 @@ snapshots:
   '@asurandi/types@file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.3)':
     dependencies:
       '@hono/zod-openapi': 0.19.6(hono@4.7.8)(zod@3.24.3)
+      amqplib: 0.10.7
+      hono-pino: 0.8.0(hono@4.7.8)(pino@9.6.0)
+    transitivePeerDependencies:
+      - hono
+      - pino
+      - zod
+
+  '@asurandi/types@file:packages/types(hono@4.7.8)(pino@9.6.0)(zod@3.24.4)':
+    dependencies:
+      '@hono/zod-openapi': 0.19.6(hono@4.7.8)(zod@3.24.4)
       amqplib: 0.10.7
       hono-pino: 0.8.0(hono@4.7.8)(pino@9.6.0)
     transitivePeerDependencies:
@@ -6311,6 +6366,11 @@ snapshots:
       eslint: 9.25.1(jiti@1.21.7)
       eslint-visitor-keys: 3.4.3
 
+  '@eslint-community/eslint-utils@4.7.0(eslint@9.26.0(jiti@1.21.7))':
+    dependencies:
+      eslint: 9.26.0(jiti@1.21.7)
+      eslint-visitor-keys: 3.4.3
+
   '@eslint-community/regexpp@4.12.1': {}
 
   '@eslint/compat@1.2.8(eslint@9.25.1(jiti@1.21.7))':
@@ -6354,6 +6414,8 @@ snapshots:
   '@eslint/js@9.24.0': {}
 
   '@eslint/js@9.25.1': {}
+
+  '@eslint/js@9.26.0': {}
 
   '@eslint/object-schema@2.1.6': {}
 
@@ -7116,19 +7178,19 @@ snapshots:
       '@hapi/hoek': 9.3.0
     optional: true
 
-  '@hono/zod-openapi@0.19.4(hono@4.7.8)(zod@3.24.3)':
+  '@hono/zod-openapi@0.19.4(hono@4.7.8)(zod@3.24.4)':
     dependencies:
-      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.3)
-      '@hono/zod-validator': 0.4.3(hono@4.7.8)(zod@3.24.3)
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.4)
+      '@hono/zod-validator': 0.4.3(hono@4.7.8)(zod@3.24.4)
       hono: 4.7.8
-      zod: 3.24.3
+      zod: 3.24.4
 
-  '@hono/zod-openapi@0.19.5(hono@4.7.8)(zod@3.24.3)':
+  '@hono/zod-openapi@0.19.5(hono@4.7.8)(zod@3.24.4)':
     dependencies:
-      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.3)
-      '@hono/zod-validator': 0.4.3(hono@4.7.8)(zod@3.24.3)
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.4)
+      '@hono/zod-validator': 0.4.3(hono@4.7.8)(zod@3.24.4)
       hono: 4.7.8
-      zod: 3.24.3
+      zod: 3.24.4
 
   '@hono/zod-openapi@0.19.6(hono@4.7.8)(zod@3.24.2)':
     dependencies:
@@ -7144,10 +7206,17 @@ snapshots:
       hono: 4.7.8
       zod: 3.24.3
 
-  '@hono/zod-validator@0.4.3(hono@4.7.8)(zod@3.24.3)':
+  '@hono/zod-openapi@0.19.6(hono@4.7.8)(zod@3.24.4)':
+    dependencies:
+      '@asteasolutions/zod-to-openapi': 7.3.0(zod@3.24.4)
+      '@hono/zod-validator': 0.5.0(hono@4.7.8)(zod@3.24.4)
+      hono: 4.7.8
+      zod: 3.24.4
+
+  '@hono/zod-validator@0.4.3(hono@4.7.8)(zod@3.24.4)':
     dependencies:
       hono: 4.7.8
-      zod: 3.24.3
+      zod: 3.24.4
 
   '@hono/zod-validator@0.5.0(hono@4.7.8)(zod@3.24.2)':
     dependencies:
@@ -7158,6 +7227,11 @@ snapshots:
     dependencies:
       hono: 4.7.8
       zod: 3.24.3
+
+  '@hono/zod-validator@0.5.0(hono@4.7.8)(zod@3.24.4)':
+    dependencies:
+      hono: 4.7.8
+      zod: 3.24.4
 
   '@humanfs/core@0.19.1': {}
 
@@ -7221,6 +7295,21 @@ snapshots:
   '@lucide/svelte@0.483.0(svelte@5.28.2)':
     dependencies:
       svelte: 5.28.2
+
+  '@modelcontextprotocol/sdk@1.11.0':
+    dependencies:
+      content-type: 1.0.5
+      cors: 2.8.5
+      cross-spawn: 7.0.6
+      eventsource: 3.0.6
+      express: 5.1.0
+      express-rate-limit: 7.5.0(express@5.1.0)
+      pkce-challenge: 5.0.0
+      raw-body: 3.0.0
+      zod: 3.24.4
+      zod-to-json-schema: 3.24.5(zod@3.24.4)
+    transitivePeerDependencies:
+      - supports-color
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -8885,6 +8974,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  esbuild-register@3.6.0(esbuild@0.25.3):
+    dependencies:
+      debug: 4.4.0(supports-color@5.5.0)
+      esbuild: 0.25.3
+    transitivePeerDependencies:
+      - supports-color
+
   esbuild-runner@2.2.2(esbuild@0.25.3):
     dependencies:
       esbuild: 0.25.3
@@ -9031,20 +9127,20 @@ snapshots:
     dependencies:
       eslint: 9.24.0(jiti@1.21.7)
 
-  eslint-formatting-reporter@0.0.0(eslint@9.25.1(jiti@1.21.7)):
+  eslint-formatting-reporter@0.0.0(eslint@9.26.0(jiti@1.21.7)):
     dependencies:
-      eslint: 9.25.1(jiti@1.21.7)
+      eslint: 9.26.0(jiti@1.21.7)
       prettier-linter-helpers: 1.0.0
 
   eslint-parser-plain@0.1.1: {}
 
-  eslint-plugin-format@1.0.1(eslint@9.25.1(jiti@1.21.7)):
+  eslint-plugin-format@1.0.1(eslint@9.26.0(jiti@1.21.7)):
     dependencies:
       '@dprint/formatter': 0.3.0
       '@dprint/markdown': 0.17.8
       '@dprint/toml': 0.6.4
-      eslint: 9.25.1(jiti@1.21.7)
-      eslint-formatting-reporter: 0.0.0(eslint@9.25.1(jiti@1.21.7))
+      eslint: 9.26.0(jiti@1.21.7)
+      eslint-formatting-reporter: 0.0.0(eslint@9.26.0(jiti@1.21.7))
       eslint-parser-plain: 0.1.1
       prettier: 3.5.3
       synckit: 0.9.2
@@ -9189,6 +9285,50 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  eslint@9.26.0(jiti@1.21.7):
+    dependencies:
+      '@eslint-community/eslint-utils': 4.7.0(eslint@9.26.0(jiti@1.21.7))
+      '@eslint-community/regexpp': 4.12.1
+      '@eslint/config-array': 0.20.0
+      '@eslint/config-helpers': 0.2.2
+      '@eslint/core': 0.13.0
+      '@eslint/eslintrc': 3.3.1
+      '@eslint/js': 9.26.0
+      '@eslint/plugin-kit': 0.2.8
+      '@humanfs/node': 0.16.6
+      '@humanwhocodes/module-importer': 1.0.1
+      '@humanwhocodes/retry': 0.4.2
+      '@modelcontextprotocol/sdk': 1.11.0
+      '@types/estree': 1.0.7
+      '@types/json-schema': 7.0.15
+      ajv: 6.12.6
+      chalk: 4.1.2
+      cross-spawn: 7.0.6
+      debug: 4.4.0(supports-color@5.5.0)
+      escape-string-regexp: 4.0.0
+      eslint-scope: 8.3.0
+      eslint-visitor-keys: 4.2.0
+      espree: 10.3.0
+      esquery: 1.6.0
+      esutils: 2.0.3
+      fast-deep-equal: 3.1.3
+      file-entry-cache: 8.0.0
+      find-up: 5.0.0
+      glob-parent: 6.0.2
+      ignore: 5.3.2
+      imurmurhash: 0.1.4
+      is-glob: 4.0.3
+      json-stable-stringify-without-jsonify: 1.0.1
+      lodash.merge: 4.6.2
+      minimatch: 3.1.2
+      natural-compare: 1.4.0
+      optionator: 0.9.4
+      zod: 3.24.4
+    optionalDependencies:
+      jiti: 1.21.7
+    transitivePeerDependencies:
+      - supports-color
+
   esm-env@1.2.2: {}
 
   espree@10.3.0:
@@ -9230,6 +9370,16 @@ snapshots:
   eventemitter3@5.0.1: {}
 
   events@3.3.0: {}
+
+  eventsource-parser@3.0.1: {}
+
+  eventsource@3.0.6:
+    dependencies:
+      eventsource-parser: 3.0.1
+
+  express-rate-limit@7.5.0(express@5.1.0):
+    dependencies:
+      express: 5.1.0
 
   express@5.1.0:
     dependencies:
@@ -10345,7 +10495,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  openai@4.93.0(ws@8.18.1)(zod@3.24.3):
+  openai@4.93.0(ws@8.18.1)(zod@3.24.4):
     dependencies:
       '@types/node': 18.19.87
       '@types/node-fetch': 2.6.12
@@ -10356,7 +10506,7 @@ snapshots:
       node-fetch: 2.7.0
     optionalDependencies:
       ws: 8.18.1
-      zod: 3.24.3
+      zod: 3.24.4
     transitivePeerDependencies:
       - encoding
 
@@ -10513,6 +10663,8 @@ snapshots:
       thread-stream: 3.1.0
 
   pirates@4.0.7: {}
+
+  pkce-challenge@5.0.0: {}
 
   pngjs@5.0.0: {}
 
@@ -11823,6 +11975,12 @@ snapshots:
       zod: 3.24.2
     optional: true
 
+  zod-to-json-schema@3.24.5(zod@3.24.4):
+    dependencies:
+      zod: 3.24.4
+
   zod@3.24.2: {}
 
   zod@3.24.3: {}
+
+  zod@3.24.4: {}

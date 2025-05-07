@@ -63,7 +63,9 @@ export const listRenovaciones = async ({
     if (f.conducto) conditions.push(eq(tblPolizas.conductoId, f.conducto))
     if (f.estado) conditions.push(eq(tblRenovaciones.estado, f.estado))
 
-    if (s.cliente) conditions.push(ilike(tblAsegurados.nombre, `${s.cliente}%`))
+    if (s.cliente) conditions.push(ilike(tblAsegurados.nombre, `${s.cliente.trim()}%`))
+    if (s.numeroPoliza) conditions.push(ilike(tblRenovaciones.numeroPoliza, `${s.numeroPoliza.trim()}%`))
+    if (s.numeroSerie) conditions.push(ilike(tblVehiculos.serie, `${s.numeroSerie.trim()}%`))
 
     const cobros = await pgDb.select({
         id: tblRenovaciones.id,

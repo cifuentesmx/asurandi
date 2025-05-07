@@ -20,7 +20,10 @@ declare global {
 const port = env.PORT
 const app = express();
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://app.asurandi.com',
+    credentials: true
+}));
 app.use(express.json());
 app.use(sessionCookieMiddleware)
 

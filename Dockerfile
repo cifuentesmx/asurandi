@@ -10,6 +10,7 @@ WORKDIR /usr/src/app
 RUN pnpm install -g typescript tsx
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 RUN echo "Instalacion de dependencias $(date)"
+COPY ./apps/mobile/.env.prod /usr/src/app/apps/mobile/.env
 RUN pnpm run -r build
 RUN echo "build done $(date)"
 

@@ -32,6 +32,7 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
 
     const cobranza = await pgDb.select({
         id: tblCobros.id,
+        numeroPoliza: tblPolizas.numeroPoliza,
         fechaLimite: tblCobros.fechaLimite,
         fechaVencimiento: tblCobros.fechaVencimiento,
         serie: tblCobros.serie,
@@ -65,7 +66,7 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
         'RENOVACIÓN DE PÓLIZA',
     ]),
     ...cobranza.map((row) => [
-        `${row.numeroRecibo} / ${row.serie}`,
+        `${row.numeroPoliza} - ${row.numeroRecibo} / Serie: ${row.serie}`,
         row.vehiculo ?? '',
         row.email ?? '',
         money.format(Number(row.importe ?? '0') || 0),
@@ -77,6 +78,10 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
     ].sort((a, b) => {
         return (a[4] ?? '').localeCompare(b[4] ?? '')
     })
+
+    if (body.length === 0) {
+        return []
+    }
 
     // Create PDF document inside the function
     const doc = new newPDF()
@@ -160,7 +165,7 @@ export const conductoCobranzaRenovaciones = async (conducto: InferSelectModel<ty
 
     const file = await storageSaveFile({
         files: [tempFilePath],
-        storagePath: `p/reportes/${conducto.uid}/pendientes`
+        storagePath: `p/${conducto.saasId}/reporte-pendientes`
     })
     return file
-} 
+}

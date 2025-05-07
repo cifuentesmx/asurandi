@@ -77,6 +77,11 @@
 			enableSorting: true
 		},
 		{
+			accessorKey: 'polizaAnterior',
+			header: 'Poliza anterior',
+			enableSorting: true
+		},
+		{
 			accessorKey: 'agente',
 			header: 'Agente',
 			enableSorting: true
