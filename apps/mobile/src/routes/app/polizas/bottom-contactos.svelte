@@ -6,7 +6,6 @@
 	import { Contact } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import TextData from '$lib/components/text-data.svelte';
-	import { terminate } from 'firebase/firestore';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
 	const contactos = polizasStore.onePoliza?.contactos;

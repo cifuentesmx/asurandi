@@ -105,7 +105,7 @@
 			param: 'estado'
 		},
 		{
-			caption: 'Fecha Límite de pago',
+			caption: 'Fecha de vencimiento',
 			type: 'dateInterval',
 			param: 'fechaVencimiento'
 		}
