@@ -49,6 +49,7 @@ RUN echo "Starting Mobile build"
 ##############################################################################################
 FROM nginx AS mobile
 COPY --from=build /usr/src/app/apps/mobile/build /usr/share/nginx/html
+COPY ./deploy/mobile_nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 STOPSIGNAL SIGTERM
 CMD ["nginx", "-g", "daemon off;"]
