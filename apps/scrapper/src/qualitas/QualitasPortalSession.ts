@@ -70,21 +70,6 @@ export class QualitasPortalSession implements CompanyPortalSession {
 
         const polizasToScrape: Map<string, PolizasToScrapeFromDaily> = new Map<string, PolizasToScrapeFromDaily>()
 
-        console.info('Obteniendo polizas porRenovar... ')
-        console.time(`Tiempo transcurrido`)
-        await getQualitasPolizasPorRenovar(this.browser, this.saasId)
-            .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
-                r.forEach(p => {
-                    const existing = polizasToScrape.get(p.poliza)
-                    if (!existing) polizasToScrape.set(p.poliza, { porRenovar: p })
-                    else polizasToScrape.set(p.poliza, { ...existing, porRenovar: p })
-                })
-                return r
-            })
-            .catch(e => console.error(e))
-            .finally(() => console.timeEnd(`Tiempo transcurrido`)) ?? []
-
         console.info('Obteniendo polizas porCobrar... ')
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasPorCobrar(this.browser, this.saasId)
@@ -98,6 +83,24 @@ export class QualitasPortalSession implements CompanyPortalSession {
                 return r
             })
             .catch(e => console.error(e))
+            .finally(() => console.timeEnd(`Tiempo transcurrido`)) ?? []
+
+        console.info('Obteniendo polizas porRenovar... ')
+        console.time(`Tiempo transcurrido`)
+        await getQualitasPolizasPorRenovar(this.browser, this.saasId)
+            .then(r => {
+                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                r.forEach(p => {
+                    const existing = polizasToScrape.get(p.poliza)
+                    if (!existing) polizasToScrape.set(p.poliza, { porRenovar: p })
+                    else polizasToScrape.set(p.poliza, { ...existing, porRenovar: p })
+                })
+                return r
+            })
+            .catch(e => {
+                console.error(e)
+                throw e
+            })
             .finally(() => console.timeEnd(`Tiempo transcurrido`)) ?? []
 
         console.info('Obteniendo polizas canceladas...')

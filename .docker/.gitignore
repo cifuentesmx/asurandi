@@ -1,6 +1,5 @@
-mysql
-pgdata
-rabbitmq
+
+*
 !rabbit.plugins
 !.gitignore
 

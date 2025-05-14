@@ -1,0 +1,1 @@
+ALTER TABLE "contactos" RENAME COLUMN "13" TO "rfc";

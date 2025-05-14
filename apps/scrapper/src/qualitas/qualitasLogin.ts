@@ -36,10 +36,10 @@ export async function qualitasLogin(saasId: string, accountId: string): Promise<
         hostname: process.env.SELENIUM_HOST ?? 'localhost',
         port: Number(process.env.SLENUM_PORT ?? '4444'),
         path: process.env.SELENIUM_PATH ?? '/',
-        waitforInterval: 350,
+        waitforInterval: 500,
         waitforTimeout: 15_000,
         outputDir: `${process.cwd()}/storage`,
-        connectionRetryTimeout: 200_000,
+        connectionRetryTimeout: 160_000,
         connectionRetryCount: 3
     })
         .catch(e => {

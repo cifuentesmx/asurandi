@@ -5,11 +5,12 @@
 	import { getPolizasStore } from '$lib/polizas-store.svelte';
 	import { Contact } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
+	import Contacto from './contacto.svelte';
 	import TextData from '$lib/components/text-data.svelte';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
 	const contactos = polizasStore.onePoliza?.contactos;
-	let open = $state(false);
+	let open = $state(true);
 </script>
 
 {#if poliza}
@@ -27,16 +28,16 @@
 				</Drawer.Description>
 			</Drawer.Header>
 			<ScrollArea class="mx-4 h-[50vh]">
+				<div class="text-muted-foreground text-xs">
+					<div class="text-foreground text-sm font-bold">Asegurado</div>
+					{poliza.asegurado ? poliza.asegurado + ',' : 'No hay asegurado,'}
+					{poliza.aseguradoCelular ? poliza.aseguradoCelular + ',' : 'No hay teléfono,'}
+					{poliza.aseguradoDireccion ? poliza.aseguradoDireccion + ',' : 'No hay dirección,'}
+					{poliza.aseguradoRfc ? poliza.aseguradoRfc : 'No hay RFC.'}
+				</div>
 				{#if contactos}
 					{#each contactos as contacto}
-						<div class="bg-muted mt-4 rounded p-4">
-							<div class="text-sm font-bold">{contacto.nombre}</div>
-							<div class="layout">
-								<TextData caption="Teléfono">{contacto.telefono ?? 'No registrado'}</TextData>
-								<TextData caption="Email">{contacto.email ?? 'No registrado'}</TextData>
-								<TextData caption="Dirección">{contacto.direccion ?? 'No registrada'}</TextData>
-							</div>
-						</div>
+						<Contacto {contacto} />
 					{/each}
 				{:else}
 					<div class="flex justify-center">

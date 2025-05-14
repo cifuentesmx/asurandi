@@ -176,6 +176,20 @@
       "when": 1744543210193,
       "tag": "0024_bizarre_white_queen",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1747082532300,
+      "tag": "0025_lowly_luke_cage",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1747083176392,
+      "tag": "0026_red_spyke",
+      "breakpoints": true
     }
   ]
 }

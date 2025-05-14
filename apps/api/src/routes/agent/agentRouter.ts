@@ -13,6 +13,7 @@ agentRouter.get('/', async (req: Request, res: Response) => {
         const response = await getAgentData(user)
         res.status(200).json(response)
     } catch (error) {
+        console.error(error)
         const message = error instanceof AppError ? error.message : 'Error inesperado en el servidor'
         res.status(400).json({ message })
     }

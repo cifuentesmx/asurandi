@@ -35,7 +35,7 @@ export const getAsegurado = async (
             saasId,
             nombre: nombre?.value?.trim() ?? nexusClient?.cliente?.trim() ?? 'Desconocido',
             nexusId: nexusClient?.idCliente,
-            email: nexusClient?.email,
+            email: nexusClient?.email ?? null,
             celular: celular?.value.trim() ?? nexusClient?.celular?.trim(),
             direccion: direccion?.value.trim() ?? nexusClient?.direccion?.trim(),
             qualitasId: numeroAsegurado,
@@ -48,15 +48,15 @@ export const getAsegurado = async (
 
         const newContacto = await pgDb.insert(tblContactos).values({
             saasId,
-            nombre: nexusClient?.cliente?.trim() ?? 'Desconocido',
-            email: nexusClient?.email?.trim() ?? 'Desconocido',
-            rfc: nexusClient?.RFC?.trim(),
-            direccion: nexusClient?.direccion?.trim(),
+            nombre: nombre?.value?.trim() ?? nexusClient?.cliente?.trim() ?? 'Desconocido',
+            email: nexusClient?.email?.trim() ?? null,
+            rfc: rfc?.value.trim() ?? nexusClient?.RFC?.trim(),
+            direccion: direccion?.value.trim() ?? nexusClient?.direccion?.trim(),
             agenteId,
             conductoId,
             esCliente: true,
             fechaActualizacion: sql`NOW()`,
-            telefono: nexusClient?.telefono ?? nexusClient?.telefono2 ?? nexusClient?.telefono3,
+            telefono: celular?.value.trim() ?? nexusClient?.celular?.trim() ?? nexusClient?.telefono ?? nexusClient?.telefono2 ?? nexusClient?.telefono3,
         }).returning()
         if (newContacto.length === 1 && newAsegurado.length === 1) {
             await pgDb.insert(aseguradosToContactos).values({
@@ -70,10 +70,10 @@ export const getAsegurado = async (
         await pgDb.update(tblAsegurados).set({
             saasId,
             nombre: nombre?.value?.trim() ?? 'Desconocido',
-            celular: celular?.value.trim(),
-            direccion: direccion?.value.trim(),
+            celular: celular?.value.trim() ?? null,
+            direccion: direccion?.value.trim() ?? null,
             qualitasId: numeroAsegurado,
-            rfc: rfc?.value.trim(),
+            rfc: rfc?.value.trim() ?? null,
         }).where(eq(tblAsegurados.id, asegurados[0].id))
         return asegurados[0]
     }

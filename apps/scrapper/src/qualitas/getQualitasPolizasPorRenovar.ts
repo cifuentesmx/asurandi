@@ -32,7 +32,7 @@ export async function getQualitasPolizasPorRenovar(browser: WebdriverIO.Browser,
     await browser.pause(350)
 
     await browser.keys("\uE007")
-    await browser.pause(10000)
+    await browser.pause(5000)
     let none: number = 0
     await browser.waitUntil(async () => {
         none = await browser.$$('*=Mostrando 0 de 0 resultados').length + await browser.$$('*=No existen renovaciones en el periodo seleccionado').length
