@@ -1,15 +1,14 @@
 <script lang="ts">
-	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
 	import { Pencil } from 'lucide-svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import Contacto from './contacto.svelte';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import type { GetOnePolizaResponse } from '@asurandi/types';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import Label from '$lib/components/ui/label/label.svelte';
-	import { enhance } from '$app/forms';
+	import Birthday from '$lib/components/birthday.svelte';
+
 	const polizasStore = getPolizasStore();
 	if (!polizasStore.onePoliza) {
 		throw new Error('No se encontró la póliza');
@@ -18,18 +17,22 @@
 		$props();
 	const poliza = polizasStore.onePoliza;
 	let updateContacto = $state(contacto);
+	let open = $state(false);
 
-	const handleSubmit = (e: Event) => {
+	const handleSubmit = async (e: Event) => {
 		e.preventDefault();
-		console.log($state.snapshot(updateContacto));
+		const result = await polizasStore.updateContacto(contacto.id, updateContacto);
+		if (result) {
+			open = false;
+		}
 	};
 </script>
 
 {#if poliza}
-	<Drawer.Root>
+	<Drawer.Root bind:open>
 		<Drawer.Trigger>
 			{#snippet child({ props })}
-				<Button {...props} variant="ghost" size="sm"><Pencil class="h-6 w-6 " />Editar</Button>
+				<Button {...props} variant="ghost" size="sm"><Pencil class="h-6 w-6 " /></Button>
 			{/snippet}
 		</Drawer.Trigger>
 		<Drawer.Content>
@@ -49,11 +52,17 @@
 								type="text"
 								bind:value={updateContacto.nombre}
 								placeholder="Nombre"
+								required
 							/>
 						</div>
 						<div class="flex w-full max-w-sm flex-col gap-1.5">
 							<Label for="email">Email</Label>
-							<Input id="email" type="text" bind:value={updateContacto.email} placeholder="Email" />
+							<Input
+								id="email"
+								type="email"
+								bind:value={updateContacto.email}
+								placeholder="Email"
+							/>
 						</div>
 						<div class="flex w-full max-w-sm flex-col gap-1.5">
 							<Label for="telefono">Teléfono</Label>
@@ -74,35 +83,22 @@
 							/>
 						</div>
 						<div class="flex w-full max-w-sm flex-col gap-1.5">
-							<Label for="ciudad">Ciudad</Label>
-							<Input
-								id="ciudad"
-								type="text"
-								bind:value={updateContacto.ciudad}
-								placeholder="Ciudad"
-							/>
-						</div>
-						<div class="flex w-full max-w-sm flex-col gap-1.5">
 							<Label for="rfc">RFC</Label>
 							<Input id="rfc" type="text" bind:value={updateContacto.rfc} placeholder="RFC" />
+						</div>
+						<div class="flex w-full max-w-sm flex-col gap-1.5">
+							<Label for="fechaNacimiento">Fecha de nacimiento</Label>
+							<Birthday bind:value={updateContacto.fechaNacimiento} />
 						</div>
 					</div>
 				</ScrollArea>
 				<Drawer.Footer>
-					<Drawer.Close class={buttonVariants({ variant: 'outline', size: 'sm' })}>
+					<Button size="sm" variant="outline" type="button" onclick={() => (open = false)}>
 						Cancelar
-					</Drawer.Close>
+					</Button>
 					<Button size="sm" variant="default" type="submit">Guardar</Button>
 				</Drawer.Footer>
 			</form>
 		</Drawer.Content>
 	</Drawer.Root>
 {/if}
-
-<style>
-	.layout {
-		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-		gap: 0.3rem;
-	}
-</style>

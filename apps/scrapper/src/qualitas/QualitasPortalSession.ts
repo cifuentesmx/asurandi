@@ -74,11 +74,11 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasPorCobrar(this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) por cobrar.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
-                    if (!existing) polizasToScrape.set(p.poliza, { porCobrar: p })
-                    else polizasToScrape.set(p.poliza, { ...existing, porCobrar: p })
+                    if (!existing) polizasToScrape.set(p.poliza, { porCobrar: [p] })
+                    else polizasToScrape.set(p.poliza, { ...existing, porCobrar: [...existing?.porCobrar ?? [], p] })
                 })
                 return r
             })
@@ -89,7 +89,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasPorRenovar(this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) por renovar.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { porRenovar: p })
@@ -107,7 +107,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasCanceladas(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) canceladas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { canceladas: p })
@@ -122,7 +122,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasNoRenovadas(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) no renovadas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { noRenovadas: p })
@@ -137,7 +137,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasPorVencer(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) por vencer.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { porVencer: p })
@@ -152,7 +152,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasPagadas(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) pagadas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { pagadas: p })
@@ -167,7 +167,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasRenovadas(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) renovadas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.polizaAnterior)
                     if (!existing) polizasToScrape.set(p.polizaAnterior, { renovadas: p })
@@ -182,7 +182,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasEmitidas(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) emitidas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { emitidas: p })
@@ -197,7 +197,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         console.time(`Tiempo transcurrido`)
         await getQualitasPolizasSiniestradas(fStart, fEnd, this.browser, this.saasId)
             .then(r => {
-                console.info(`Se han obtenido ${r.length} póliza(s).`)
+                console.info(`Se han obtenido ${r.length} póliza(s) siniestradas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
                     if (!existing) polizasToScrape.set(p.poliza, { siniestradas: p })

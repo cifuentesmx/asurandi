@@ -18,6 +18,7 @@ export const sessionCookieMiddleware = async (req: Request, res: Response, next:
     const user: ApiAuthUser = {
         uid: decodedToken.uid,
         email: decodedToken.email ?? '',
+        saasId: req.header('x-saasId') ?? ''
     }
 
     req.user = user

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import type { GetOnePolizaResponse } from '@asurandi/types';
 
 	const polizasStore = getPolizasStore();

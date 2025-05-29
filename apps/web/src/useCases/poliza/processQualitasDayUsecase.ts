@@ -1,17 +1,17 @@
 import { sendToMessageBus } from "$lib/sendRabbitMessage"
-import type { MessageBusMessage, PolizaSiniestroUpdateRequestRange, Aseguradoras } from "@asurandi/types"
+import type { MessageBusMessage, Aseguradoras, UpdateRequestPolizasInRange } from "@asurandi/types"
 
 export const processQualitasDayUsecase = async ({
     company, day, saasId
 }: { company: Aseguradoras, day: string, saasId: string }) => {
-    const updateRequest: PolizaSiniestroUpdateRequestRange = {
+    const updateRequest: UpdateRequestPolizasInRange = {
         intents: 0,
         company,
         start: day,
         end: day,
         saasId,
     }
-    const msg: MessageBusMessage<PolizaSiniestroUpdateRequestRange> = {
+    const msg: MessageBusMessage<UpdateRequestPolizasInRange> = {
         exchange: 'ex.scrapper',
         intents: 0,
         maxIntents: 5,

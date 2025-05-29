@@ -6,7 +6,7 @@
 	import { formatMoney } from '$lib/formatters/formatMoney';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
 	import Button from '$lib/components/ui/button/button.svelte';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	const polizasStore = getPolizasStore();
 </script>
 

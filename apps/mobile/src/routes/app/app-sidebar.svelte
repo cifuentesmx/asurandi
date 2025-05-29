@@ -47,9 +47,13 @@
 		},
 		{
 			title: 'Contactos',
-			url: '/app/contacts',
+			url: '/app/contactos',
 			icon: Contact,
-			items: [{ title: 'Cumpleañeros', url: '/cumpleanos' }]
+			items: [
+				{ title: 'Cumpleañeros', url: '/app/contactos?bday=true' },
+				{ title: 'Sin teléfono', url: '/app/contactos?woPhone=true' },
+				{ title: 'Sin cumpleaños', url: '/app/contactos?woBday=true' }
+			]
 		}
 	] as const;
 </script>

@@ -1,6 +1,24 @@
 <script lang="ts">
 	const cambios = [
 		{
+			version: '0.7',
+			fecha: 'Mayo 2025',
+			cambios: [
+				[
+					'add',
+					'Se puede editar el contacto de una póliza desde la aplicación móvil cuando se muestra la póliza individual.'
+				],
+				[
+					'fix',
+					'Se corrigieron errores en los datos de contactos provenientes de Qualitas, se agrega el cumpleaños cuando se pueda obtener.'
+				],
+				[
+					'fix',
+					'Se corrigió el error en el tiempo de espera del servidor cuando se sincronizan muchas pólizas en Qualitas.'
+				]
+			]
+		},
+		{
 			version: '0.6',
 			fecha: 'Abril 2025',
 			cambios: [

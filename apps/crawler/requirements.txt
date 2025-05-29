@@ -1,0 +1,6 @@
+flask
+crawl4ai
+transformers
+torch
+nltk
+asgiref

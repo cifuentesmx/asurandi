@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ArrowLeft, MessageCircle } from 'lucide-svelte';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import BottomSiniestros from './bottom-siniestros.svelte';
 	import BottomRecibos from './bottom-recibos.svelte';
 	import BottomEndosos from './bottom-endosos.svelte';

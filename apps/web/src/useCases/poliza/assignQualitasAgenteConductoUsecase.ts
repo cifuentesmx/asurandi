@@ -1,6 +1,6 @@
 import { and, eq, sql } from "drizzle-orm"
 import { pgDb } from "$lib/db.js"
-import { tblPolizaMovimientos, tblPolizas } from "@asurandi/database"
+import { aseguradosToContactos, tblAsegurados, tblContactos, tblPolizaMovimientos, tblPolizas } from "@asurandi/database"
 
 export const assignQualitasAgenteConductoUsecase = async ({
     saasId, agenteId, conductoId, numeroPoliza, userEmail }: {
@@ -21,6 +21,26 @@ export const assignQualitasAgenteConductoUsecase = async ({
         )).returning()
         for (let idx = 0; idx < polizas.length; idx++) {
             const updated = polizas[idx];
+
+            // const cta = await tx.update(aseguradosToContactos).set({
+            //     agenteId,
+            //     conductoId,
+            // })
+            //     .where(eq(aseguradosToContactos.aseguradoId, updated.asegurado_id))
+            //     .returning()
+
+            const cta = await tx.select().from(aseguradosToContactos)
+                .where(eq(aseguradosToContactos.aseguradoId, updated.asegurado_id))
+
+            for (let idx = 0; idx < cta.length; idx++) {
+                const ctaItem = cta[idx];
+                const updatedContacto = await tx.update(tblContactos).set({
+                    agenteId,
+                    conductoId,
+                }).where(eq(tblContactos.id, ctaItem.contactoId))
+                    .returning()
+                console.log({ updatedContacto })
+            }
 
             await tx.insert(tblPolizaMovimientos).values({
                 agenteId: updated.agenteId,

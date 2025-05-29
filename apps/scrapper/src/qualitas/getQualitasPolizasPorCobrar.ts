@@ -19,30 +19,22 @@ export async function getQualitasPolizasPorCobrar(browser: WebdriverIO.Browser, 
 
     let pending = true
 
-
-
-    // const select = browser.$('select.form-control')
-    // await select.waitForClickable()
-    // await select.click()
-    // await browser.pause(1000)
-    // const options = await select.$$('option').getElements()
-    // const lastOption = options[options.length - 1]
-    // await lastOption.click()
-    // await browser.pause(1000)
+    const select = browser.$('select.form-control')
+    await select.waitForClickable()
+    await select.click()
+    await browser.pause(1000)
+    const options = await select.$$('option').getElements()
+    const lastOption = options[options.length - 1]
+    await lastOption.click()
+    await browser.pause(1000)
 
     const scrappedPages: Set<string> = new Set()
     const ul = browser.$('#tableCobranza_paginate > ul')
 
     while (pending) {
-
         const tbody = await browser.$('table#tableCobranza > tbody').getElement()
 
-        // const lis = await ul.$$('li').getElements()
-        // for (let i = 0; i < lis.length; i++) {
         const id = await ul.$('li.active>a').getAttribute('data-dt-idx')
-        //     const isNext = await ul.$('li.active>a').getAttribute('id')
-        //     if (id === '0' || isNext === 'tableCobranza_next') continue
-        //     if (!scrappedPages.includes(id)) {
         if (scrappedPages.has(id)) {
             pending = false
             break
@@ -93,7 +85,6 @@ export async function getQualitasPolizasPorCobrar(browser: WebdriverIO.Browser, 
         })
         await browser.pause(1500)
     }
-    console.log(`Scrapped ${polizas.length} polizas`)
     return polizas
 }
 

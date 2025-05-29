@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Phone, Mail, MessageCircle } from 'lucide-svelte';
 	import { Button } from '$lib/components/ui/button';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from '../polizas/polizas-store.svelte';
 	import { goto } from '$app/navigation';
 	const { cobro } = $props();
 	const days = $state(

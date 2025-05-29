@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';
-	import { getRenovacionesStore } from '$lib/renovaciones-store.svelte';
+	import { getRenovacionesStore } from './renovaciones-store.svelte';
 	import { Search, X } from 'lucide-svelte';
 	import Renovacion from './renovacion.svelte';
 	const renovaciones = getRenovacionesStore();

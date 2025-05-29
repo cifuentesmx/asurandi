@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import PolizaDetalle from './poliza-detalle.svelte';
 	import { Search, X } from 'lucide-svelte';
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';

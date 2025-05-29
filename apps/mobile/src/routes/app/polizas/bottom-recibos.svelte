@@ -3,7 +3,7 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import type { GetOnePolizaResponse } from '@asurandi/types';
 	import { CircleDollarSign } from 'lucide-svelte';
 	import { Badge } from '$lib/components/ui/badge/index.js';

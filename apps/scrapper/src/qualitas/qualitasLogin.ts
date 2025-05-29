@@ -89,8 +89,5 @@ export async function qualitasLogin(saasId: string, accountId: string): Promise<
         })
 
     }
-
     return browser
-
-
 }

@@ -44,62 +44,76 @@ export async function getQualitasPolizasPorRenovar(browser: WebdriverIO.Browser,
     const polizas: PolizaPorRenovar[] = []
     if (none > 0) return polizas
 
+    const select = browser.$('select.form-control')
+    await select.waitForClickable()
+    await select.click()
+    await browser.pause(1000)
+    const options = await select.$$('option').getElements()
+    const lastOption = options[options.length - 1]
+    await lastOption.click()
+    await browser.pause(1000)
+
+    const scrappedPages: Set<string> = new Set()
     const ul = browser.$('#renovacionesTable_paginate > ul')
-    const scrappedPages: string[] = []
-    const tbody = await browser.$('table#renovacionesTable > tbody').getElement()
 
-    const lis = await ul.$$('li').getElements()
-    for (let i = 0; i < lis.length; i++) {
+    let pending = true
+    while (pending) {
+        const tbody = await browser.$('table#renovacionesTable > tbody').getElement()
+        // const lis = await ul.$$('li').getElements()
+        // for (let i = 0; i < lis.length; i++) {
         const id = await ul.$('li.active>a').getAttribute('data-dt-idx')
-        const isNext = await ul.$('li.active>a').getAttribute('id')
-        if (id === '0' || isNext === 'renovacionesTable_next') continue
-        if (!scrappedPages.includes(id)) {
-            scrappedPages.push(id)
-            await browser.pause(5000)
-            await tbody.$$('tr').forEach(async row => {
-                const [
-                    checked,
-                    poliza,
-                    fechaVencimiento,
-                    automovil,
-                    asegurado,
-                    planPago,
-                    descuentoCartera,
-                    descuentoBuenaConducta,
-                    primaTotalActualAnterior,
-                    estatus,
-                    editar,
-                    causaNoRenovacion,
-                ] = await row.$$('td').getElements()
-                polizas.push({
-                    company: 'qualitas',
-                    checked: (await checked.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    poliza: (await poliza.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    fechaVencimiento: (await fechaVencimiento.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    automovil: (await automovil.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    asegurado: (await asegurado.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    planPago: (await planPago.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    descuentoCartera: (await descuentoCartera.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    descuentoBuenaConducta: (await descuentoBuenaConducta.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    primaTotalActualAnterior: (await primaTotalActualAnterior.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    estatus: (await estatus.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    editar: (await editar.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                    causaNoRenovacion: (await causaNoRenovacion.getText())?.replace('\n', ' ')?.trim() ?? undefined,
-                })
-            })
 
-            const next = ul.$('li#renovacionesTable_next > a')
-            await browser.pause(150)
-            await next.click().then(async () => {
-                await browser.pause(500)
-            }).catch(async () => {
-                console.log('Please refactor waiting is pointless')
-                await browser.pause(350)
-            })
-            await browser.pause(1500)
+        // const isNext = await ul.$('li.active>a').getAttribute('id')
+        // if (id === '0' || isNext === 'renovacionesTable_next') continue
+        // if (!scrappedPages.includes(id)) {
+        if (scrappedPages.has(id)) {
+            pending = false
+            break
         }
+        scrappedPages.add(id)
+        await browser.pause(1500)
+        await tbody.$$('tr').forEach(async row => {
+            const [
+                checked,
+                poliza,
+                fechaVencimiento,
+                automovil,
+                asegurado,
+                planPago,
+                descuentoCartera,
+                descuentoBuenaConducta,
+                primaTotalActualAnterior,
+                estatus,
+                editar,
+                causaNoRenovacion,
+            ] = await row.$$('td').getElements()
+            polizas.push({
+                company: 'qualitas',
+                checked: (await checked.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                poliza: (await poliza.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                fechaVencimiento: (await fechaVencimiento.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                automovil: (await automovil.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                asegurado: (await asegurado.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                planPago: (await planPago.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                descuentoCartera: (await descuentoCartera.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                descuentoBuenaConducta: (await descuentoBuenaConducta.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                primaTotalActualAnterior: (await primaTotalActualAnterior.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                estatus: (await estatus.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                editar: (await editar.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+                causaNoRenovacion: (await causaNoRenovacion.getText())?.replace('\n', ' ')?.trim() ?? undefined,
+            })
+        })
 
+        const next = ul.$('li#renovacionesTable_next > a')
+        await browser.pause(150)
+        await next.click().then(async () => {
+            await browser.pause(500)
+        }).catch(async () => {
+            console.log('Please refactor waiting is pointless')
+            await browser.pause(350)
+        })
+        await browser.pause(1500)
     }
-
     return polizas
 }
+

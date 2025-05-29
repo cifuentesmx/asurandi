@@ -31,53 +31,63 @@ export async function getQualitasPolizasEmitidas(start: string, end: string, bro
     const polizas: PolizaEmitida[] = []
     if (none > 0) return polizas
 
+    let pending = true
+
+    const select = browser.$('select.form-control')
+    await select.waitForClickable()
+    await select.click()
+    await browser.pause(1000)
+    const options = await select.$$('option').getElements()
+    const lastOption = options[options.length - 1]
+    await lastOption.click()
+    await browser.pause(1000)
+
+    const scrappedPages: Set<string> = new Set()
     const ul = browser.$('#tablePolizaEmitida_paginate > ul')
-    const scrappedPages: string[] = []
-    const tbody = await browser.$('table#tablePolizaEmitida > tbody').getElement()
 
-    const lis = await ul.$$('li').getElements()
-    for (let i = 0; i < lis.length; i++) {
+    while (pending) {
+        const tbody = await browser.$('table#tablePolizaEmitida > tbody').getElement()
+
         const id = await ul.$('li.active>a').getAttribute('data-dt-idx')
-        const isNext = await ul.$('li.active>a').getAttribute('id')
-        if (id === '0' || isNext === 'tablePolizaEmitida_next') continue
-        if (!scrappedPages.includes(id)) {
-            scrappedPages.push(id)
-            await browser.pause(5000)
-            await tbody.$$('tr').forEach(async row => {
-                const [poliza,
-                    ramo,
-                    endoso,
-                    fechaEmision,
-                    inicioVigencia,
-                    moneda,
-                    primaRecibo,
-                    tipoMovimiento,
-                ] = await row.$$('td').getElements()
-                polizas.push({
-                    company: 'qualitas',
-                    poliza: await poliza.getText(),
-                    ramo: await ramo.getText(),
-                    endoso: await endoso.getText(),
-                    fechaEmision: await fechaEmision.getText(),
-                    inicioVigencia: await inicioVigencia.getText(),
-                    moneda: await moneda.getText(),
-                    primaRecibo: await primaRecibo.getText(),
-                    tipoMovimiento: await tipoMovimiento.getText(),
-                })
-            })
-
-            const next = ul.$('li#tablePolizaEmitida_next > a')
-            await browser.pause(150)
-            await next.click().then(async () => {
-                await browser.pause(500)
-            }).catch(async () => {
-                console.log('Please refactor waiting is pointless')
-                await browser.pause(350)
-            })
-            await browser.pause(1500)
+        if (scrappedPages.has(id)) {
+            pending = false
+            break
         }
+        scrappedPages.add(id)
+        await browser.pause(1500)
+        await tbody.$$('tr').forEach(async row => {
+            const [poliza,
+                ramo,
+                endoso,
+                fechaEmision,
+                inicioVigencia,
+                moneda,
+                primaRecibo,
+                tipoMovimiento,
+            ] = await row.$$('td').getElements()
+            polizas.push({
+                company: 'qualitas',
+                poliza: await poliza.getText(),
+                ramo: await ramo.getText(),
+                endoso: await endoso.getText(),
+                fechaEmision: await fechaEmision.getText(),
+                inicioVigencia: await inicioVigencia.getText(),
+                moneda: await moneda.getText(),
+                primaRecibo: await primaRecibo.getText(),
+                tipoMovimiento: await tipoMovimiento.getText(),
+            })
+        })
 
+        const next = ul.$('li#tablePolizaEmitida_next > a')
+        await browser.pause(150)
+        await next.click().then(async () => {
+            await browser.pause(500)
+        }).catch(async () => {
+            console.log('Please refactor waiting is pointless')
+            await browser.pause(350)
+        })
+        await browser.pause(1500)
     }
-
     return polizas
 }
+

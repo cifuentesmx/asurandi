@@ -1,10 +1,20 @@
 CURRENT_DATE=$(date -u +"%Y_%m_%d")
 START_TIME=$(date +%s)
 
-echo "Iniciando proceso de build - $(date)"
+# Lista de servicios por defecto
+DEFAULT_SERVICES=("scrapper" "mobile" "scheduler" "web" "whatsapp" "api")
 
-for service in mobile scheduler scrapper web whatsapp api; do
-# for service in scheduler scrapper web; do
+# Si se proporcionan argumentos, usarlos como servicios
+if [ $# -gt 0 ]; then
+    SERVICES=("$@")
+else
+    SERVICES=("${DEFAULT_SERVICES[@]}")
+fi
+
+echo "Iniciando proceso de build - $(date)"
+echo "Servicios a construir: ${SERVICES[*]}"
+
+for service in "${SERVICES[@]}"; do
     echo "⏳ Construyendo $service..."
     docker build . --target $service --tag bullcloud-$service --platform linux/amd64  || {
         echo "❌ Error construyendo $service"
@@ -15,26 +25,14 @@ done
 
 echo "🏷️ Etiquetando imágenes..."
 ## tag imagenes con el tag de la fecha y el tag de ultima version
-docker image tag bullcloud-api cifuentesmx/bullcloud:api-${CURRENT_DATE}
-docker image tag bullcloud-api cifuentesmx/bullcloud:api
-docker image tag bullcloud-mobile cifuentesmx/bullcloud:mobile-${CURRENT_DATE}
-docker image tag bullcloud-mobile cifuentesmx/bullcloud:mobile
-docker image tag bullcloud-scheduler cifuentesmx/bullcloud:scheduler-${CURRENT_DATE}
-docker image tag bullcloud-scheduler cifuentesmx/bullcloud:scheduler
-docker image tag bullcloud-scrapper cifuentesmx/bullcloud:scrapper-${CURRENT_DATE}
-docker image tag bullcloud-scrapper cifuentesmx/bullcloud:scrapper
-docker image tag bullcloud-web cifuentesmx/bullcloud:web-${CURRENT_DATE}
-docker image tag bullcloud-web cifuentesmx/bullcloud:web
-docker image tag bullcloud-whatsapp cifuentesmx/bullcloud:whatsapp-${CURRENT_DATE}
-docker image tag bullcloud-whatsapp cifuentesmx/bullcloud:whatsapp
-
-## push imagenes a docker hub con ambos tags
-docker image push cifuentesmx/bullcloud:api
-docker image push cifuentesmx/bullcloud:mobile
-docker image push cifuentesmx/bullcloud:scheduler
-docker image push cifuentesmx/bullcloud:scrapper
-docker image push cifuentesmx/bullcloud:web
-docker image push cifuentesmx/bullcloud:whatsapp
+for service in "${SERVICES[@]}"; do
+    echo "⏳ Etiquetando y subiendo $service..."
+    docker image tag bullcloud-$service cifuentesmx/bullcloud:$service-${CURRENT_DATE}
+    docker image tag bullcloud-$service cifuentesmx/bullcloud:$service
+    docker image push cifuentesmx/bullcloud:$service-${CURRENT_DATE}
+    docker image push cifuentesmx/bullcloud:$service
+    echo "✅ Etiquetado y subido de $service completado"
+done
 
 END_TIME=$(date +%s)
 DURATION=$((END_TIME - START_TIME))

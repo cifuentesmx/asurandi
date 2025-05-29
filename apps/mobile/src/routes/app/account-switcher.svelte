@@ -8,6 +8,12 @@
 	const session = getSession();
 
 	let { className }: { className?: string } = $props();
+	const accountName = $derived.by(() => {
+		return (
+			session.accounts.find((account) => account.id === session.currentAccount)?.name ??
+			'Cuenta sin nombre'
+		);
+	});
 </script>
 
 {#if session.user && session.accounts && session.currentAccount}
@@ -28,7 +34,7 @@
 							</div>
 							<div class="flex flex-col gap-0.5 leading-none">
 								<span class="font-semibold">Cuenta</span>
-								<span class="text-muted-foreground text-xs">{session?.currentAccount ?? ''}</span>
+								<span class="text-muted-foreground text-xs">{accountName}</span>
 							</div>
 						</Sidebar.MenuButton>
 					{/snippet}
@@ -36,7 +42,7 @@
 				<DropdownMenu.Content class="w-[var(--bits-dropdown-menu-anchor-width)]" align="start">
 					{#each session.accounts as account}
 						<DropdownMenu.Item onSelect={() => (session.currentAccount = account.id)}>
-							{account.id}
+							{account.name}
 							{#if account.id === session.currentAccount}
 								<Check class="ml-auto" />
 							{/if}

@@ -19,6 +19,7 @@ export const sessionCookieMiddleware = (): MiddlewareHandler => {
         const user: ApiAuthUser = {
             uid: decodedToken.uid,
             email: decodedToken.email ?? '',
+            saasId: c.req.header('x-saas-id') ?? ''
         }
 
         c.set('user', user)

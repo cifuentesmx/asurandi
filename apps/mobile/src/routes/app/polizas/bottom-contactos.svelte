@@ -2,15 +2,14 @@
 	import { buttonVariants } from '$lib/components/ui/button';
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import { Contact } from 'lucide-svelte';
-	import Button from '$lib/components/ui/button/button.svelte';
 	import Contacto from './contacto.svelte';
-	import TextData from '$lib/components/text-data.svelte';
+	import AgregarContacto from './agregar-contacto.svelte';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
 	const contactos = polizasStore.onePoliza?.contactos;
-	let open = $state(true);
+	let open = $state(false);
 </script>
 
 {#if poliza}
@@ -46,7 +45,7 @@
 				{/if}
 			</ScrollArea>
 			<Drawer.Footer>
-				<Button size="sm" variant="outline">Agregar contacto a esta póliza</Button>
+				<AgregarContacto />
 				<Drawer.Close class={buttonVariants({ variant: 'default', size: 'sm' })}>
 					Cerrar
 				</Drawer.Close>

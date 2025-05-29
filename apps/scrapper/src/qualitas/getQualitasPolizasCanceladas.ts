@@ -32,50 +32,61 @@ export async function getQualitasPolizasCanceladas(start: string, end: string, b
     const polizas: PolizaCancelada[] = []
     if (none > 0) return polizas
 
+    let pending = true
+
+    const select = browser.$('select.form-control')
+    await select.waitForClickable()
+    await select.click()
+    await browser.pause(1000)
+    const options = await select.$$('option').getElements()
+    const lastOption = options[options.length - 1]
+    await lastOption.click()
+    await browser.pause(1000)
+
+
+    const scrappedPages: Set<string> = new Set()
     const ul = browser.$('#tablePolizaCancelada_paginate > ul')
-    const scrappedPages: string[] = []
-    const tbody = await browser.$('table#tablePolizaCancelada > tbody').getElement()
 
-    const lis = await ul.$$('li').getElements()
-    for (let i = 0; i < lis.length; i++) {
+    while (pending) {
+        const tbody = await browser.$('table#tablePolizaCancelada > tbody').getElement()
+
         const id = await ul.$('li.active>a').getAttribute('data-dt-idx')
-        const isNext = await ul.$('li.active>a').getAttribute('id')
-        if (id === '0' || isNext === 'tablePolizaCancelada_next') continue
-        if (!scrappedPages.includes(id)) {
-            scrappedPages.push(id)
-            await browser.pause(5000)
-            await tbody.$$('tr').forEach(async row => {
-                const [
-                    poliza,
-                    ramo,
-                    endoso,
-                    fechaCancelacion,
-                    causa,
-                    primaRecibo,
-                ] = await row.$$('td').getElements()
-                polizas.push({
-                    company: 'qualitas',
-                    poliza: (await poliza.getText())?.replace('\n', '')?.trim() ?? undefined,
-                    ramo: (await ramo.getText())?.replace('\n', '')?.trim() ?? undefined,
-                    endoso: (await endoso.getText())?.replace('\n', '')?.trim() ?? undefined,
-                    fechaCancelacion: (await fechaCancelacion.getText())?.replace('\n', '')?.trim() ?? undefined,
-                    causa: (await causa.getText())?.replace('\n', '')?.trim() ?? undefined,
-                    primaRecibo: (await primaRecibo.getText())?.replace('\n', '')?.trim() ?? undefined,
-
-                })
-            })
-
-            const next = ul.$('li#tablePolizaCancelada_next > a')
-            await browser.pause(150)
-            await next.click().then(async () => {
-                await browser.pause(500)
-            }).catch(async () => {
-                console.log('Please refactor waiting is pointless')
-                await browser.pause(350)
-            })
-            await browser.pause(1500)
+        if (scrappedPages.has(id)) {
+            pending = false
+            break
         }
+        scrappedPages.add(id)
+        await browser.pause(1500)
+        await tbody.$$('tr').forEach(async row => {
+            const [
+                poliza,
+                ramo,
+                endoso,
+                fechaCancelacion,
+                causa,
+                primaRecibo,
+            ] = await row.$$('td').getElements()
+            polizas.push({
+                company: 'qualitas',
+                poliza: (await poliza.getText())?.replace('\n', '')?.trim() ?? undefined,
+                ramo: (await ramo.getText())?.replace('\n', '')?.trim() ?? undefined,
+                endoso: (await endoso.getText())?.replace('\n', '')?.trim() ?? undefined,
+                fechaCancelacion: (await fechaCancelacion.getText())?.replace('\n', '')?.trim() ?? undefined,
+                causa: (await causa.getText())?.replace('\n', '')?.trim() ?? undefined,
+                primaRecibo: (await primaRecibo.getText())?.replace('\n', '')?.trim() ?? undefined,
 
+            })
+        })
+
+        const next = ul.$('li#tablePolizaCancelada_next > a')
+        await browser.pause(150)
+        await next.click().then(async () => {
+            await browser.pause(500)
+        }).catch(async () => {
+            console.log('Please refactor waiting is pointless')
+            await browser.pause(350)
+        })
+        await browser.pause(1500)
     }
 
     return polizas

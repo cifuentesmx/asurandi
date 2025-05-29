@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import BottomMenu from './bottom-menu.svelte';
 	import DatosAsegurado from './datos-asegurado.svelte';
 	import DatosGenerales from './datos-generales.svelte';

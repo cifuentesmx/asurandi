@@ -1,5 +1,5 @@
 import express from 'express';
-import env from './env.js';
+import env, { dev } from './env.js';
 import cors from 'cors';
 import { ApiAuthUser } from '@asurandi/types'
 import { sessionCookieMiddleware } from './middlewares/authenticationMiddleware.js'
@@ -9,6 +9,7 @@ import agentRouter from './routes/agent/agentRouter.js';
 import polizasRouter from './routes/polizas/polizasRouter.js';
 import renovacionesRouter from './routes/renovaciones/renovacionesRouter.js';
 import cobranzaRouter from './routes/cobranza/cobranzaRouter.js';
+import contactoRouter from './routes/contactos/contactosRouter.js';
 declare global {
     namespace Express {
         interface Request {
@@ -21,7 +22,9 @@ const port = env.PORT
 const app = express();
 // Middleware
 app.use(cors({
-    origin: 'https://app.asurandi.com',
+    origin: dev
+        ? '*'
+        : 'https://app.asurandi.com',
     credentials: true
 }));
 app.use(express.json());
@@ -33,6 +36,8 @@ app.use('/v1/agent', agentRouter);
 app.use('/v1/polizas', polizasRouter);
 app.use('/v1/renovaciones', renovacionesRouter);
 app.use('/v1/cobranza', cobranzaRouter);
+app.use('/v1/contactos', contactoRouter);
+
 
 // Catch-all route for unmatched routes
 app.use((req, res) => {

@@ -3,7 +3,7 @@
 	import * as Collapsible from '$lib/components/ui/collapsible/index.js';
 	import { buttonVariants } from '$lib/components/ui/button';
 	import { ChevronsUpDown } from 'lucide-svelte';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;
 </script>

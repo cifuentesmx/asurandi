@@ -60,12 +60,10 @@ export class ToastState {
 
 }
 
-const TOAST_KEY = Symbol('TOAST');
+const KEY = '$_Toast_State'
 
-export function setToastState() {
-	return setContext(TOAST_KEY, new ToastState());
-}
-
-export function getToastState() {
-	return getContext<ReturnType<typeof setToastState>>(TOAST_KEY);
+export const getToastState = () => {
+	const store = getContext<ToastState>(KEY)
+	if (!store) return setContext(KEY, new ToastState())
+	return store
 }

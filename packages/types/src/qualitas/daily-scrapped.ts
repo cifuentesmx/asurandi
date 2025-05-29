@@ -2,7 +2,7 @@ import { Aseguradoras } from "../company/index.js"
 
 export type PolizasToScrapeFromDaily = {
     porRenovar?: PolizaPorRenovar
-    porCobrar?: PolizaPorCobrar
+    porCobrar?: PolizaPorCobrar[]
     canceladas?: PolizaCancelada
     noRenovadas?: PolizaNoRenovada
     porVencer?: PolizaPorVencer

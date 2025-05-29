@@ -1,0 +1,16 @@
+{
+  "name": "crawler",
+  "version": "1.0.0",
+  "description": "Crawler for the website",
+  "scripts": {
+    "dev": "python main.py"
+  },
+  "keywords": [
+    "crawler",
+    "website",
+    "scraping"
+  ],
+  "author": "John Doe",
+  "license": "ISC",
+  "packageManager": "pnpm@10.11.0"
+}

@@ -46,8 +46,8 @@ export const BaileyesGetMessageType = (message: proto.IWebMessageInfo): MessageT
   if (message.message?.extendedTextMessage) {
     return 'extendedTextMessage'
   }
-  if (message.message?.extendedTextMessageWithParentKey) {
-    return 'extendedTextMessageWithParentKey'
+  if (message.message?.extendedTextMessage) {
+    return 'extendedTextMessage'
   }
   return null
 };

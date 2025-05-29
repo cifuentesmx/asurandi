@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Loader from '$lib/components/ui/loader.svelte';
 	import ListPolizas from './list-polizas.svelte';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';
 	import { getSearchStore } from '$lib/search-store.svelte';
 	import ShowOne from './show-one.svelte';
@@ -20,6 +20,10 @@
 		} else if (page.url.searchParams.get('norenovadas')) {
 			polizas.reset();
 			polizas.searchNoRenovadas();
+		}
+		if (page.url.searchParams.get('search')) {
+			polizas.reset();
+			polizas.search(page.url.searchParams.get('search') ?? '');
 		}
 	});
 	search.searchFn = async () => {

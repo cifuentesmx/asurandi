@@ -1,4 +1,13 @@
 services:
+  # crawler:
+  #   image: crawler
+  #   platform: linux/x86_64
+  #   container_name: crawler
+  #   build:
+  #     context: ./apps/crawler
+  #     dockerfile: Dockerfile
+  #   environment:
+  #     - MY_VAR=test
   mysql:
     platform: linux/x86_64
     image: mysql:5.6

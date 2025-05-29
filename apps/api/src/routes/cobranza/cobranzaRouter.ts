@@ -14,7 +14,7 @@ cobranzaRouter.get('/', async (req: Request, res: Response) => {
         }
         const querySchema = z.object({
             offset: z.coerce.number().optional().default(0),
-            limit: z.coerce.number().optional().default(20),
+            limit: z.coerce.number().optional().default(80),
         })
         const { offset, limit } = querySchema.parse(req.query)
         const result = await listCobranza({ uid: user.uid, offset, limit })

@@ -56,6 +56,7 @@
 					}
 				})
 				.catch((error) => {
+					console.error(error);
 					toast.add('Error de comunicación con el servidor', {
 						type: 'error',
 						description: 'No se completó la petición correctamente.'

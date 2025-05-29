@@ -11,6 +11,7 @@ export interface AppBindings {
 export type ApiAuthUser = {
     email: string,
     uid: string,
+    saasId: string
 }
 
 export type AppOpenAPI = OpenAPIHono<AppBindings>

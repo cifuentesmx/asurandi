@@ -4,7 +4,7 @@
 	import * as Drawer from '$lib/components/ui/drawer';
 	import { ScrollArea } from '$lib/components/ui/scroll-area/index.js';
 	import { formatMoney } from '$lib/formatters/formatMoney';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from './polizas-store.svelte';
 	import type { GetOnePolizaResponse } from '@asurandi/types';
 	const polizasStore = getPolizasStore();
 	const poliza = polizasStore.onePoliza?.poliza;

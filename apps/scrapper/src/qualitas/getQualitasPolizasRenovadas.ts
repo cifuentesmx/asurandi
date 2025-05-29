@@ -31,51 +31,59 @@ export async function getQualitasPolizasRenovadas(start: string, end: string, br
 
     const polizas: PolizaRenovada[] = []
     if (none > 0) return polizas
+    let pending = true
+
+    const select = browser.$('select.form-control')
+    await select.waitForClickable()
+    await select.click()
+    await browser.pause(1000)
+    const options = await select.$$('option').getElements()
+    const lastOption = options[options.length - 1]
+    await lastOption.click()
+    await browser.pause(1000)
 
     const ul = browser.$('#renovacionesTable_paginate > ul')
-    const scrappedPages: string[] = []
-    const tbody = await browser.$('table#renovacionesTable > tbody').getElement()
+    const scrappedPages: Set<string> = new Set()
 
-    const lis = await ul.$$('li').getElements()
-    for (let i = 0; i < lis.length; i++) {
+    while (pending) {
+        const tbody = await browser.$('table#renovacionesTable > tbody').getElement()
+
         const id = await ul.$('li.active>a').getAttribute('data-dt-idx')
-        const isNext = await ul.$('li.active>a').getAttribute('id')
-        if (id === '0' || isNext === 'renovacionesTable_next') continue
-        if (!scrappedPages.includes(id)) {
-            scrappedPages.push(id)
-            await browser.pause(5000)
-            await tbody.$$('tr').forEach(async row => {
-                const [
-                    polizaAnterior,
-                    fechaVencimiento,
-                    datos,
-                    asegurado,
-                    planPago,
-                    polizaRenovada,
-                ] = await row.$$('td').getElements()
-                polizas.push({
-                    company: 'qualitas',
-                    polizaAnterior: await polizaAnterior.getText(),
-                    fechaVencimiento: await fechaVencimiento.getText(),
-                    datos: await datos.getText(),
-                    asegurado: await asegurado.getText(),
-                    planPago: await planPago.getText(),
-                    polizaRenovada: await polizaRenovada.getText(),
-                })
-            })
-
-            const next = ul.$('li#renovacionesTable_next > a')
-            await browser.pause(150)
-            await next.click().then(async () => {
-                await browser.pause(500)
-            }).catch(async () => {
-                console.log('Please refactor waiting is pointless')
-                await browser.pause(350)
-            })
-            await browser.pause(1500)
+        if (scrappedPages.has(id)) {
+            pending = false
+            break
         }
+        scrappedPages.add(id)
+        await browser.pause(1500)
+        await tbody.$$('tr').forEach(async row => {
+            const [
+                polizaAnterior,
+                fechaVencimiento,
+                datos,
+                asegurado,
+                planPago,
+                polizaRenovada,
+            ] = await row.$$('td').getElements()
+            polizas.push({
+                company: 'qualitas',
+                polizaAnterior: await polizaAnterior.getText(),
+                fechaVencimiento: await fechaVencimiento.getText(),
+                datos: await datos.getText(),
+                asegurado: await asegurado.getText(),
+                planPago: await planPago.getText(),
+                polizaRenovada: await polizaRenovada.getText(),
+            })
+        })
 
+        const next = ul.$('li#renovacionesTable_next > a')
+        await browser.pause(150)
+        await next.click().then(async () => {
+            await browser.pause(500)
+        }).catch(async () => {
+            console.log('Please refactor waiting is pointless')
+            await browser.pause(350)
+        })
+        await browser.pause(1500)
     }
-
     return polizas
 }

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import Loader from '$lib/components/ui/loader.svelte';
-	import { getPolizasStore } from '$lib/polizas-store.svelte';
+	import { getPolizasStore } from '../polizas/polizas-store.svelte';
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';
 	import { getSearchStore } from '$lib/search-store.svelte';
-	import { getCobranzaStore } from '$lib/cobranza-store.svelte';
+	import { getCobranzaStore } from './cobranza-store.svelte';
 	import ListCobranza from './list-cobranza.svelte';
 	const polizas = getPolizasStore();
 	const search = getSearchStore();

@@ -13,7 +13,7 @@ type AuthState = 'unknown-user'
     | 'authenticated'
     | null
 
-class Session {
+export class Session {
     state: AuthState = $state(null)
     email: string | null = $state(null)
     hasPassword?: boolean

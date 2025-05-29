@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import MessageAlert from '$lib/components/ui/message-alert.svelte';
-	import { getCobranzaStore } from '$lib/cobranza-store.svelte';
+	import { getCobranzaStore } from './cobranza-store.svelte';
 	import { Search, X } from 'lucide-svelte';
 	import Cobro from './cobro.svelte';
 	const cobranza = getCobranzaStore();
