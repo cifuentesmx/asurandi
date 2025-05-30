@@ -6,6 +6,15 @@ export type QualitasAccountCredential = {
     alias?: string
 }
 
-export * from  './daily-scrapped.js'
+export type AnasegurosAccountCredential = {
+    id: string
+    agente: string
+    cuenta: string
+    password: string
+    alias?: string
+}
+
+
+export * from './daily-scrapped.js'
 export * from './scrape-fleet.js'
-export * from  './scrape-poliza.js'
+export * from './scrape-poliza.js'

@@ -6,12 +6,23 @@ export const addQualitasAccountUsecase = async ({
     agente,
     cuenta,
     password,
-    alias
+    alias,
+    company
 }:
-    { saasId: string, agente: string, cuenta: string, password: string, alias: string }): Promise<QualitasAccountCredential> => {
+    {
+        saasId: string,
+        agente: string,
+        cuenta: string,
+        password: string,
+        alias: string,
+        company: string
+    })
+    : Promise<QualitasAccountCredential> => {
     try {
+        const acceptedCompanies = ['qualitas', 'anaseguros']
+        if (!company || !acceptedCompanies.includes(company)) throw new Error('La compañía no es válida')
         const account: QualitasAccountCredential = { agente, cuenta, password, id: agente, alias }
-        await admFirestoreService.setDocument(`/accounts/${saasId}/secrets/qualitas/agents/${agente}-${cuenta}`, account)
+        await admFirestoreService.setDocument(`/accounts/${saasId}/secrets/${company}/agents/${agente}-${cuenta}`, account)
         return { id: account.id, agente: account.agente, cuenta: account.cuenta, password: '', alias }
     } catch (error) {
         console.error(error)

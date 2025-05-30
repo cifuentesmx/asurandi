@@ -1,13 +1,13 @@
 services:
-  # crawler:
-  #   image: crawler
-  #   platform: linux/x86_64
-  #   container_name: crawler
-  #   build:
-  #     context: ./apps/crawler
-  #     dockerfile: Dockerfile
-  #   environment:
-  #     - MY_VAR=test
+  crawler:
+    image: unclecode/crawl4ai:latest
+    platform: linux/x86_64
+    container_name: crawler
+    env_file: .llm.env
+    shm_size: 3g
+    ports:
+      - "11235:11235"
+
   mysql:
     platform: linux/x86_64
     image: mysql:5.6

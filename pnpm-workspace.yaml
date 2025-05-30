@@ -6,7 +6,6 @@ packages:
   - "apps/api"
   - "apps/mobile"
   - "apps/whatsapp"
-  - "apps/crawler"
 syncInjectedDepsAfterScripts:
 - build
 injectWorkspacePackages: true

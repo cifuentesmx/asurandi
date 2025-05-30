@@ -4,13 +4,22 @@
 	import * as AlertDialog from '$lib/components/ui/alert-dialog/index.js';
 	import { Button } from '$lib/components/ui/button/index.js';
 	import { getToastState } from '$lib/toast-state.svelte';
-	import type { QualitasAccountCredential } from '$types/qualitas/account-credential';
+	import type { QualitasAccountCredential } from '@asurandi/types';
 	import type { ActionResult } from '@sveltejs/kit';
 	import { Trash } from 'lucide-svelte';
 	const toast = getToastState();
-	let { account, accounts = $bindable() } = $props<{
+	let {
+		account,
+		accounts = $bindable(),
+		company,
+		companyName,
+		onDelete
+	} = $props<{
 		account: QualitasAccountCredential;
 		accounts: QualitasAccountCredential[];
+		company: 'qualitas' | 'anaseguros';
+		companyName: string;
+		onDelete?: () => void;
 	}>();
 	let open = $state<boolean>(false);
 </script>
@@ -44,10 +53,10 @@
 					}) => {
 						const { type } = result;
 						if (type === 'success') {
-							toast.add('Se ha borrado la cuenta de la compañía Quálitas correctamente.', {
+							toast.add(`Se ha borrado la cuenta de la compañía ${companyName} correctamente.`, {
 								type: 'success'
 							});
-
+							if (typeof onDelete === 'function') onDelete();
 							accounts = accounts.filter((t: QualitasAccountCredential) => t.id !== account.id);
 							invalidate('/app/settings/accounts');
 							open = false;
@@ -63,6 +72,7 @@
 				}}
 			>
 				<input type="hidden" value={account.id} name="id" />
+				<input type="hidden" value={company} name="company" />
 				<Button variant="destructive" type="submit">Borrar</Button>
 			</form>
 		</AlertDialog.Footer>

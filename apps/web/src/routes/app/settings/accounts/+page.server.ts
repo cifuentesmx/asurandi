@@ -17,20 +17,22 @@ export const actions = {
             const cuenta = data.get('cuenta')
             const password = data.get('password')
             const alias = data.get('alias')
+            const company = data.get('company')
 
 
             if (typeof agente !== 'string') throw new Error('No se encuentra el agente para dar de alta la cuenta.')
             if (typeof cuenta !== 'string') throw new Error('No se encuentra la cuenta para dar de alta.')
             if (typeof password !== 'string') throw new Error('No se ha recibido la contraseña.')
             if (typeof alias !== 'string') throw new Error('No se ha recibido el alias de la cuenta.')
-
+            if (typeof company !== 'string') throw new Error('No se ha recibido la compañía de la cuenta.')
 
             const account = await addQualitasAccountUsecase({
                 saasId: locals.saasId,
                 agente,
                 cuenta,
                 password,
-                alias
+                alias,
+                company
             })
             return { message: `La cuenta "${cuenta}" se ha agregado correctamente.`, account }
 
@@ -52,20 +54,22 @@ export const actions = {
             const cuenta = data.get('cuenta')
             const alias = data.get('alias')
             let password = data.get('password')
+            const company = data.get('company')
 
 
             if (typeof agente !== 'string') throw new Error('No se encuentra el agente para dar de alta la cuenta.')
             if (typeof cuenta !== 'string') throw new Error('No se encuentra la cuenta para dar de alta.')
             if (typeof alias !== 'string') throw new Error('No se ha recibido el alias de la cuenta.')
             if (typeof password !== 'string') password = null
-
+            if (typeof company !== 'string') throw new Error('No se ha recibido la compañía de la cuenta.')
 
             const account = await updateQualitasAccountUsecase({
                 saasId: locals.saasId,
                 agente,
                 cuenta,
                 password,
-                alias
+                alias,
+                company
             })
             return { message: `La cuenta "${cuenta}" se ha agregado correctamente.`, account }
 
@@ -85,11 +89,13 @@ export const actions = {
             const data = await request.formData()
             const id = data.get('id')
             if (typeof id !== 'string') throw new Error('No se encuentra el agente para dar de alta la cuenta.')
-
+            const company = data.get('company')
+            if (typeof company !== 'string') throw new Error('No se ha recibido la compañía de la cuenta.')
 
             const ok = await deleteQualitasAccountUsecase({
                 saasId: locals.saasId,
-                id
+                id,
+                company
             })
             return { message: `La cuenta "${id}" se ha borrado correctamente.`, ok }
 

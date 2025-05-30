@@ -7,6 +7,7 @@
   "scripts": {
     "update": "pnpm -r update -i -L",
     "dev": "pnpm -r --parallel run dev",
+    "dev:firebase": "pnpm --prefix apps/firebase run dev",
     "build": "pnpm -r run build"
   },
   "keywords": [],

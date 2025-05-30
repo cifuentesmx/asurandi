@@ -1,10 +1,12 @@
 import { sendToMessageBus } from "../sendMessage.js";
 import { dailyScrapperQualitas } from "./dailyScrapperQualitas.js";
 import { MessageBusMessage, UpdateRequestPolizasInRange } from "@asurandi/types";
+// import { dailyScrapperAna } from "./dailyScrapperAna.js";
+
 export async function dailyScrapper(request: MessageBusMessage<UpdateRequestPolizasInRange>) {
     try {
         await dailyScrapperQualitas(request)
-        // TODO: Agregar scrapper de otras agencias
+        // await dailyScrapperAna(request)
     } catch (error) {
         console.log('error', Date.now().toLocaleString())
         console.error(error)
