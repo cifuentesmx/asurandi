@@ -3,8 +3,8 @@ import {
     InferSelectModel
 } from "drizzle-orm"
 import { tblAgentes, tblConductos } from "@asurandi/database"
-import { nexusGetConducto } from "../../nexus/polizaGetConducto.js"
-import { pgDb } from "../db.js"
+import { nexusGetConducto } from "../nexus/polizaGetConducto.js"
+import { pgDb } from "./db.js"
 
 export const getConducto = async (numeroPoliza: string, agente: InferSelectModel<typeof tblAgentes>, saasId: string): Promise<InferSelectModel<typeof tblConductos> | null> => {
     if (agente?.conductoId) {
@@ -23,7 +23,7 @@ export const getConducto = async (numeroPoliza: string, agente: InferSelectModel
             .limit(1)
         if (conductos.length !== 0) return conductos[0]
 
-        const conducto = await pgDb.insert(tblConductos).values({
+        const [conducto] = await pgDb.insert(tblConductos).values({
             nombre: nxConducto.nombre ?? 'Desconocido',
             email: nxConducto.email,
             nexusId: nxConducto.idConducto,
@@ -35,7 +35,7 @@ export const getConducto = async (numeroPoliza: string, agente: InferSelectModel
                     .where(eq(tblConductos.nexusId, nxConducto.idConducto))
                     .limit(1)
             })
-        return conducto[0] ?? null
+        return conducto ?? null
     }
     return null
 }

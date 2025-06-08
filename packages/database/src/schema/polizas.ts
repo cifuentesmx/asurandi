@@ -1,4 +1,4 @@
-import { ScrappedPolizaCobertura } from '@asurandi/types';
+import { PublicFileUrl, ScrappedPolizaCobertura } from '@asurandi/types';
 import {
     integer, pgTable, date, uniqueIndex, varchar, numeric, jsonb, bigserial, bigint,
     boolean, smallint,
@@ -54,6 +54,7 @@ export const tblPolizas = pgTable('polizas', {
     primaNeta: numeric('prima_neta', { scale: 2, precision: 12 }),
     recargoFinacieroPorcentual: numeric('recargo_financiero_porcentual', { scale: 2, precision: 5 }),
     financiamiento: numeric('financiamiento', { scale: 2, precision: 12 }),
+    recargos: numeric('recargos', { scale: 2, precision: 12 }),
     costoExpedicion: numeric('costo_expedicion', { scale: 2, precision: 9 }),
     subtotal: numeric('subtotal', { scale: 2, precision: 12 }),
     iva: numeric('iva', { scale: 2, precision: 9 }),
@@ -66,6 +67,7 @@ export const tblPolizas = pgTable('polizas', {
     lastSync: date('last_sync'),
     claveAgente: varchar('clave_agente'),
     origenId: integer('origen_id').references(() => tblPolizaOrigen.id),
+    files: jsonb('files').default([]).$type<PublicFileUrl[]>(),
 },
     (tblPoliza) => [
         uniqueIndex('numero_poliza_idx').on(tblPoliza.saasId, tblPoliza.numeroPoliza, tblPoliza.inciso),

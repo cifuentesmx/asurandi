@@ -3,14 +3,14 @@ import { PolizasToScrapeFromDaily, ScrappedPoliza, ScrappedPolizaEvent } from "@
 import { pgDb } from "../db.js"
 import { tblAgentes, tblConductos, tblPolizaMovimientos, tblPolizas, } from "@asurandi/database"
 import { getAgente } from "./getAgente.js"
-import { getConducto } from "./getConducto.js"
-import { getRamoId } from "./getRamoId.js"
+import { getConducto } from "../getConducto.js"
+import { getRamoId } from "../getRamoId.js"
 import { getVehiculo } from "./getVehiculo.js"
 import { getAsegurado } from "./getAsegurado.js"
-import { getUso } from "./getUso.js"
-import { getServicio } from "./getServicio.js"
-import { getModoPago } from "./getModoPago.js"
-import { getSubRamoId } from "./getSubRamo.js"
+import { getUso } from "../getUso.js"
+import { getServicio } from "../getServicio.js"
+import { getModoPago } from "../getModoPago.js"
+import { getSubRamo } from "../getSubRamo.js"
 import { getText } from "./getText.js"
 import { getNumber, getNumberString } from "./getNumber.js"
 import { getFechaEmision } from "./getFechaEmision.js"
@@ -21,7 +21,7 @@ import { getPrimaNetaComision } from "./getPrimaNetaComision.js"
 import { processQualitasScrappedRecibos } from "./processRecibos.js"
 import { processQualitasScrappedSiniestros } from "./processSiniestros.js"
 import { processQualitasScrappedEndosos } from "./processEndosos.js"
-import { getOrigenId } from "./getOrigenId.js"
+import { getOrigenId } from "../getOrigenId.js"
 import { getAllCuentas } from "./getAllCuentas.js"
 import { processCancelada } from "../processCancelada.js"
 import { processNoRenovada } from "../processNoRenovada.js";
@@ -86,7 +86,7 @@ export async function qualitasScrappedPoliza(scrapped: ScrappedPolizaEvent, clav
     const uso = await getUso(serialData)
     const servicio = await getServicio(serialData)
     const modoPago = await getModoPago(serialData)
-    const subRamo = await getSubRamoId(serialData)
+    const subRamo = await getSubRamo(serialData)
     const porcentajeDescuento = getNumber(serialData, '% Desc')?.[0]?.toFixed(2) ?? undefined
     const fechaEmision = getFechaEmision(getText(serialData, 'Fecha de emisión'))
     const vigenciaInicio = getVigencias(serialData, 'Inicio vigencia póliza')

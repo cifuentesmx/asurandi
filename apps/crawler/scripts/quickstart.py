@@ -40,7 +40,7 @@ async def simple_crawl(url: str):
 
     async with AsyncWebCrawler(config=browser_config) as crawler:
         result = await crawler.arun(
-            url="https://agentes360.qualitas.com.mx/group/guest", config=crawler_config
+            url='https://anaseguros.com.mx/anaweb/index.html', config=crawler_config
         )
         print(result.markdown[:500])
         return result

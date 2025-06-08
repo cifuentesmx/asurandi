@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from scripts.quickstart import simple_crawl
+from scripts.example import run_example_crawl
 
 app = Flask(__name__)
 
@@ -14,7 +14,7 @@ async def process_request():
     if input_param is None:
         return jsonify({"error": "Missing input parameter"}), 400
 
-    result = await simple_crawl(input_param)
+    result = await run_example_crawl()
     return jsonify(result.html)
 
 if __name__ == '__main__':

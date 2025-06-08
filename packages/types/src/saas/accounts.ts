@@ -11,6 +11,7 @@ export type SaasAccount = {
     premiumGptChat?: boolean
     dailyScrapper: boolean
     lastQualitasDaily: string
+    lastAnasegurosDaily: string
 }
 
 export type Trial = {

@@ -3,7 +3,8 @@ import { remote } from "webdriverio";
 import { getQualitasCredential } from "./getQualitasCredential.js";
 
 
-export async function qualitasLogin(saasId: string, accountId: string): Promise<WebdriverIO.Browser> {
+export async function qualitasLogin(saasId: string, accountId: string)
+    : Promise<WebdriverIO.Browser> {
 
     const credentials = await getQualitasCredential(saasId, accountId)
     if (!credentials) throw new Error(`No se pudo obtener las credenciales de la compañia para la cuenta especificada: "${saasId}", agente: "${accountId}"`);

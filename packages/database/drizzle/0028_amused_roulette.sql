@@ -1,0 +1,1 @@
+ALTER TABLE "polizas" ADD COLUMN "recargos" numeric(12, 2);

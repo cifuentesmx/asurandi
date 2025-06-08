@@ -1,8 +1,9 @@
 import { handleScrapped } from '../database/handleScrapped.js';
-import { UpdateRequestPoliza, MessageBusMessage } from "@asurandi/types";
+import { UpdateRequestPoliza, MessageBusMessage, CompanyPortalSession } from "@asurandi/types";
 import { QualitasPortalSession } from "../qualitas/QualitasPortalSession.js";
 import { sendToMessageBus } from '../sendMessage.js';
 import { getPolizaMaestra } from '../database/getPolizaMaestra.js';
+import { AnasegurosPortal } from '../anaseguros/AnasegurosPortal.js';
 export async function updatePoliza(request: MessageBusMessage<UpdateRequestPoliza>): Promise<void> {
     console.info(`Solicitud recibida para la poliza: ${request.payload.numeroPoliza}, intentos previos: ${request.intents}  `)
 
@@ -19,27 +20,35 @@ export async function updatePoliza(request: MessageBusMessage<UpdateRequestPoliz
         }
     }
 
-    let portalSession: QualitasPortalSession | null = null
+    let portalSession: CompanyPortalSession | null = null
     const company = request.payload.company ?? existingPoliza?.companyId ?? null
-    if (company === 'qualitas') {
-        portalSession = new QualitasPortalSession({
-            saasId: request.payload.saasId,
-            agent: request.payload.agent,
-            cuenta: request.payload.cuenta,
-        })
-    } else if (company === 'anaseguros') {
-        // TODO Add your code here for 'anaseguros'
-    } else {
-        throw new Error('No se pudo obtener la compañia de la poliza ' + request.payload.numeroPoliza)
-    }
 
 
     try {
-        if (!portalSession) throw new Error('No se pudo crear la sesión en la compañia ' + request.payload.company)
-        await portalSession.open()
-        const scrappedPoliza = await portalSession.updatePoliza(request.payload.numeroPoliza)
-        await handleScrapped(scrappedPoliza, `${request.payload.agent}-${request.payload.cuenta}`, request.payload.dataFromDailyScrapper)
-        console.info(`Sincronización de la poliza ${request.payload.numeroPoliza} realizada con éxito`)
+        if (company === 'qualitas') {
+            portalSession = new QualitasPortalSession({
+                saasId: request.payload.saasId,
+                agent: request.payload.agent,
+                cuenta: request.payload.cuenta,
+            })
+            await portalSession.open()
+            const scrappedPoliza = await portalSession.updatePoliza(request.payload.numeroPoliza)
+            if (scrappedPoliza) {
+                await handleScrapped(scrappedPoliza, `${request.payload.agent}-${request.payload.cuenta}`, request.payload.dataFromDailyScrapper)
+            }
+            console.info(`Sincronización de la poliza ${request.payload.numeroPoliza} realizada con éxito`)
+        } else if (company === 'anaseguros') {
+            portalSession = new AnasegurosPortal({
+                saasId: request.payload.saasId,
+                agent: request.payload.agent,
+                cuenta: request.payload.cuenta,
+            })
+            await portalSession.open()
+            await portalSession.updatePoliza(request.payload.numeroPoliza, request.payload.dataFromDailyScrapper)
+            console.info(`Sincronización de la poliza ${request.payload.numeroPoliza} realizada con éxito`)
+        } else {
+            throw new Error('No se pudo obtener la compañia de la poliza ' + request.payload.numeroPoliza)
+        }
         return
     } catch (error) {
         console.error(error)

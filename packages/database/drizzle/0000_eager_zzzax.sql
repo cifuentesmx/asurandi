@@ -445,7 +445,7 @@ CREATE UNIQUE INDEX IF NOT EXISTS "vehiculo_serie_account_idx" ON "vehiculos" US
 
 INSERT INTO companias (id, compania) VALUES ('qualitas', 'Qualitas');
 INSERT INTO companias (id, compania) VALUES ('axa', 'AXA');
-INSERT INTO companias (id, compania) VALUES ('ana', 'ANA Seguros');
+INSERT INTO companias (id, compania) VALUES ('anaseguros', 'ANA Seguros');
 INSERT INTO companias (id, compania) VALUES ('gnp', 'GNP');
 INSERT INTO companias (id, compania) VALUES ('allianz', 'allianz');
 INSERT INTO companias (id, compania) VALUES ('bupa', 'bupa');

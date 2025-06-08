@@ -1,7 +1,7 @@
-import { NexusConnector } from "../../nexus/connection.js"
-import { nxDatosExtra, nxPolizas } from "../../nexus/polizas.js"
+import { NexusConnector } from "../nexus/connection.js"
+import { nxDatosExtra, nxPolizas } from "../nexus/polizas.js"
 import { and, desc, eq, lt, } from "drizzle-orm"
-import { pgDb } from "../db.js"
+import { pgDb } from "./db.js"
 import { tblAgentes, tblPolizaMovimientos, tblPolizaOrigen, tblPolizas } from "@asurandi/database"
 import type { QualitasAccountCredential } from "@asurandi/types"
 import { MySql2Database } from "drizzle-orm/mysql2"
@@ -10,10 +10,10 @@ const nexusConnection: NexusConnector = new NexusConnector()
 let nexus: MySql2Database<Record<string, never>> | null = null
 let timer: NodeJS.Timeout | null = null
 export const getOrigenId = async (
-    { numeroPoliza, saasId, numeroSerie, inicio, cuentas, emision }
-        : { numeroSerie: string, numeroPoliza: string, saasId: string, inicio: string, cuentas: QualitasAccountCredential[], emision: string })
+    { numeroPoliza, saasId, numeroSerie, inicio, cuentas, emision, companyId = 'qualitas' }
+        : { numeroSerie: string, numeroPoliza: string, saasId: string, inicio: string, cuentas: QualitasAccountCredential[], emision: string, companyId?: string })
     : Promise<[number, string]> => {
-    const polizaAsurandi = await getAsurandiQualitasContext(numeroSerie, saasId, cuentas, emision)
+    const polizaAsurandi = await getAsurandiContext(numeroSerie, saasId, cuentas, emision)
     if (polizaAsurandi) {
 
         const inicioVigencia = new Date(inicio)
@@ -147,11 +147,12 @@ export const getOrigenId = async (
     return [1, `Nueva: No se encontraron registros previos para ${numeroPoliza}`] // Póliza nueva
 }
 
-const getAsurandiQualitasContext = async (serie: string, saasId: string, cuentas: QualitasAccountCredential[], emisionOriginal: string) => {
+const getAsurandiContext = async (serie: string, saasId: string, cuentas: QualitasAccountCredential[], emisionOriginal: string) => {
     try {
         const [existing] = await pgDb.select({
             agenteId: tblPolizas.agenteId,
             qualitasId: tblAgentes.qualitasId,
+            anaId: tblAgentes.anaId,
             numeroPoliza: tblPolizas.numeroPoliza,
             origenId: tblPolizas.origenId,
             vigenciaInicio: tblPolizas.vigenciaInicio,
@@ -168,7 +169,7 @@ const getAsurandiQualitasContext = async (serie: string, saasId: string, cuentas
             )).orderBy(desc(tblPolizas.vigenciaFin))
             .limit(1)
         if (existing && existing.vigenciaFin && existing.vigenciaInicio) {
-            const esNuestra = cuentas.filter(t => t.agente === existing.qualitasId)
+            const esNuestra = cuentas.filter(t => t.agente === existing.qualitasId || t.agente === existing.anaId)
             return {
                 agenteid: esNuestra.length > 0 ? existing.agenteId : null,
                 numeroPoliza: existing.numeroPoliza,

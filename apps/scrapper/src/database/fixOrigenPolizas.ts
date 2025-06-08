@@ -1,7 +1,7 @@
 import { tblPolizaMovimientos, tblPolizas } from "@asurandi/database";
 import { getAllCuentas } from "./qualitas/getAllCuentas.js";
 import { pgDb } from "./db.js";
-import { getOrigenId } from "./qualitas/getOrigenId.js";
+import { getOrigenId } from "./getOrigenId.js";
 import { and, eq, isNull, desc } from "drizzle-orm";
 export const fixOrigenPolizas = async (saasId: string) => {
     const cuentas = await getAllCuentas(saasId)

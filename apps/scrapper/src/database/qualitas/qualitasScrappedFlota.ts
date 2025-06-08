@@ -7,11 +7,11 @@ import { processRenovada } from './../processRenovada.js';
 import { processPorVencer } from './../processPorVencer.js';
 import { and, eq, InferInsertModel, InferSelectModel, isNull, sql } from "drizzle-orm";
 import { getAgente } from "./getAgente.js";
-import { getConducto } from "./getConducto.js";
-import { getRamoId } from "./getRamoId.js";
+import { getConducto } from "../getConducto.js";
+import { getRamoId } from "../getRamoId.js";
 import { getAsegurado } from "./getAsegurado.js";
-import { getModoPago } from "./getModoPago.js";
-import { getSubRamoId } from "./getSubRamo.js";
+import { getModoPago } from "../getModoPago.js";
+import { getSubRamo } from "../getSubRamo.js";
 import { getText } from "./getText.js";
 import { getNumber, getNumberString } from "./getNumber.js";
 import { getFechaEmision } from "./getFechaEmision.js";
@@ -22,7 +22,7 @@ import { getPrimaNetaComision } from "./getPrimaNetaComision.js";
 import { qualitasScrappedInciso } from "./qualitasScrappedInciso.js";
 import { pgDb } from "../db.js";
 import { PolizasToScrapeFromDaily, ScrappedFlota, ScrappedPolizaEvent } from "@asurandi/types";
-import { getOrigenId } from "./getOrigenId.js";
+import { getOrigenId } from "../getOrigenId.js";
 import { getAllCuentas } from "./getAllCuentas.js";
 import { tblPolizas, tblAgentes, tblConductos, tblPolizaMovimientos } from "@asurandi/database"
 
@@ -73,7 +73,7 @@ export async function qualitasScrappedFlota(scrapped: ScrappedPolizaEvent, clave
     const ramoId = existingPoliza?.ramoId ?? await getRamoId()
     const asegurado = await getAsegurado(poliza.incisos[0]?.polizaInciso?.serialData, saasId, agente?.id ?? null, conducto?.id ?? null)
     const modoPago = await getModoPago(serialData)
-    const subRamo = await getSubRamoId('Flotillas')
+    const subRamo = await getSubRamo('Flotillas')
     const porcentajeDescuento = getNumber(serialData, '% Desc')?.[0]?.toFixed(2) ?? undefined
     const fechaEmision = getFechaEmision(getText(serialData, 'Fecha de emisión'))
     const vigenciaInicio = getVigencias(serialData, 'Inicio vigencia póliza')

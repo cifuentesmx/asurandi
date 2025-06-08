@@ -2,7 +2,8 @@ import { ScrappedPolizaEvent } from '@asurandi/types';
 import { scrapeFlotilla } from "./flotilla/scrapeFlotilla.js"
 import { scrapePoliza } from "./poliza/scrapePoliza.js"
 
-export async function updatePoliza(numero_poliza: string, browser: WebdriverIO.Browser, saasId: string): Promise<ScrappedPolizaEvent> {
+export async function updatePoliza(numero_poliza: string, browser: WebdriverIO.Browser, saasId: string)
+    : Promise<ScrappedPolizaEvent> {
     await browser.url(`https://agentes360.qualitas.com.mx/group/guest/consulta-de-flotas?query=${numero_poliza}`)
     await browser.$('#divSeA').waitForClickable().catch(async () => {
 

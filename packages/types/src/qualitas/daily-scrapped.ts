@@ -8,9 +8,30 @@ export type PolizasToScrapeFromDaily = {
     porVencer?: PolizaPorVencer
     pagadas?: PolizaPagada
     renovadas?: PolizaRenovada
-    siniestradas?: PolizaSiniestrada
+    siniestradas?: PolizaSiniestrada[]
     emitidas?: PolizaEmitida
+    movimientosAnaseguros?: MovimientoPolizaAnaseguros[]
 }
+
+export type MovimientoPolizaAnaseguros = {
+    fecha_emision: string
+    inicio_vigencia: string
+    fin_vigencia: string
+    poliza: string
+    endoso: string
+    asegurado: string
+    vehiculo_descripcion: string
+    vehiculo_serie: string
+    vehiculo_modelo: string
+    cobertura: string
+    formapago: string
+    prima_neta: string
+    prima_total: string
+    origen: string
+    fecha_cancelacion: string
+    motivo_cancelacion: string
+}
+
 export type PolizaEmitida = {
     company: Aseguradoras
     poliza: string

@@ -36,7 +36,7 @@ export const listPolizasSinComisiones = async ({
     let f
     const conditions: (SQLWrapper | undefined)[] = [
         eq(tblPolizas.saasId, saasId),
-        lt(tblPolizas.incisosVigentes, 2),
+        eq(tblPolizas.esMaestra, true),
         or(
             isNull(tblPolizas.agenteId),
             isNull(tblPolizas.conductoId),

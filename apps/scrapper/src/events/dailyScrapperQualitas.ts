@@ -7,13 +7,10 @@ export async function dailyScrapperQualitas(request: MessageBusMessage<UpdateReq
     const saasId = request.payload.saasId
     try {
         const qAccounts = await admFirestoreService.getCollection(`/accounts/${saasId}/secrets/qualitas/agents`) as PartialWithFieldValue<QualitasAccountCredential>[]
-        console.time(`Daily scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
+        console.time(`Daily QUALITAS scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
         for (let i = 0; i < qAccounts.length; i++) {
             const qAccount = qAccounts[i];
             if (typeof qAccount.agente === 'string' && typeof qAccount.cuenta === 'string' && typeof saasId === 'string') {
-                // if (qAccount.id !== '58625-MAESTRA') continue // Pepe
-                // if (qAccount.id !== '89607-MAESTRA') continue // cristian
-
                 const portalSession = new QualitasPortalSession({
                     saasId,
                     agent: qAccount.agente,
@@ -46,7 +43,7 @@ export async function dailyScrapperQualitas(request: MessageBusMessage<UpdateReq
         console.error(error)
         throw error
     } finally {
-        console.timeEnd(`Daily scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
+        console.timeEnd(`Daily QUALITAS scrapper ${saasId}: ${request.payload.start} --> ${request.payload.end}`)
     }
 
 }

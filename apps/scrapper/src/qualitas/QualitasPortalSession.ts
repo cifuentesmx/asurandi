@@ -20,7 +20,7 @@ import { qualitasProcessPolizasToScrape } from "./qualitasProcessPolizasToScrape
 
 export class QualitasPortalSession implements CompanyPortalSession {
     private saasId: string;
-    private browser: WebdriverIO.Browser | null;
+    private browser: WebdriverIO.Browser | null = null;
     private mainWindow?: string;
     private agent: string;
     private cuenta: string;
@@ -30,14 +30,13 @@ export class QualitasPortalSession implements CompanyPortalSession {
         { saasId, agent, cuenta }:
             { saasId: string, agent: string, cuenta: string }) {
         this.saasId = saasId
-        this.browser = null
         this.agent = agent
         this.cuenta = cuenta
         this.claveAgente = `${this.agent}-${this.cuenta}`
     }
     public async open() {
         const browser = await qualitasLogin(this.saasId, `${this.agent}-${this.cuenta}`)
-        await browser.pause(5000)
+        await browser.pause(1_500)
         if (!browser) {
             await this.close()
             throw new Error("No se pudo iniciar conexión con el servidor de selenium");
@@ -56,7 +55,7 @@ export class QualitasPortalSession implements CompanyPortalSession {
         return await updatePoliza(numero_poliza, this.browser, this.saasId)
     }
     public async dailyScrapper(start: string, end: string): Promise<void> {
-        console.info('Iniciando Scrapping', this.claveAgente)
+        console.info('Iniciando Scrapping en Qualitas', this.claveAgente)
         await updateAll(this.saasId)
         if (!this.browser) throw new Error("No se ha iniciado sesión en la compañia de qualitas");
         if (!this.mainWindow) throw new Error("No se ha identificado o no se encuentra la ventana principal del portal de qualitas");
@@ -200,8 +199,8 @@ export class QualitasPortalSession implements CompanyPortalSession {
                 console.info(`Se han obtenido ${r.length} póliza(s) siniestradas.`)
                 r.forEach(p => {
                     const existing = polizasToScrape.get(p.poliza)
-                    if (!existing) polizasToScrape.set(p.poliza, { siniestradas: p })
-                    else polizasToScrape.set(p.poliza, { ...existing, siniestradas: p })
+                    if (!existing) polizasToScrape.set(p.poliza, { siniestradas: [p] })
+                    else polizasToScrape.set(p.poliza, { ...existing, siniestradas: [...existing?.siniestradas ?? [], p] })
                 })
                 return r
             })
