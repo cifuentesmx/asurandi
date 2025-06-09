@@ -248,6 +248,12 @@ export const scrapePoliza = async (
             console.log('Clicking siniestros', poliza.poliza, poliza.endoso)
             await siniestrosBtn.click()
             await browser.pause(500)
+            await browser.waitUntil(async () => {
+                const isDisplayed = await browser.$('#FrmResultado').isDisplayed()
+                const hasRows = (await browser.$('#FrmResultado').$$('tr').getElements()).length > 1
+                return isDisplayed && hasRows
+            }, { timeout: 120_000 })
+            await browser.pause(500)
             // Ejercicio 	Siniestro 	Endoso 	Inciso 	Fecha Ocurrido
             // Fecha Reclamo 	Detalle 	Est 	Cobertura 	Monto Est 	Pagos 
             let ejercicio = ''
@@ -297,7 +303,12 @@ export const scrapePoliza = async (
                     montoEst: (await montoEst?.getText())?.trim() ?? '',
                     pagos: (await pagos?.getText())?.trim() ?? '',
                 }
-                if (siniestroActual.ejercicio.toLowerCase()?.startsWith('ejer')) {
+
+                if (
+                    siniestroActual.ejercicio.toLowerCase()?.startsWith('ejer') ||
+                    siniestroActual.ejercicio.toLowerCase()?.startsWith('siniest') ||
+                    siniestroActual.estimado === '*'
+                ) {
                     continue
                 }
 
@@ -368,7 +379,7 @@ export const scrapePoliza = async (
     }
 
     setImmediate(async () => {
+        console.log('Se va a procesar la poliza', numero_poliza)
         await processScrapped(polizas, saasId)
     })
-    console.log('Polizas scrapeadas', numero_poliza, polizas.length)
 }

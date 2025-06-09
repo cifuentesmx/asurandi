@@ -1,4 +1,4 @@
-import { PublicFileUrl, ScrappedPolizaCobertura } from '@asurandi/types';
+import { PolizaMetaData, ScrappedPolizaCobertura } from '@asurandi/types';
 import {
     integer, pgTable, date, uniqueIndex, varchar, numeric, jsonb, bigserial, bigint,
     boolean, smallint,
@@ -67,7 +67,7 @@ export const tblPolizas = pgTable('polizas', {
     lastSync: date('last_sync'),
     claveAgente: varchar('clave_agente'),
     origenId: integer('origen_id').references(() => tblPolizaOrigen.id),
-    files: jsonb('files').default([]).$type<PublicFileUrl[]>(),
+    metaData: jsonb('meta_data').default({}).$type<PolizaMetaData>(),
 },
     (tblPoliza) => [
         uniqueIndex('numero_poliza_idx').on(tblPoliza.saasId, tblPoliza.numeroPoliza, tblPoliza.inciso),

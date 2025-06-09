@@ -1,4 +1,4 @@
-import { PublicFileUrl } from "@asurandi/types"
+import { PolizaMetaData, PublicFileUrl } from "@asurandi/types"
 import { type DataFromPdf } from "./extactDataFromPdf.js"
 import { type ScrappedAnasegurosPoliza } from "../scrapePoliza.js"
 import { tblPolizaMovimientos, tblPolizas } from "@asurandi/database"
@@ -17,12 +17,12 @@ import { getServicio } from "../../database/getServicio.js"
 import { getModoPago } from "../../database/getModoPago.js"
 import { getUso } from "../../database/getUso.js"
 import { getConducto } from "../../database/getConducto.js"
+import { processRecibos } from "./processRecibos.js"
 
 export const saveMaestra = async (
     poliza: ScrappedAnasegurosPoliza,
     data: (DataFromPdf & { publicFileUrl: PublicFileUrl }) | null,
     saasId: string) => {
-    if (!data) throw new Error("No se recibieron los datos de la poliza");
     let [existingPoliza] = await pgDb.select()
         .from(tblPolizas)
         .where(and(
@@ -31,6 +31,20 @@ export const saveMaestra = async (
             eq(tblPolizas.endoso, poliza.endoso),
             eq(tblPolizas.companyId, 'anaseguros')
         ))
+    if (!data && existingPoliza) {
+        data = existingPoliza.metaData?.anaseguros?.dataFromPdf as DataFromPdf & { publicFileUrl: PublicFileUrl }
+    }
+
+    if (!data) throw new Error("No se recibieron los datos de la poliza");
+
+    const metaData: PolizaMetaData = {
+        ...existingPoliza?.metaData,
+        anaseguros: {
+            dataFromPdf: data,
+            dataFromScrapping: poliza,
+        },
+        polizaPublicUrl: data.publicFileUrl,
+    }
 
     if (!data.incisos) throw new Error("No se recibieron los datos de los incisos de la poliza");
 
@@ -79,7 +93,6 @@ export const saveMaestra = async (
         fechaEmision: existingPoliza?.fechaEmision ?? fechaEmision,
         vigenciaInicio: existingPoliza?.vigenciaInicio ?? inicioVigencia,
         vigenciaFin: existingPoliza?.vigenciaFin ?? finVigencia,
-        files: existingPoliza?.files ?? [data.publicFileUrl],
         vehiculoId: existingPoliza?.vehiculoId ?? await getVehiculoId(inciso.vehiculo, saasId),
         numeroSerie: existingPoliza?.numeroSerie ?? inciso.vehiculo?.serie ?? 'N/A',
         cobertura: existingPoliza?.cobertura ?? data.poliza.cobertura ?? 'N/A',
@@ -115,6 +128,7 @@ export const saveMaestra = async (
         incisosVigentes: existingPoliza?.incisosVigentes ?? null,
         totalIncisos: existingPoliza?.totalIncisos ?? null,
         tarifa: existingPoliza?.tarifa ?? null,
+        metaData: metaData
     }
 
     if (existingPoliza) {
@@ -137,6 +151,8 @@ export const saveMaestra = async (
             })
         })
     }
+
+    await processRecibos(existingPoliza, poliza)
 
     // TODO: Procesar incisos
     // TODO: Procesar renovadas
