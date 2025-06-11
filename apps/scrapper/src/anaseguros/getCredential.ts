@@ -12,4 +12,4 @@ export async function getAnasegurosCredential(saasId: string, accountId: string)
         return data as AnasegurosAccountCredential
     }
     throw new Error(`No se pudo obtener las credenciales de la compañia para la cuenta especificada: "${saasId}", agente: "${accountId}"`);
-}
+} 

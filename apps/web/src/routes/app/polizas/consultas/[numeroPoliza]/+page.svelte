@@ -9,10 +9,9 @@
 	import Endosos from './endosos.svelte';
 	import Inciso from './inciso.svelte';
 	import Individual from './individual.svelte';
-	import Recibos from './recibos.svelte';
 	import Siniestros from './siniestro.svelte';
 	type Data = Awaited<ReturnType<typeof getPolizaByNumero>>;
-	const { endosos, polizas, recibos, movimientos } = $state(page.data as Data);
+	const { endosos, polizas, movimientos } = $state(page.data as Data);
 	const incisos: Data['polizas'] = polizas.filter((p: { inciso: string | null }) => !!p.inciso);
 	const maestra = polizas.filter((p) => p.esMaestra)[0];
 	const siniestros = polizas.filter((p) => Array.isArray(p.siniestros) && p.siniestros.length > 0);
@@ -65,11 +64,6 @@
 {:else if incisos.length === 1}
 	<h4 class="mt-4 text-lg">Datos de la póliza</h4>
 	<Individual inciso={polizas[0]} />
-{/if}
-
-{#if recibos.length > 0}
-	<h4 class="mt-4 text-lg">Recibos</h4>
-	<Recibos {recibos} />
 {/if}
 
 {#if endosos.length > 0}

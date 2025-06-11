@@ -1,4 +1,4 @@
-import { tblPolizas, tblRecibos } from "@asurandi/database"
+import { tblPolizas, tblRecibos, } from "@asurandi/database"
 import { and, eq, InferSelectModel } from "drizzle-orm"
 import { ScrappedAnasegurosPoliza } from "../scrapePoliza.js"
 import { pgDb } from "../../database/db.js"
@@ -16,33 +16,35 @@ export const processRecibos = async (poliza: InferSelectModel<typeof tblPolizas>
             .from(tblRecibos)
             .where(and(
                 eq(tblRecibos.polizaId, poliza.id),
-                eq(tblRecibos.no, recibo.no))
+                eq(tblRecibos.numeroRecibo, recibo.recibo))
             )
 
-        let estado = 'DESCONOCIDO'
-        if (recibo.estatusRecibo.toLocaleLowerCase() === 'pagado') {
+        let estado: 'PENDIENTE' | 'PAGADO' | 'CANCELADO' | 'DESCONOCIDO' = 'DESCONOCIDO'
+        if (recibo.estatusPago.toLocaleLowerCase() === 'pagado') {
             estado = 'PAGADO'
-        } else if (recibo.estatusRecibo.toLocaleLowerCase() === 'sinpago') {
+        } else if (recibo.estatusPago.toLocaleLowerCase() === 'sinpago') {
             estado = 'PENDIENTE'
-        } else if (recibo.estatusRecibo.toLocaleLowerCase() === 'cancelado') {
+        } else if (recibo.estatusPago.toLocaleLowerCase() === 'cancelado') {
             estado = 'CANCELADO'
         }
+
+        console.log(recibo, estado, existingRecibo)
 
         if (existingRecibo &&
             (existingRecibo.estado === 'PENDIENTE' || existingRecibo.estado === 'DESCONOCIDO')) {
             await pgDb.update(tblRecibos).set({
                 estado,
-                fechaPago: recibo.fechaPago ? recibo.fechaPago.split('/').reverse().join('-') : undefined,
+                vigenciaInicio: recibo.inicioVigencia ? recibo.inicioVigencia.split('/').reverse().join('-') : undefined,
             }).where(eq(tblRecibos.id, existingRecibo.id))
-        } else {
+        } else if (!existingRecibo) {
             await pgDb.insert(tblRecibos).values({
                 saasId: poliza.saasId,
                 polizaId: poliza.id,
                 numeroRecibo: recibo.recibo,
                 serie: recibo.no,
                 importe: extractCleanNumber(recibo.cantidad),
-                vigenciaInicio: recibo.fechaAplicacion ? recibo.fechaAplicacion.split('/').reverse().join('-') : undefined,
-                vigenciaFin: recibo.fechaPago ? recibo.fechaPago.split('/').reverse().join('-') : undefined,
+                vigenciaInicio: recibo.inicioVigencia ? recibo.inicioVigencia.split('/').reverse().join('-') : undefined,
+                vigenciaFin: recibo.fechaAplicacion ? recibo.fechaAplicacion.split('/').reverse().join('-') : undefined,
                 estado,
             })
         }
