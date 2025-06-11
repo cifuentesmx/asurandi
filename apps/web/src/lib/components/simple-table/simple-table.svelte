@@ -70,7 +70,7 @@
 </script>
 
 {#if pageSize && pageSize < data.length}
-	<div class="flex items-center justify-end space-x-2 py-4">
+	<div class="flex items-center justify-start space-x-2 py-4">
 		<Button
 			variant="outline"
 			size="sm"
