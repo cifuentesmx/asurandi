@@ -19,22 +19,22 @@
         "nodemon": "^3.1.10",
         "openai": "^4.104.0",
         "ts-node": "^10.9.2",
-        "tsx": "^4.19.4",
-        "typescript": "^5.8.3"
+        "tsx": "^4.20.6",
+        "typescript": "^5.9.3"
     },
     "dependencies": {
         "@asurandi/database": "workspace:*",
-        "amqplib": "^0.10.8",
-        "dotenv": "^16.5.0",
+        "amqplib": "^0.10.9",
+        "dotenv": "^16.6.1",
         "drizzle-orm": "^0.41.0",
         "firebase": "^10.14.1",
         "firebase-admin": "^12.7.0",
-        "fs-extra": "^11.3.0",
+        "fs-extra": "^11.3.2",
         "hono-pino": "^0.8.0",
-        "mysql2": "^3.14.1",
+        "mysql2": "^3.15.2",
         "node-cron": "^3.0.3",
         "pdfreader": "^3.0.7",
         "postgres": "^3.4.7",
-        "webdriverio": "^9.15.0"
+        "webdriverio": "^9.20.0"
     }
 }

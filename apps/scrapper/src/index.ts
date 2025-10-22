@@ -1,13 +1,13 @@
 import "dotenv/config";
-import { startConsumer } from "./messageProcessor.js";
+// import { startConsumer } from "./messageProcessor.js";
 import { MessageBusMessage, UpdateRequestPoliza } from "@asurandi/types";
 // import { dailyScrapper } from "./events/dailyScrapper.js";
 import { updatePoliza } from "events/updatePoliza.js";
-import { readPDF } from "utils/readPDF.js";
-import fs from 'fs-extra';
-import path from 'path';
-import { extractDataFromPdf, type DataFromPdf } from "anaseguros/processScrapped/extactDataFromPdf.js";
-import { uploadFile } from "utils/uploadFile.js";
+// import { readPDF } from "utils/readPDF.js";
+// import fs from 'fs-extra';
+// import path from 'path';
+// import { extractDataFromPdf, type DataFromPdf } from "anaseguros/processScrapped/extactDataFromPdf.js";
+// import { uploadFile } from "utils/uploadFile.js";
 
 const start = async () => {
   try {

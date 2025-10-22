@@ -1,7 +1,7 @@
 import { getExtensionFromMime } from '../../../lib/getExtensionFromMime.js';
 import { uploadFile } from '../../../lib/uploadFile.js';
 import type { MediaUrl, WhatsappMessage } from '../../../whatsappService/types.js';
-import { downloadContentFromMessage, downloadMediaMessage } from 'baileys';
+import { downloadContentFromMessage, downloadMediaMessage, type WAMessage } from 'baileys';
 import { existsSync, mkdirSync } from 'fs';
 
 import { writeFile } from "fs/promises";
@@ -26,7 +26,7 @@ export async function baileysDownloadMediaFile(message: WhatsappMessage): Promis
         ""
       ) ?? message.id;
 
-    const buffer = await downloadMediaMessage(ctx, "buffer", {}).catch(
+    const buffer = await downloadMediaMessage(ctx as WAMessage, "buffer", {}).catch(
       async (error) => {
         // TODO retry with https://github.com/WhiskeySockets/Baileys/issues/465
 
